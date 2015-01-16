@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/general_bl_detail_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+>
+       <include
+           android:id="@+id/include1"
+           layout="@layout/bar_title_general_bl_detail"
+           android:focusable="true" />
+  <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">  
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="15dip" 
+    android:id="@+id/general_detail_top_container">
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:background="@drawable/bl_detail_border">>
+        
+	<LinearLayout
+	    android:id="@+id/contactandlanguage"
+	    android:layout_width="match_parent"
+	    android:layout_height="60dp"
+	    android:orientation="vertical" >
+	    
+
+	    <TextView
+	        android:id="@+id/serviceLanguage"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#000000" 
+	        android:textSize="18sp">
+	        </TextView>
+
+	    <TextView
+	        android:id="@+id/contact"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#000000" 
+	        android:textSize="18sp"/>
+	    
+
+	</LinearLayout>
+	        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />   
+	
+    <ImageView
+        android:src="@drawable/call_icon" 
+        android:layout_width="50dp"
+    	android:layout_height="50dp"
+    	android:paddingRight="10dp"
+    	android:paddingTop="5dp"
+    	android:id="@+id/CallImage"/>
+
+    </LinearLayout>
+		
+
+	<LinearLayout
+	    android:id="@+id/detailinfo"
+	    android:layout_width="match_parent"
+	    android:layout_height="180dp"
+	    android:layout_weight="0.47"
+	    android:orientation="vertical"
+	    android:background="@drawable/bl_detail_border" 
+	    android:textSize="15sp">
+
+	    <TextView
+	        android:id="@+id/infotext"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="TextView" />
+	    
+	    <ScrollView
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" 
+    	android:layout_marginBottom="2dp">
+	   	<TextView
+	   		android:id="@+id/detailinfotext"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="TextView"
+	    	android:textColor="#000000" 
+	    	android:textSize="17sp"/>
+	   	</ScrollView>
+
+
+	</LinearLayout>
+	
+		<LinearLayout
+		    android:id="@+id/addressinfo"
+		    android:layout_width="match_parent"
+		    android:layout_height="230dp"
+		    android:background="@drawable/bl_detail_border"
+		    android:orientation="vertical" >
+
+		    <TextView
+		        android:id="@+id/addressinfotext"
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:layout_weight="0.08"
+		        android:text="TextView" 
+		        android:textSize="15sp"/>
+ 
+		     <fragment
+			        android:id="@+id/map"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        class="com.google.android.gms.maps.MapFragment" />
+		     
+				<View
+				  android:layout_width="1dp"
+				  android:layout_height="1dp"
+				  android:layout_weight="1"/>
+
+		</LinearLayout>
+	
+	<LinearLayout
+	    android:id="@+id/phone"
+	    android:layout_width="match_parent"
+	    android:layout_height="100dp"
+	    android:orientation="vertical" >
+
+	    <TextView
+	        android:id="@+id/phoneinfo"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#000000" 
+	        android:textSize="17sp"/>
+
+	    <TextView
+	        android:id="@+id/phoneinfo2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#000000" 
+	        android:textSize="17sp"/>
+
+	</LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>
+
+    			<LinearLayout
+    			    android:id="@+id/sent"
+    			    android:layout_width="fill_parent"
+    			    android:layout_height="50dp"
+    			    android:layout_alignParentBottom="true"
+    			    android:background="#1C86EE"
+    			    android:orientation="horizontal" >
+
+    			    <EditText
+    			        android:id="@+id/messagetosent"
+    			        android:layout_width="wrap_content"
+    			        android:layout_height="fill_parent"
+    			        android:layout_marginBottom="5dp"
+    			        android:layout_marginLeft="10dp"
+    			        android:layout_marginRight="6dp"
+    			        android:layout_marginTop="10dp"
+    			        android:textSize="14sp"
+    			        android:layout_weight="0.01"
+    			        android:ems="10" >
+
+    			        <requestFocus
+    			            android:layout_width="wrap_content"
+    			            android:layout_height="wrap_content" />
+    			    </EditText>
+
+    			    <TextView
+    			        android:id="@+id/sendlabel"
+    			        android:layout_width="wrap_content"
+    			        android:layout_height="wrap_content"
+    			        android:layout_marginLeft="10dp"
+    			        android:layout_marginTop="10dp"
+    			        android:layout_marginBottom="10dp"
+    			        android:layout_marginRight="15dp"
+    			        android:text="@string/sent"
+    			        android:textColor="#000000"
+    			        android:textSize="21sp" />
+    			</LinearLayout>
+
+</RelativeLayout >
+</LinearLayout>
