@@ -23,6 +23,10 @@ import android.content.Intent;
 import android.app.TabActivity;
 
 import com.app.tomore.httpclient.*;
+import com.app.tomore.ui.mag.MagCategoryActivity;
+import com.app.tomore.ui.member.MainMemActivity;
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
+import com.app.tomore.ui.yellowpage.MainBLActivity;
 //import com.app.tomore.httpclient.android.*;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener {
