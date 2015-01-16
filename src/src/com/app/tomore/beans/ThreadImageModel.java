@@ -1,6 +1,8 @@
 package com.app.tomore.beans;
 
-public class ThreadImageModel {
+import java.io.Serializable;
+
+public class ThreadImageModel implements Serializable{
 	public String getImageID() {
 		return ImageID;
 	}

@@ -1,6 +1,8 @@
 package com.app.tomore.beans;
 
-public class ThreadCmtModel {
+import java.io.Serializable;
+
+public class ThreadCmtModel implements Serializable {
 
 	public String getCommentPostDate() {
 		return CommentPostDate;
@@ -37,4 +39,11 @@ public class ThreadCmtModel {
 	private String MemberID;
 	private String AccountName;
 	private String MemberImage;
+	public String getThreadID() {
+		return ThreadID;
+	}
+	public void setThreadID(String threadID) {
+		ThreadID = threadID;
+	}
+	private String ThreadID;
 }

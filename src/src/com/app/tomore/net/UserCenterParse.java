@@ -1,9 +1,14 @@
 package com.app.tomore.net;
 
 import java.util.ArrayList;
+
 import com.app.tomore.beans.BlockedModel;
 import com.app.tomore.beans.FansModel;
 import com.app.tomore.beans.FollowingModel;
+import com.app.tomore.beans.ThreadCmtModel;
+import com.app.tomore.beans.ThreadUpdateLikeModel;
+import com.app.tomore.beans.ThreadUpdateModel;
+import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.UserModel;
 import com.google.gson.Gson;
@@ -104,8 +109,48 @@ public class UserCenterParse {
 	}
 	
 	//http://54.213.167.5/APIV2/getUpdates.php?memberID=25
-	public ArrayList<ThreadModel> praserMyUpdateModel(String jsonUpdateString)
+	public ArrayList<ThreadUpdateModel> praserMyUpdateModel(String jsonUpdateString)
 				throws JsonSyntaxException {
-		return null;
+		ArrayList<ThreadUpdateModel> retList = new ArrayList<ThreadUpdateModel>();
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(jsonUpdateString);
+	    JsonObject  jobject = jelement.getAsJsonObject();
+	    JsonArray jarray = jobject.getAsJsonArray("data");
+	    for (JsonElement obj : jarray)
+	    {
+	    	ThreadUpdateModel aThread = gson.fromJson(obj, ThreadUpdateModel.class);
+	    	JsonObject  jobject2 = obj.getAsJsonObject();
+	    	JsonArray threadLikeArray = jobject2.getAsJsonArray("LikeList");
+	    	JsonArray threadCommentArray = jobject2.getAsJsonArray("Comments");
+	    	
+	    	
+	    	if(threadLikeArray != null)
+	    	{
+	    		ArrayList<ThreadUpdateLikeModel> likeModelList = new ArrayList<ThreadUpdateLikeModel>();
+	    		for (JsonElement objLike : threadLikeArray)
+	    		{
+	    			ThreadUpdateLikeModel likeModel = gson.fromJson(objLike, ThreadUpdateLikeModel.class);
+	    			likeModelList.add(likeModel);
+	    		}
+
+	    		aThread.setLikeList(likeModelList);
+	    	}
+	    	
+	    	if(threadCommentArray != null)
+	    	{
+	    		ArrayList<ThreadCmtModel> listComment = new ArrayList<ThreadCmtModel>();
+	    		for (JsonElement objComment : threadCommentArray)
+	    		{
+	    			ThreadCmtModel commentModel = gson.fromJson(objComment, ThreadCmtModel.class);
+	    			listComment.add(commentModel);
+	    		}
+	    		
+	    		aThread.setCommentList(listComment);
+	    	}
+
+			retList.add(aThread);
+	    }
+	    
+		return retList;
 	}
 }
