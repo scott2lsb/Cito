@@ -3,8 +3,6 @@ package com.app.tomore.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.app.tomore.beans.ThreadLikeModel;
-import com.app.tomore.beans.ThreadCmtModel;
 
 public class ThreadUpdateModel  implements Serializable{
 
@@ -14,6 +12,14 @@ public class ThreadUpdateModel  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<ThreadCmtModel> commentList;
 	private ArrayList<ThreadUpdateLikeModel> likeList;
+	private ArrayList<UpdateFollowedModel> listModel;
+	
+	public ArrayList<UpdateFollowedModel> getListModel() {
+		return listModel;
+	}
+	public void setListModel(ArrayList<UpdateFollowedModel> listModel) {
+		this.listModel = listModel;
+	}
 	
 	public ArrayList<ThreadCmtModel> getCommentList() {
 		return commentList;

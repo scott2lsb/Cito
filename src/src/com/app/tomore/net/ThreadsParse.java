@@ -1,16 +1,24 @@
 package com.app.tomore.net;
 
 import java.util.ArrayList;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.app.tomore.beans.CommonModel;
+import com.app.tomore.beans.EventsModel;
+import com.app.tomore.beans.MemberModel;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
+import com.app.tomore.beans.UserModel;
+import com.app.tomore.httpclient.BasicHttpClient;
+import com.app.tomore.httpclient.HttpResponse;
+import com.app.tomore.httpclient.ParameterMap;
 
 public class ThreadsParse {
 	public ArrayList<ThreadModel> parseThreadModel(String jsonThreads) 
@@ -23,7 +31,7 @@ public class ThreadsParse {
 //		              "ThreadTitle": "",
 //		              "ThreadPostDate": "2015-01-06 19:59:54",
 //		              "ThreadUpdateDate": null,
-//		              "ThreadContent": "5ÔªÔÚOmar Deserre ÌÔµ½µÄ°ÍÀèµØÍ¼",
+//		              "ThreadContent": "5Ôªï¿½ï¿½Omar Deserre ï¿½Ôµï¿½ï¿½Ä°ï¿½ï¿½ï¿½ï¿½Í¼",
 //		              "ThreadType": "1",
 //		              "MemberID": "135",
 //		              "LastCommentDate": null,
@@ -39,7 +47,7 @@ public class ThreadsParse {
 //		              "Comments": [],
 //		              "AccountName": "Xxhottie88xx",
 //		              "MemberImage": "http://54.213.167.5/image/member/DefaultMemberImage/default_userProfileF.jpg",
-//		              "TimeDiff": "1ÌìÇ°"
+//		              "TimeDiff": "1ï¿½ï¿½Ç°"
 //		          }
 		
 		
@@ -96,4 +104,112 @@ public class ThreadsParse {
 	    
 		return retList;
 	}
+	
+	
+
+	//get recommend list
+	// http://54.213.167.5/recommend.php?memberID=2
+	public ArrayList<MemberModel> getRecommenddListParse(String result) 
+			throws JsonSyntaxException {
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		ArrayList<MemberModel> lcs = new ArrayList<MemberModel>();
+		for (JsonElement obj : jarray) {
+			MemberModel cse = gson.fromJson(obj, MemberModel.class);
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+	
+	/*
+	 * like or unlike a thread
+	 */
+	public CommonModel likeOrUnLikeAThreadParse(String result)
+			throws JsonSyntaxException 
+	{
+		return new ToMoreParse().CommonPares(result);
+	}
+	
+	/*
+	 * post comment to a thread
+	 */
+	//http://54.213.167.5/getCommentsByThreadID.php?&limit=20&page=1&threadID=87
+	public ArrayList<ThreadCmtModel> getCommentsByThreadIDParse(String result)
+			throws JsonSyntaxException {
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		ArrayList<ThreadCmtModel> lcs = new ArrayList<ThreadCmtModel>();
+		for (JsonElement obj : jarray) {
+			ThreadCmtModel cse = gson.fromJson(obj, ThreadCmtModel.class);
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+	/*
+	 * get thread details
+	 */
+
+	//get threads by member
+	//http://54.213.167.5/getThreadListByMemberID.php?memberID=25&limit=20&page=1
+	public String getThreadListByMemberIDParse(String result) 
+			throws JsonSyntaxException
+	{
+		return null;
+	}
+	
+	
+	//post thread title.
+	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
+
+	
+	/////////////////////////************************EVEVTS*************************/////////////////////////////
+	//http://54.213.167.5/APIV2/getEventList.php?limit=5&page=1
+	public ArrayList<EventsModel> getEventListParse(String result)
+			throws JsonSyntaxException
+	{
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		ArrayList<EventsModel> lcs = new ArrayList<EventsModel>();
+		for (JsonElement obj : jarray) {
+			EventsModel cse = gson.fromJson(obj, EventsModel.class);
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+
+	//http://54.213.167.5/APIV2/joinEventByMemberID.php?memberID=35&eventID=1
+	public CommonModel joinEventByMemberIDParse(String result)
+			throws JsonSyntaxException
+	{
+		return new ToMoreParse().CommonPares(result);
+	}
+
+
+	//http://54.213.167.5/APIV2/getMemberInfoByEventID.php?eventID=1
+	public ArrayList<UserModel> getMemberInfoByEventIDParse(String result)
+	{
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		ArrayList<UserModel> lcs = new ArrayList<UserModel>();
+		for (JsonElement obj : jarray) {
+			UserModel cse = gson.fromJson(obj, UserModel.class);
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+
+	//http://54.213.167.5/APIV2/LikeOrUnlikeForEvent.php?memberID=25&eventID=1&actionerID=34&like=1
+	public CommonModel LikeOrUnlikeForEventParse(String result)
+	{
+		return new ToMoreParse().CommonPares(result);
+	}
+	
 }
