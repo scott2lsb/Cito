@@ -1,7 +1,8 @@
 package com.app.tomore.beans;
 
-public class ThreadLikeModel {
-	private String AccountName;
+import java.io.Serializable;
+
+public class ThreadLikeModel implements Serializable{
 	public String getAccountName() {
 		return AccountName;
 	}
@@ -22,4 +23,6 @@ public class ThreadLikeModel {
 	}
 	private String Image;
 	private String MemberID;
+	private String AccountName;
+
 }

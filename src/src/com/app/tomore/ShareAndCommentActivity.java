@@ -1,6 +1,7 @@
 package com.app.tomore;
 
 import com.app.tomore.beans.ArticleModel;
+import com.app.tomore.ui.mag.MagCommentActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,7 +47,7 @@ public class ShareAndCommentActivity extends Activity
 
 	public void tip(View view)
 	{
-		Toast.makeText(this, "µã»÷µ¯³ö¿òÍâ²¿¹Ø±Õ´°¿Ú~", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½Ø±Õ´ï¿½ï¿½ï¿½~", Toast.LENGTH_SHORT).show();
 	}
 
 	private class buttonShare implements OnClickListener  

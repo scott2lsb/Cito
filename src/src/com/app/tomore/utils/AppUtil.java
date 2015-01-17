@@ -2,7 +2,7 @@ package com.app.tomore.utils;
 
 import java.text.DecimalFormat;
 
-import com.app.tomore.LoginActivity;
+import com.app.tomore.ui.usercenter.LoginActivity;
 
 import android.app.Activity;
 import android.content.Context;

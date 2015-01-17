@@ -1,11 +1,13 @@
 package com.app.tomore.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadLikeModel;
 
-public class ThreadModel {
+public class ThreadModel implements Serializable {
 
 	public ArrayList<ThreadCmtModel> getThreadCmtList() {
 		return threadCmtList;
