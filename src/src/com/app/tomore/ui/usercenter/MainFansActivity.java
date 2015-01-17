@@ -14,6 +14,7 @@ import com.app.tomore.R.drawable;
 import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.beans.FansModel;
+import com.app.tomore.beans.FollowOrUnfollowModel;
 import com.app.tomore.beans.GeneralBLModel;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
@@ -56,6 +57,7 @@ public class MainFansActivity extends Activity {
 	private DialogActivity dialog;
 	private Activity mContext;
 	private ArrayList<FansModel> fansList;
+	private String followOrUnfollowModelList;
 	private FansModel fansItem;
 	private DisplayImageOptions otp;
 	FollowingAdapter fansListAdapter;
@@ -69,7 +71,7 @@ public class MainFansActivity extends Activity {
 	private LayoutInflater inflater; 
 	private View layout;
 	private Bitmap bitmap;
-	private TextView btnFollow;
+	private Button btnFollow;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +132,7 @@ public class MainFansActivity extends Activity {
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
 			try {
-				result = request.getFansRequest("25", "34", sLimite, sPageNumber);
+				result = request.getFansRequest("25", "25", sLimite, sPageNumber);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -184,6 +186,9 @@ public class MainFansActivity extends Activity {
 			mListView.setAdapter(fansListAdapter);
 			fansListAdapter.notifyDataSetChanged();
 		} else {
+//			fansList.clear();
+//			fansListAdapter = new FollowingAdapter();
+//			mListView.setAdapter(fansListAdapter);
 			fansListAdapter.notifyDataSetChanged();
 		}
 		if (fansList != null && fansList.size() > 0) {
@@ -250,18 +255,96 @@ public class MainFansActivity extends Activity {
 			ImageLoader.getInstance().displayImage(fansText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(fansText.getAccountName());
 			btnFollow.setText(follow);
+			btnFollow.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			    	new MyFollowOrUnfollow(MainFansActivity.this, 1).execute(fansText.getFollowed());
+			    }
+			});
 			return convertView;
 		}
-	}
-
-	public void onFollowClick(View view){
-		Toast.makeText(getApplicationContext(), "follow", 1).show();
 	}
 	
 	class ViewHolder {
 		ImageView MemberImage;
 	    TextView AccountName;
 	    Button Followed;
+	}
+	
+	
+	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
+		private int mType;
+
+		private MyFollowOrUnfollow(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(MainFansActivity.this);
+			try {
+				String followOrUnfollow = "1";
+				if(params[0].equals("0")){
+					followOrUnfollow = "1";
+				}else if(params[0].equals("1")){
+					followOrUnfollow = "0";
+				}
+				System.out.println("followRequest: " + followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;			
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(followOrUnfollowModelList!=null && !followOrUnfollowModelList.equals(""))
+				{
+					followOrUnfollowModelList = new String();
+//					Toast.makeText(getApplicationContext(), "操作失败", 1).show();
+				}
+				else
+					followOrUnfollowModelList = new String();
+				try {
+						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
+						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
+						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+						}
+//						mListView.setOnRefreshListener(onRefreshListener);
+						new MyFans(MainFansActivity.this, 1).execute("");
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
 	}
 	
 	public OnRefreshListener<ListView> onRefreshListener = new OnRefreshListener<ListView>() {

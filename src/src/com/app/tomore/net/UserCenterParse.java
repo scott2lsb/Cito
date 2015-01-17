@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.app.tomore.beans.BlockedModel;
 import com.app.tomore.beans.FansModel;
+import com.app.tomore.beans.FollowOrUnfollowModel;
 import com.app.tomore.beans.FollowingModel;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadUpdateLikeModel;
@@ -152,5 +153,20 @@ public class UserCenterParse {
 	    }
 	    
 		return retList;
+	}
+	
+	public String parseFollowOrUnfollowResponse(String result)
+			throws JsonSyntaxException {
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonObject jarray = jobject.getAsJsonObject();
+		String followOrUnfollowResult = jobject.get("exist").toString();
+//		ArrayList<FollowOrUnfollowModel> lcs = new ArrayList<FollowOrUnfollowModel>();
+//		for (JsonElement obj : jarray) {
+//			FollowOrUnfollowModel cse = gson.fromJson(obj, FollowOrUnfollowModel.class);
+//			lcs.add(cse);
+//		}
+		return followOrUnfollowResult;
 	}
 }

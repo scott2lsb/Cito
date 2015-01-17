@@ -118,7 +118,7 @@ public class UserCenterRequest {
 	 * send following info
 	 * 
 	 */
-	//http://54.213.167.5/APIV2/getFollowingList.php
+	//http://54.213.167.5/getFollowingList.php
 	public String getFollowingRequest(String memberID, String viewerID, String limit, String page)
 			throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
@@ -259,4 +259,21 @@ public class UserCenterRequest {
    		
    		return responseString;
    	}
+    
+    /*
+	 * send follow or unfollow info
+	 * 
+	 */
+	//http://54.213.167.5/followOrUnfollow.php
+	public String getFollowOrUnfollowRequest(String followingID, String followedID, String follow)
+			throws IOException, TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+        baseRequest.setConnectionTimeout(2000);
+        ParameterMap params = baseRequest.newParams()
+                .add("followingID", followingID)
+                .add("followedID", followedID)
+                .add("follow", follow);
+        HttpResponse httpResponse = baseRequest.post("/followOrUnfollow.php", params);
+        return httpResponse.getBodyAsString();
+	}
 }
