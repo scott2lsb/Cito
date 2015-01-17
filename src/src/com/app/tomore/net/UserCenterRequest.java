@@ -253,7 +253,6 @@ public class UserCenterRequest {
 	}
 
 	// search
-
 	// http://54.213.167.5/APIV2/searchByAccountName.php?accountName=neo&viewerID=25
 	public String searchByAccountName(String accountName, int viewerID) {
 		baseRequest = new BasicHttpClient(url);
