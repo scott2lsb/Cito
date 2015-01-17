@@ -190,5 +190,18 @@ public class UserCenterParse {
 	public CommonModel recoverPasswordParse(String result) {
 		return new ToMoreParse().CommonPares(result);
 	}
+	
+	public String parseFollowOrUnfollowResponse(String result) {
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		String followOrUnfollowResult = jobject.get("result").toString();
+		String followOrUnfollowExist = null;
+		if (followOrUnfollowResult.equals("\"succ\"")) {
+			followOrUnfollowExist = jobject.get("exist").toString();
+		}
+		return followOrUnfollowExist;
+	}
+	
 
 }
