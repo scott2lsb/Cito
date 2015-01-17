@@ -295,22 +295,20 @@ public class MainFansActivity extends Activity {
 		protected String doInBackground(String... params) {
 			String result = null;
 			UserCenterRequest request = new UserCenterRequest(MainFansActivity.this);
-			try {
-				String followOrUnfollow = "1";
-				if(params[0].equals("0")){
-					followOrUnfollow = "1";
-				}else if(params[0].equals("1")){
-					followOrUnfollow = "0";
-				}
-				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				String followOrUnfollow = "1";
+//				if(params[0].equals("0")){
+//					followOrUnfollow = "1";
+//				}else if(params[0].equals("1")){
+//					followOrUnfollow = "0";
+//				}
+//				System.out.println("followRequest: " + followOrUnfollow);
+//				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (TimeoutException e) {
+//				e.printStackTrace();
+//			}
 			
 			return result;			
 		}
@@ -331,13 +329,13 @@ public class MainFansActivity extends Activity {
 				else
 					followOrUnfollowModelList = new String();
 				try {
-						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
-						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
-						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
-						}
+//						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
+//						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
+//						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+//						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+//						}
 //						mListView.setOnRefreshListener(onRefreshListener);
 						new MyFans(MainFansActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {
