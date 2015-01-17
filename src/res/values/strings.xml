@@ -111,8 +111,9 @@
     <string name="Order">Order</string>
     <string name="RestaurantsList">餐馆列表</string>
     <string name="CustomMade">定制</string>
-
-    <!-- <string name="Call">呼叫</string> -->
+    <string name="TakePhoto">手机拍照</string>
+	<string name="FromAlbum">手机相册</string>
+	<string name="ChangeAvatar">更改头像</string>
     <string name="PhoneCall">呼叫</string>
     <string name="Cancel">取消</string>
     <string name="Phone">电话</string>

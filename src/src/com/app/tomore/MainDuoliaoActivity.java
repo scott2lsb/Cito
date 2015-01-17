@@ -1,7 +1,11 @@
 package com.app.tomore;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.beans.ThreadCmtModel;
@@ -19,12 +23,21 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.slidingmenu.lib.SlidingMenu;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -47,6 +60,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt4, bt5, bt6, bt7;
 	private Context context;
 	private ImageButton menubtn;
+	private ImageView headView;
 	private SlidingMenu menu;
 	private Activity mContext;
 	private DialogActivity dialog;
@@ -60,6 +74,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private boolean onRefresh = false;
 	private DisplayImageOptions otp;
 	protected ImageLoader imageLoader;
+	private Bitmap head;
+	private static String path="/sdcard/myHead/";//sd路径
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +103,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt6 = (TextView) view.findViewById(R.id.my_aboutus_bt);
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
+		headView = (ImageView) findViewById(R.id.head_view);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -94,6 +111,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt5.setOnClickListener(this);
 		bt6.setOnClickListener(this);
 		bt7.setOnClickListener(this);
+		headView.setOnClickListener(this);
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
@@ -128,8 +146,129 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		}else if (id == R.id.my_logout_bt) {
 			onLogoutClick(v);
 		}
+		else if(id == R.id.head_view){
+			OnIconClick(v);
+		}
 
 	}
+
+	private void OnIconClick(View view) {
+		// TODO Auto-generated method stub
+		Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
+		if(bt!=null){
+			@SuppressWarnings("deprecation")
+			Drawable drawable = new BitmapDrawable(bt);//转换成drawable
+			headView.setImageDrawable(drawable);
+		}else{
+			/**
+			 *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
+			 * 
+			 */
+		}
+		String Cancel = getString(R.string.Cancel);
+		String TakePhoto = getString(R.string.TakePhoto);
+		String FromAlbum = getString(R.string.FromAlbum);
+    	CharSequence [] options = {TakePhoto,FromAlbum,Cancel};
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.ChangeAvatar));
+		builder.setItems(options, new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface Optiondialog, int which) {
+		        if (which == 0){
+					Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+									"head.jpg")));
+					startActivityForResult(intent1, 2);//采用ForResult打
+		        }
+		        else if(which == 1){
+					Intent intent2 = new Intent(Intent.ACTION_PICK, null);
+					intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+					startActivityForResult(intent2, 1);
+		        }
+		    }
+		});
+		builder.show();
+    	
+	}
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 1:
+			if (resultCode == RESULT_OK) {
+				cropPhoto(data.getData());//裁剪图片
+			}
+
+			break;
+		case 2:
+			if (resultCode == RESULT_OK) {
+				File temp = new File(Environment.getExternalStorageDirectory()
+						+ "/head.jpg");
+				cropPhoto(Uri.fromFile(temp));//裁剪图片
+			}
+
+			break;
+		case 3:
+			if (data != null) {
+				Bundle extras = data.getExtras();
+				head = extras.getParcelable("data");
+				if(head!=null){
+					/**
+					 * 上传服务器代码
+					 */
+					setPicToView(head);//保存在SD卡中
+					headView.setImageBitmap(head);//用ImageView显示出来
+				}
+			}
+			break;
+		default:
+			break;
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	};
+	/**
+	 * 调用系统的裁剪
+	 * @param uri
+	 */
+	public void cropPhoto(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		 // aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// outputX outputY 是裁剪图片宽高
+		intent.putExtra("outputX", 150);
+		intent.putExtra("outputY", 150);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, 3);
+	}
+	private void setPicToView(Bitmap mBitmap) {
+		 String sdStatus = Environment.getExternalStorageState();  
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { 
+               return;  
+           }  
+		FileOutputStream b = null;
+		File file = new File(path);
+		file.mkdirs();// 创建文件夹
+		String fileName =path + "head.jpg";//图片名字
+		try {
+			b = new FileOutputStream(fileName);
+			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//关闭流
+				b.flush();
+				b.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
 
 	public void onLogoutClick(View view) {
 
