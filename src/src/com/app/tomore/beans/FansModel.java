@@ -13,7 +13,7 @@ public class FansModel extends BaseBean implements Serializable, Comparable<Fans
 	private String MemberImage;
 	private String followed;
 	private String Blocked;
-
+ 
 	@Override
 	public Object parseJSON(JSONObject jsonObj) {
 		// TODO Auto-generated method stub
