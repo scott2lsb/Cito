@@ -161,10 +161,13 @@ public class ThreadsParse {
 		return null;
 	}
 	
-	
-	//post thread title.
+	//post thread .
 	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
-
+	public CommonModel postThreadCommentParse(String result)
+			throws JsonSyntaxException
+	{
+		return new ToMoreParse().CommonPares(result);
+	}
 	
 	/////////////////////////************************EVEVTS*************************/////////////////////////////
 	//http://54.213.167.5/APIV2/getEventList.php?limit=5&page=1

@@ -1,27 +1,26 @@
 package com.app.tomore.ui.threads;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
+import com.app.tomore.net.ToMoreParse;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.app.tomore.R;
 import com.app.tomore.utils.AppUtil;
+import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,14 +34,15 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.ThreadModel;
 import android.widget.AdapterView.OnItemClickListener;
-
 import com.app.tomore.beans.ThreadCmtModel;
 
 public class ThreadReplyActivity extends Activity {
@@ -59,6 +59,10 @@ public class ThreadReplyActivity extends Activity {
 	private int page = 1;
 	private int num = 20;
 	private ThreadModel threadModel;
+	private Button submit;
+	private EditText content;
+	private String userId;
+	private String finalResult = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,11 @@ public class ThreadReplyActivity extends Activity {
 		noneData = (TextView) findViewById(R.id.noneData);
 		no_net_lay = findViewById(R.id.no_net_lay);
 
+		no_net_lay = findViewById(R.id.no_net_lay);
+		submit = (Button) findViewById(R.id.commentSubmit);
+		content = (EditText) findViewById(R.id.commentContent);
+		content.setText("");
+
 		BindDataToListView();
 
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
@@ -94,6 +103,25 @@ public class ThreadReplyActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				finish();
+			}
+		});
+
+		submit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View viewIn) {
+				userId = SpUtils.getUserId(ThreadReplyActivity.this);
+				if (content.getText().toString() == null
+						|| content.getText().toString().length() == 0) {
+					Toast.makeText(getApplicationContext(), "请输入内容",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					if (userId != null) {
+						new GetData1(ThreadReplyActivity.this, 1).execute("");
+					} else {
+						AppUtil.startLoginPage(mContext);
+
+					}
+				}
 			}
 		});
 	}
@@ -156,7 +184,7 @@ public class ThreadReplyActivity extends Activity {
 					ThreadReplyActivity.this);
 			try {
 				Log.d("doInBackground", "start request");
-				result = request.getCommentsByThreadID(num,page,
+				result = request.getCommentsByThreadID(num, page,
 						Integer.parseInt(threadModel.getThreadID()));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
@@ -181,11 +209,10 @@ public class ThreadReplyActivity extends Activity {
 				if (commentList != null && commentList.size() > 0) {
 					if (headerRefresh)
 						commentList = new ArrayList<ThreadCmtModel>();
-				} 
-				else {
+				} else {
 					commentList = new ArrayList<ThreadCmtModel>();
 				}
-				
+
 				try {
 					ArrayList<ThreadCmtModel> tempCommentList = new ThreadsParse()
 							.getCommentsByThreadIDParse(result);
@@ -232,8 +259,9 @@ public class ThreadReplyActivity extends Activity {
 		public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = true;
-//				Toast.makeText(getApplicationContext(), "到头了，休息一下~",
-//						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(), "到头了，休息一下~",
+				// Toast.LENGTH_SHORT).show();
+				page = 1;
 				new GetData(ThreadReplyActivity.this, 1).execute("");
 
 			} else {
@@ -315,5 +343,86 @@ public class ThreadReplyActivity extends Activity {
 			// TODO Auto-generated method stub
 			return 0;
 		}
+	}
+
+	private class GetData1 extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+
+		private GetData1(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			// public String postThreadComment(int memberID, int threadId,
+			// String threadContent)
+
+			ThreadsRequest request = new ThreadsRequest(
+					ThreadReplyActivity.this);
+			try {
+				Log.d("doInBackground", "start request");
+				if (!content.getText().toString().equals(""))
+					result = request.postThreadComment(
+							Integer.parseInt(userId),
+							Integer.parseInt(threadModel.getThreadID()),
+							content.getText().toString());
+				content.setText("");
+				Log.d("doInBackground", "returned");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			return result;
+
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} else {
+
+				CommonModel returnResult = new CommonModel();
+				try {
+					ToMoreParse getrequest = new ToMoreParse();
+					returnResult = getrequest.CommonPares(result);
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				finalResult = returnResult.getResult();
+				if (finalResult.equals("succ")) {
+					Toast.makeText(getApplicationContext(), "发送成功",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "请重新发送",
+							Toast.LENGTH_SHORT).show();
+				}
+
+				headerRefresh = true;
+				page = 1;
+				new GetData(ThreadReplyActivity.this, 1).execute("");
+				// get data again
+			}
+		}
+
 	}
 }

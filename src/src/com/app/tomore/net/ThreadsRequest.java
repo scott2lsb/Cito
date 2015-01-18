@@ -114,9 +114,23 @@ public class ThreadsRequest {
 				"/getThreadListByMemberID.php", params);
 		return httpResponse.getBodyAsString();
 	}
-	//post thread title.
+	
+	//post thread comment
 	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
-
+	public String postThreadComment(int memberID, int threadId, String threadContent)
+			 throws IOException, TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+				.add("memberID", Integer.toString(memberID))
+				.add("parentID", Integer.toString(threadId))
+				.add("threadType", "1")
+				.add("threadTitle", "")
+				.add("threadContent", threadContent);
+		HttpResponse httpResponse = baseRequest.post(
+				"/postThreadComment.php", params);
+		return httpResponse.getBodyAsString();
+	}
 	
 	/////////////////////////************************EVEVTS*************************/////////////////////////////
 	//http://54.213.167.5/APIV2/getEventList.php?limit=5&page=1
