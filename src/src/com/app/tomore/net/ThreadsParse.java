@@ -155,10 +155,10 @@ public class ThreadsParse {
 
 	//get threads by member
 	//http://54.213.167.5/getThreadListByMemberID.php?memberID=25&limit=20&page=1
-	public String getThreadListByMemberIDParse(String result) 
+	public ArrayList<ThreadModel> getThreadListByMemberIDParse(String result) 
 			throws JsonSyntaxException
 	{
-		return null;
+		return new ThreadsParse().parseThreadModel(result);
 	}
 	
 	//post thread .

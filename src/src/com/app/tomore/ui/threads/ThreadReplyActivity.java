@@ -259,11 +259,8 @@ public class ThreadReplyActivity extends Activity {
 		public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = true;
-				// Toast.makeText(getApplicationContext(), "到头了，休息一下~",
-				// Toast.LENGTH_SHORT).show();
 				page = 1;
 				new GetData(ThreadReplyActivity.this, 1).execute("");
-
 			} else {
 				ToastUtils.showToast(mContext, "到头了");
 				mListView.onRefreshComplete();
@@ -276,8 +273,6 @@ public class ThreadReplyActivity extends Activity {
 		public void onLastItemVisible() {
 			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = false;
-				// Toast.makeText(getApplicationContext(), "到头了，休息一下~",
-				// Toast.LENGTH_SHORT).show();
 				page++;
 				new GetData(ThreadReplyActivity.this, 1).execute("");
 
@@ -368,9 +363,6 @@ public class ThreadReplyActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			// public String postThreadComment(int memberID, int threadId,
-			// String threadContent)
-
 			ThreadsRequest request = new ThreadsRequest(
 					ThreadReplyActivity.this);
 			try {
