@@ -130,7 +130,7 @@ public class GeneralBLDetailActivity extends Activity {
     	CharSequence [] options = cs.toArray(new CharSequence[cs.size()]);
     	final int length = options.length;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.PhoneCall));
+		builder.setTitle(getString(R.string.sentMessage));
 		builder.setItems(options, new DialogInterface.OnClickListener() {
 		    @Override
 		    public void onClick(DialogInterface Optiondialog, int which) {

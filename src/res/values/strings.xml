@@ -25,6 +25,7 @@
     <string name="bar_title_fans">粉丝</string>
     <string name="bar_title_following">关注</string>
     <string name="bar_title_blocked">黑名单</string>
+    <string name="bar_title_threadDetails">帖子详情</string>
     <string name="wait">Wait...</string>
     <string name="dataload">Loading...</string>
     <string name="quit">Quit</string>
@@ -111,12 +112,16 @@
     <string name="Order">Order</string>
     <string name="RestaurantsList">餐馆列表</string>
     <string name="CustomMade">定制</string>
-
-    <!-- <string name="Call">呼叫</string> -->
+    <string name="TakePhoto">手机拍照</string>
+    <string name="FromAlbum">手机相册</string>
+    <string name="ChangeAvatar">更改头像</string>
     <string name="PhoneCall">呼叫</string>
     <string name="Cancel">取消</string>
     <string name="Phone">电话</string>
     <string name="bar_title_generalBL_detail">信息详情</string>
+    <string name="tomoreWeb">http://www.tomoreapp.com/<a href="http://www.tomoreapp.com/"></a></string>
+    <string name="CopyRight">版权 &#x00A9; Eastcoast Investing Group Inc. 保留所有权利</string>
+    <string name="AboutUsVersion">关于：Version 1.10</string>
 
     <!-- <string name="bar_title_generalBL_detail">信息详情</string> -->
 
@@ -191,5 +196,6 @@
     <string name="title_activity_my_thread">MyThreadActivity</string>
     <string name="title_activity_aboutus">AboutusActivity</string>
     <string name="menu_list">精选菜系</string>
+    <string name="title_activity_thread_details">ThreadDetails</string>
 
 </resources>

@@ -3,33 +3,22 @@ package com.app.tomore.ui.mag;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
-
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.utils.SpUtils;
-
-import org.json.JSONException;
-
-import com.app.tomore.beans.ArticleCommentModel;
 import com.app.tomore.beans.ArticleModel;
-import com.app.tomore.beans.BLRestaurantModel;
 import com.app.tomore.net.MagParse;
 import com.app.tomore.net.MagRequest;
-import com.app.tomore.net.YellowPageParse;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.app.tomore.R;
 import com.app.tomore.utils.AppUtil;
-import com.app.tomore.utils.PullToRefreshBase.OnLastRefreshListener;
 import com.app.tomore.utils.ToastUtils;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -73,7 +62,6 @@ public class MainMagActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_mag_activity);
 		mContext = this;
-		String userId = SpUtils.getUserId(MainMagActivity.this);
 		Intent i = getIntent();
 		categoryID = i.getStringExtra("categoryId");
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
@@ -93,7 +81,6 @@ public class MainMagActivity extends Activity {
 			Button reloadData = (Button)findViewById(R.id.reloadData);
 			reloadData.setOnClickListener(reloadClickListener);
 			
-			
 			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 					.findViewById(R.id.bar_title_allmag);
 			final Button btnBack = (Button) rl
@@ -105,8 +92,6 @@ public class MainMagActivity extends Activity {
 					finish();
 				}
 			});
-			
-	
 	}
 
 	private void BindDataToListView() {
@@ -347,10 +332,5 @@ public class MainMagActivity extends Activity {
 			// TODO Auto-generated method stub
 			return 0;
 		}
-
-	}
-	
-	
+	}	
 }
-
-
