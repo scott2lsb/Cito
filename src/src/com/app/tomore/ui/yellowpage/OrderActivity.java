@@ -153,41 +153,6 @@ public class OrderActivity extends Activity{
 			}
 		}
 	}
-	
-	private void showPopup(final GeneralBLModel generalbltext){
-
-		String Cancel = getString(R.string.Cancel);
-		String Phone1 = generalbltext.getPhone1();
-		List<CharSequence>  cs = new ArrayList<CharSequence>();
-		cs.add(Phone1);
-    	if(generalbltext.getPhone2() != null){
-    		if(generalbltext.getPhone2().length() > 7 || !generalbltext.getPhone2().equals(""))
-    		{
-    			cs.add(generalbltext.getPhone2());
-    		}
-    	}
-		cs.add(Cancel);
-    	CharSequence [] options = cs.toArray(new CharSequence[cs.size()]);
-    	final int length = options.length;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.sentMessage));
-		builder.setItems(options, new DialogInterface.OnClickListener() {
-		    @Override
-		    public void onClick(DialogInterface Optiondialog, int which) {
-		        if (which == 0){
-		        	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
-		                    + generalbltext.getPhone1())));
-		        }
-		        else if (which == 1 && length == 3)
-		        {
-		        	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
-		                    + generalbltext.getPhone2())));
-		        }
-
-		    }
-		});
-		builder.show();
-	}
 
 	class ViewHolder {
 		private TextView Title;
@@ -227,14 +192,6 @@ public class OrderActivity extends Activity{
 						R.layout.order_listview_detail, null);
 				viewHolder.Title = (TextView) convertView.findViewById(R.id.OrderTitle);
 				viewHolder.Contact = (TextView) convertView.findViewById(R.id.OrderContactName);
-				ImageView MessageBox = (ImageView) convertView.findViewById(R.id.OrderMessage);
-				MessageBox.setOnClickListener(new OnClickListener() {
-
-		            @Override
-		            public void onClick(View v) {
-						showPopup(generalbltext);
-				    }
-				});
 				convertView.setTag(viewHolder);
 			}
 

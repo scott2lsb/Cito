@@ -118,6 +118,9 @@
     <string name="Cancel">取消</string>
     <string name="Phone">电话</string>
     <string name="bar_title_generalBL_detail">信息详情</string>
+    <string name="tomoreWeb">http://www.tomoreapp.com/<a href="http://www.tomoreapp.com/"></a></string>
+    <string name="CopyRight">版权 &#x00A9; Eastcoast Investing Group Inc. 保留所有权利</string>
+    <string name="AboutUsVersion">关于：Version 1.10</string>
 
     <!-- <string name="bar_title_generalBL_detail">信息详情</string> -->
 

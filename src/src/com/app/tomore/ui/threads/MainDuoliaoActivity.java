@@ -18,6 +18,8 @@ import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
+import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.usercenter.AboutusActivity;
 import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
@@ -151,17 +153,19 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			onMyBlockedClick(v);
 //			Toast.makeText(context, "����1", 1).show();
 		} else if (id == R.id.my_aboutus_bt) {
-			Toast.makeText(context, "����1", 1).show();
+			onAboutUSClick(v);
+//			Toast.makeText(context, "����1", 1).show();
 		}else if (id == R.id.my_logout_bt) {
 			onLogoutClick(v);
 		}
 		else if(id == R.id.head_view){
-			OnIconClick(v);
+			OnAvatarClick(v);
 		}
 
 	}
 
-	private void OnIconClick(View view) {
+
+	private void OnAvatarClick(View view) {
 		// TODO Auto-generated method stub
 		Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
 		if(bt!=null){
@@ -252,6 +256,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		startActivityForResult(intent, 3);
 	}
 	private void setPicToView(Bitmap mBitmap) {
+		new UpdateAvatar(MainDuoliaoActivity.this, 1,mBitmap).execute("");
 		 String sdStatus = Environment.getExternalStorageState();  
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { 
                return;  
@@ -278,6 +283,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void onAboutUSClick(View v) {
+		Intent intent = new Intent(this, AboutusActivity.class);
+		startActivity(intent);
+	}
 
 	public void onLogoutClick(View view) {
 
@@ -300,6 +309,53 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		Intent intent = new Intent(this, MainBlockedActivity.class);
 		startActivity(intent);
 	}
+	
+	private class UpdateAvatar extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+		private Bitmap bitmap;
+		private UpdateAvatar(Context context, int type,Bitmap newbitmap) {
+			// this.mContext = context;
+			this.mType = type;
+			bitmap = newbitmap;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(
+					MainDuoliaoActivity.this);
+				Log.d("doInBackground", "start request");
+				//result = request.updateUserProfile(bitmap,"1"); //for
+																//test
+				Log.d("doInBackground", "returned");
+
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} 
+		}
+	}
+
 
 	private class GetData extends AsyncTask<String, String, String> {
 		// private Context mContext;

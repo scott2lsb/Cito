@@ -36,12 +36,12 @@
             android:layout_weight="1"
             />   
 
-    <ImageView
+<!--   <ImageView
         android:id="@+id/OrderMessage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/message_icon" 
         android:paddingRight = "20dp">
-    </ImageView>
+    </ImageView>  -->
 
 </LinearLayout>
