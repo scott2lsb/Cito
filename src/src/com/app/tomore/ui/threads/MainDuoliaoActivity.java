@@ -9,12 +9,15 @@ import com.app.tomore.R.dimen;
 import com.app.tomore.R.drawable;
 import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
+import com.app.tomore.beans.ArticleCatogoryModel;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
+import com.app.tomore.ui.mag.MagCategoryActivity;
+import com.app.tomore.ui.mag.MainMagActivity;
 import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
@@ -252,7 +255,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ThreadModel threadItem = (ThreadModel) getItem(position);
+			final ThreadModel threadItem = (ThreadModel) getItem(position);
 			ViewHolder viewHolder = null;
 			if (convertView != null) {
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -320,6 +323,18 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 					.getThreadLikeList().size()));
 			viewHolder.time.setText(threadItem.getTimeDiff());
 
+			viewHolder.content_img.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			        //
+			    	//
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+							ThreadReplyActivity.class);
+					intent.putExtra("threadModel", threadItem);
+					startActivity(intent);
+			    }
+			});
+			
 			if (threadItem.getThreadCmtList().size()!=0) {
 				ArrayList<ThreadCmtModel> commentList = new ArrayList<ThreadCmtModel>();
 				commentList = threadItem.getThreadCmtList();
