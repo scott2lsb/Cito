@@ -34,33 +34,4 @@
         android:layout_marginRight="5dip"
         android:includeFontPadding="false" />
 
-    <Button
-        android:id="@+id/bar_title_bt_duoliao"
-        android:layout_width="63dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="90dp"
-        android:layout_toRightOf="@+id/ivTitleBtnLeft"
-        android:paddingBottom="2dp"
-        android:paddingTop="4dp"
-        android:tag="1"
-        android:text="@string/bar_title_bt_duoliao"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/bar_title_bt_duoyao"
-        android:layout_width="63dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="0dp"
-        android:layout_toRightOf="@+id/bar_title_bt_duoliao"
-        android:paddingBottom="2dp"
-        android:paddingTop="4dp"
-        android:tag="1"
-        android:text="@string/bar_title_bt_duoyao"
-        android:textColor="@android:color/white"
-        android:textSize="13sp"
-         />
-
 </RelativeLayout>

@@ -358,13 +358,6 @@ public class MagCommentActivity extends Activity {
 		
 	}
 	
-	
-	
-	
-	
-
-
-
 private class GetData1 extends AsyncTask<String, String, String> {
 	// private Context mContext;
 	private int mType;
