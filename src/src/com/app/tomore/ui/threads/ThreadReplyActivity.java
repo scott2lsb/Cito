@@ -1,16 +1,10 @@
 package com.app.tomore.ui.threads;
 
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.beans.ArticleCommentModel;
-import com.app.tomore.beans.ArticleModel;
-import com.app.tomore.net.MagParse;
-import com.app.tomore.net.MagRequest;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.google.gson.JsonSyntaxException;
@@ -46,9 +40,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.app.tomore.beans.ThreadModel;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.app.tomore.beans.ThreadCmtModel;
+
 public class ThreadReplyActivity extends Activity {
 	private DialogActivity dialog;
 	private ArrayList<ThreadCmtModel> commentList;
@@ -59,19 +55,20 @@ public class ThreadReplyActivity extends Activity {
 	private TextView noneData;
 	private View no_net_lay;
 	ThreadDetailsActivity threadAdapter;
-	private boolean onRefresh = false;
 	private boolean headerRefresh = false;
-	private String page = null;
-	private String num = null;
+	private int page = 1;
+	private int num = 20;
+	private ThreadModel threadModel;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thread_reply);
 		mContext = this;
-		page = "1";
-		num = "20";
-		Intent i = getIntent();
-		commentList =  (ArrayList)getIntent().getSerializableExtra("commentList");
+		commentList = new ArrayList<ThreadCmtModel>();
+		threadModel = (ThreadModel) getIntent().getSerializableExtra(
+				"threadModel");
+		commentList = threadModel.getThreadCmtList();
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
@@ -79,55 +76,53 @@ public class ThreadReplyActivity extends Activity {
 		ImageLoader.getInstance().init(
 				ImageLoaderConfiguration.createDefault(this));
 
-			mListView = (PullToRefreshListView) findViewById(R.id.mag_listviews);
-			mListView.setOnRefreshListener(onRefreshListener);
-			mListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
-			mListView.setOnItemClickListener(itemClickListener);
-			noneData = (TextView)findViewById(R.id.noneData);
-			no_net_lay = findViewById(R.id.no_net_lay);
-			Button reloadData = (Button)findViewById(R.id.reloadData);
-			reloadData.setOnClickListener(reloadClickListener);
-			
-//			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
-//					.findViewById(R.id.bar_title_);
-//			final Button btnBack = (Button) rl
-//					.findViewById(R.id.bar_title_bt_backtocategory);
-//
-//			btnBack.setOnClickListener(new View.OnClickListener() {
-//				@Override
-//				public void onClick(View view) {
-//					finish();
-//				}
-//			});
+		mListView = (PullToRefreshListView) findViewById(R.id.mag_listviews);
+		mListView.setOnRefreshListener(onRefreshListener);
+		mListView.setOnLastItemVisibleListener(onLastItemVisibleListener);
+		mListView.setOnItemClickListener(itemClickListener);
+		noneData = (TextView) findViewById(R.id.noneData);
+		no_net_lay = findViewById(R.id.no_net_lay);
+
+		BindDataToListView();
+
+		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
+				.findViewById(R.id.bar_title_mythread);
+		final Button btnBack = (Button) rl
+				.findViewById(R.id.bar_title_blocked_go_back);
+
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
 	}
 
 	private void BindDataToListView() {
-		if (onRefresh) {
-			onRefresh = false;
-		}
+
 		if (threadAdapter == null) {
 			threadAdapter = new ThreadDetailsActivity();
 			mListView.setAdapter(threadAdapter);
 		} else {
 			threadAdapter.notifyDataSetChanged();
 		}
-		if(commentList!=null && commentList.size()>0){
+		if (commentList != null && commentList.size() > 0) {
 			showDataUi();
-		}else{
+		} else {
 			showNoDataUi();
 		}
 	}
-	
-	void showDataUi(){
+
+	void showDataUi() {
 		mListView.setVisibility(View.VISIBLE);
 		noneData.setVisibility(View.GONE);
 		no_net_lay.setVisibility(View.GONE);
 	}
 
-	void showNoDataUi(){
+	void showNoDataUi() {
 		mListView.setVisibility(View.GONE);
 		noneData.setVisibility(View.VISIBLE);
-		no_net_lay.setVisibility(View.GONE); 
+		no_net_lay.setVisibility(View.GONE);
 	}
 
 	protected void showNoNetUi() {
@@ -135,8 +130,10 @@ public class ThreadReplyActivity extends Activity {
 		noneData.setVisibility(View.GONE);
 		mListView.setVisibility(View.GONE);
 	}
+
 	private class GetData extends AsyncTask<String, String, String> {
 		private int mType;
+
 		private GetData(Context context, int type) {
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
@@ -155,11 +152,12 @@ public class ThreadReplyActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			ThreadsRequest request = new ThreadsRequest(ThreadReplyActivity.this);
+			ThreadsRequest request = new ThreadsRequest(
+					ThreadReplyActivity.this);
 			try {
-				
-				Log.d("doInBackground", "start request");			
-					result = request.getCommentsByThreadID(20, 1, 25);
+				Log.d("doInBackground", "start request");
+				result = request.getCommentsByThreadID(num,page,
+						Integer.parseInt(threadModel.getThreadID()));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -169,6 +167,7 @@ public class ThreadReplyActivity extends Activity {
 
 			return result;
 		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			if (null != dialog) {
@@ -179,18 +178,18 @@ public class ThreadReplyActivity extends Activity {
 			if (result == null || result.equals("")) {
 				ToastUtils.showToast(mContext, "列表为空");
 			} else {
-				if(commentList!=null && commentList.size()>0)
-				{
-					if(headerRefresh)
+				if (commentList != null && commentList.size() > 0) {
+					if (headerRefresh)
 						commentList = new ArrayList<ThreadCmtModel>();
-				}
-				else
-				{
+				} 
+				else {
 					commentList = new ArrayList<ThreadCmtModel>();
 				}
+				
 				try {
-					commentList = new ThreadsParse().getCommentsByThreadIDParse(result);
-
+					ArrayList<ThreadCmtModel> tempCommentList = new ThreadsParse()
+							.getCommentsByThreadIDParse(result);
+					commentList.addAll(tempCommentList);
 					BindDataToListView();
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
@@ -201,27 +200,26 @@ public class ThreadReplyActivity extends Activity {
 
 	private OnItemClickListener itemClickListener = new OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id) { 
-			if(!AppUtil.networkAvailable(mContext)){
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (!AppUtil.networkAvailable(mContext)) {
 				ToastUtils.showToast(mContext, "列表为空");
 				return;
 			}
 			if (commentList == null) {
 				return;
 			}
-			Object obj = (Object) commentList.get(position-1);
+			Object obj = (Object) commentList.get(position - 1);
 			if (obj instanceof String) {
 				return;
 			}
 
-//			Intent intent = new Intent(MainMagActivity.this,
-//					MagDetailActivity.class);
-//			intent.putExtra("articleList", (Serializable) obj);
-//			startActivity(intent);
+			// Intent intent = new Intent(MainMagActivity.this,
+			// MagDetailActivity.class);
+			// intent.putExtra("articleList", (Serializable) obj);
+			// startActivity(intent);
 		}
 	};
-	
 
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -232,51 +230,42 @@ public class ThreadReplyActivity extends Activity {
 	public OnRefreshListener<ListView> onRefreshListener = new OnRefreshListener<ListView>() {
 		@Override
 		public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-			if(AppUtil.networkAvailable(mContext) ){
-				onRefresh = true;
+			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = true;
-				Toast.makeText(getApplicationContext(), "到头了，休息一下~", Toast.LENGTH_SHORT).show();
-				//new GetData(MainMagActivity.this, 1).execute("");
+//				Toast.makeText(getApplicationContext(), "到头了，休息一下~",
+//						Toast.LENGTH_SHORT).show();
+				new GetData(ThreadReplyActivity.this, 1).execute("");
 
-			}else{
+			} else {
 				ToastUtils.showToast(mContext, "到头了");
 				mListView.onRefreshComplete();
 			}
 		}
 	};
 
-	private OnLastItemVisibleListener  onLastItemVisibleListener = new OnLastItemVisibleListener() {
+	private OnLastItemVisibleListener onLastItemVisibleListener = new OnLastItemVisibleListener() {
 		@Override
 		public void onLastItemVisible() {
-			if(AppUtil.networkAvailable(mContext)){
-
+			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = false;
-				//Toast.makeText(getApplicationContext(), "到头了，休息一下~", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(), "到头了，休息一下~",
+				// Toast.LENGTH_SHORT).show();
+				page++;
+				new GetData(ThreadReplyActivity.this, 1).execute("");
 
-			//	new GetData(MainMagActivity.this, 1).execute("");
-
-			}else{
+			} else {
 				ToastUtils.showToast(mContext, "到头了");
 			}
 		}
-
-		
 	};
 
-	OnClickListener reloadClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			//onRefresh = true;
-			new GetData(ThreadReplyActivity.this, 1).execute("");
-		}
-	};
-	
 	class ViewHolder {
 		TextView textViewTitle;
 		TextView textViewComment;
 		TextView TimeDiff;
 		ImageView imageView;
 	}
+
 	private class ThreadDetailsActivity extends BaseAdapter {
 
 		@Override
@@ -285,28 +274,27 @@ public class ThreadReplyActivity extends Activity {
 			commentItem = (ThreadCmtModel) getItem(position);
 			final String speakerName = commentItem.getAccountName();
 			final String content = commentItem.getCommentContent();
-			final String time =  commentItem.getCommentPostDate();
+			final String time = commentItem.getCommentPostDate();
 			final String imageUrl = commentItem.getMemberImage();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.comment_list_item, null);      
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.comment_list_item, null);
 			viewHolder.textViewTitle = (TextView) convertView
 					.findViewById(R.id.speakerName);
 			viewHolder.textViewTitle.setText(speakerName);
-			
+
 			viewHolder.textViewComment = (TextView) convertView
 					.findViewById(R.id.content);
 			viewHolder.textViewComment.setText(content);
-			
+
 			viewHolder.TimeDiff = (TextView) convertView
 					.findViewById(R.id.time);
 			viewHolder.TimeDiff.setText(time);
-			
+
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.memberImage);
-			
+
 			ImageLoader.getInstance().displayImage(imageUrl,
 					viewHolder.imageView, otp);
-
-
 			return convertView;
 		}
 
@@ -319,7 +307,7 @@ public class ThreadReplyActivity extends Activity {
 		@Override
 		public Object getItem(int arg0) {
 			// TODO Auto-generated method stub
-		 return commentList.get(arg0);
+			return commentList.get(arg0);
 		}
 
 		@Override
@@ -327,5 +315,5 @@ public class ThreadReplyActivity extends Activity {
 			// TODO Auto-generated method stub
 			return 0;
 		}
-	}	
+	}
 }

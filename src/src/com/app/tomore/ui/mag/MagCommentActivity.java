@@ -139,7 +139,7 @@ public class MagCommentActivity extends Activity {
 				        	if(userId!=null)
 							{
 				        		new GetData1(MagCommentActivity.this, 1).execute("");
-				        		content.setText("");
+				        	//	content.setText("");
 				        		intent = new Intent(MagCommentActivity.this,MagCommentActivity.class);
 				        	   	   intent.putExtra("articleid", articleId);
 				        	   	   finish();

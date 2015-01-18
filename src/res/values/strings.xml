@@ -197,5 +197,8 @@
     <string name="title_activity_aboutus">AboutusActivity</string>
     <string name="menu_list">精选菜系</string>
     <string name="title_activity_thread_details">ThreadDetails</string>
+    <string name="nodatastring">没有数据</string>
+    <string name="inputcomment">请输入评论</string>
+    <string name="postcomment">发表</string>
 
 </resources>

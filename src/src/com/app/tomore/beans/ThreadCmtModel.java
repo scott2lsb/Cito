@@ -5,13 +5,28 @@ import java.io.Serializable;
 public class ThreadCmtModel implements Serializable {
 
 	public String getCommentPostDate() {
-		return CommentPostDate;
+		if(CommentPostDate != null)
+		{
+			return CommentPostDate;
+		}
+		else
+		{
+			return ThreadPostDate;
+		}
 	}
 	public void setCommentPostDate(String commentPostDate) {
 		CommentPostDate = commentPostDate;
 	}
 	public String getCommentContent() {
-		return CommentContent;
+
+		if(CommentContent != null)
+		{
+			return CommentContent;
+		}
+		else
+		{
+			return ThreadContent;
+		}
 	}
 	public void setCommentContent(String commentContent) {
 		CommentContent = commentContent;
@@ -39,6 +54,28 @@ public class ThreadCmtModel implements Serializable {
 	private String MemberID;
 	private String AccountName;
 	private String MemberImage;
+	public String getThreadContent() {
+		return ThreadContent;
+	}
+	public void setThreadContent(String threadContent) {
+		ThreadContent = threadContent;
+	}
+	public String getThreadPostDate() {
+		return ThreadPostDate;
+	}
+	public void setThreadPostDate(String threadPostDate) {
+		ThreadPostDate = threadPostDate;
+	}
+	public String getTimeDiff() {
+		return TimeDiff;
+	}
+	public void setTimeDiff(String timeDiff) {
+		TimeDiff = timeDiff;
+	}
+	private String ThreadContent;
+	private String ThreadPostDate;
+	private String TimeDiff;
+    	
 	public String getThreadID() {
 		return ThreadID;
 	}
