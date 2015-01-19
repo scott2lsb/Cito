@@ -60,6 +60,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+
 public class MagCommentActivity extends Activity {
 	private DialogActivity dialog;
 	private ArrayList<ArticleCommentModel> articleComment;
@@ -69,100 +70,98 @@ public class MagCommentActivity extends Activity {
 	private Activity mContext;
 	private TextView noneData;
 	private View no_net_lay;
-	ArticleAdapter articleListAdapter;
-	private boolean onRefresh = false;
-	private boolean headerRefresh = false; 
-	private String articleId;
-	private String memberId="34";
-	private int page;
-	private int limit ;
 	private Button submit;
 	private EditText content;
+	ArticleAdapter articleListAdapter;
+	private boolean onRefresh = false;
+	private boolean headerRefresh = false;
+	private String articleId;
+	private String memberId = "34";
+	private int page;
+	private int limit;
+
 	private String finalResult = null;
 	private String userId;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mag_comment_listview);
-		
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-		
+
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		
+
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
 		ImageLoader.getInstance().init(
 				ImageLoaderConfiguration.createDefault(this));
 
-		
-			mListView = (PullToRefreshListView) findViewById(R.id.mag_comment_listviews);
-			mListView.setOnRefreshListener(onRefreshListener);
-			noneData = (TextView)findViewById(R.id.noData);
-			no_net_lay = findViewById(R.id.no_net_lay);
-			submit = (Button)findViewById(R.id.commentSubmit); 
-			content = (EditText)findViewById(R.id.commentContent); 
-			content.setText("");
-			
-			Intent intent=getIntent();
-			articleId=intent.getStringExtra("articleid");
-			
-			mContext = this;
-			page=1;
-			limit=5;
+		mListView = (PullToRefreshListView) findViewById(R.id.mag_comment_listviews);
+		mListView.setOnRefreshListener(onRefreshListener);
+		noneData = (TextView) findViewById(R.id.noData);
+		no_net_lay = findViewById(R.id.no_net_lay);
+		submit = (Button) findViewById(R.id.commentSubmit);
+		content = (EditText) findViewById(R.id.commentContent);
+		content.setText("");
 
-			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
-					.findViewById(R.id.bar_title_commentlistbar);
-			final Button btnBack = (Button) rl
-					.findViewById(R.id.bar_title_bt_detail);
+		Intent intent = getIntent();
+		articleId = intent.getStringExtra("articleid");
 
-			btnBack.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					finish();
-				}
-			});
-			
-			
-			submit.setOnClickListener(new OnClickListener() {
-		        @Override
-		        public void onClick(View viewIn) {
-		        	Intent intent = new Intent(); 
-		        	userId = SpUtils.getUserId(MagCommentActivity.this);
-		        	if(content.getText().toString() == null || content.getText().toString().length()==0)
-			        	{
-			        		Toast.makeText(getApplicationContext(), "请输入内容", Toast.LENGTH_SHORT).show();
-			        	}
-			        	else
-			        	{
-				        	if(userId!=null)
-							{
-				        		new GetData1(MagCommentActivity.this, 1).execute("");
-				        		content.setText("");
-				        		intent = new Intent(MagCommentActivity.this,MagCommentActivity.class);
-				        	   	   intent.putExtra("articleid", articleId);
-				        	   	   finish();
-				        	   	
-				        	   	   startActivity(intent);
-							}
-				        	else
-				        	{
-				        		AppUtil.startLoginPage(mContext);
-//				        	   	articleListAdapter = new ArticleAdapter();
-//				    			articleListAdapter.notifyDataSetChanged();
-//				    			new GetData(MagCommentActivity.this, 1).execute("");
-//				        	   	intent.setClass(MagCommentActivity.this, LoginActivity.class);
-//								startActivity(intent);
-					        }	        	
+		mContext = this;
+		page = 1;
+		limit = 5;
+
+		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
+				.findViewById(R.id.bar_title_commentlistbar);
+		final Button btnBack = (Button) rl
+				.findViewById(R.id.bar_title_bt_detail);
+
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+
+		submit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View viewIn) {
+				Intent intent = new Intent();
+				userId = SpUtils.getUserId(MagCommentActivity.this);
+				if (content.getText().toString() == null
+						|| content.getText().toString().length() == 0) {
+					Toast.makeText(getApplicationContext(), "请输入内容",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					if (userId != null) {
+						new GetData1(MagCommentActivity.this, 1).execute("");
+						// content.setText("");
+						intent = new Intent(MagCommentActivity.this,
+								MagCommentActivity.class);
+						intent.putExtra("articleid", articleId);
+						finish();
+
+						startActivity(intent);
+					} else {
+						AppUtil.startLoginPage(mContext);
+						// articleListAdapter = new ArticleAdapter();
+						// articleListAdapter.notifyDataSetChanged();
+						// new GetData(MagCommentActivity.this, 1).execute("");
+						// intent.setClass(MagCommentActivity.this,
+						// LoginActivity.class);
+						// startActivity(intent);
 					}
-		        	
-		        }
-		    });
-			
-			//mListView.setAdapter(articleListAdapter);
-			
-			new GetData(MagCommentActivity.this, 1).execute("");
+				}
+
+			}
+		});
+
+		// mListView.setAdapter(articleListAdapter);
+
+		new GetData(MagCommentActivity.this, 1).execute("");
 	}
 
 	private void BindDataToListView() {
@@ -175,23 +174,23 @@ public class MagCommentActivity extends Activity {
 		} else {
 			articleListAdapter.notifyDataSetChanged();
 		}
-		if(articleComment!=null && articleComment.size()>0){
+		if (articleComment != null && articleComment.size() > 0) {
 			showDataUi();
-		}else{
+		} else {
 			showNoDataUi();
 		}
 	}
-	
-	void showDataUi(){
+
+	void showDataUi() {
 		mListView.setVisibility(View.VISIBLE);
 		noneData.setVisibility(View.GONE);
 		no_net_lay.setVisibility(View.GONE);
 	}
 
-	void showNoDataUi(){
+	void showNoDataUi() {
 		mListView.setVisibility(View.GONE);
 		noneData.setVisibility(View.VISIBLE);
-		no_net_lay.setVisibility(View.GONE); 
+		no_net_lay.setVisibility(View.GONE);
 	}
 
 	protected void showNoNetUi() {
@@ -199,8 +198,10 @@ public class MagCommentActivity extends Activity {
 		noneData.setVisibility(View.GONE);
 		mListView.setVisibility(View.GONE);
 	}
+
 	private class GetData extends AsyncTask<String, String, String> {
 		private int mType;
+
 		private GetData(Context context, int type) {
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
@@ -216,21 +217,21 @@ public class MagCommentActivity extends Activity {
 			super.onPreExecute();
 		}
 
-		
 		protected String doInBackground(String... params) {
 			String result = null;
 			MagRequest request = new MagRequest(MagCommentActivity.this);
 			try {
-				
+
 				Log.d("doInBackground", "start request");
-				result = request.getCommentByArticleId(articleId, Integer.toString(page), Integer.toString(limit));
+				result = request.getCommentByArticleId(articleId,
+						Integer.toString(page), Integer.toString(limit));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
-			
+
 			return result;
 		}
 
@@ -243,24 +244,23 @@ public class MagCommentActivity extends Activity {
 			if (result == null || result.equals("")) {
 				ToastUtils.showToast(mContext, "列表为空");
 			} else {
-				
-				if(articleComment!=null && articleComment.size()!=0)
-				{
-					if(headerRefresh)
+
+				if (articleComment != null && articleComment.size() != 0) {
+					if (headerRefresh)
 						articleComment = new ArrayList<ArticleCommentModel>();
-				}
-				else
+				} else
 					articleComment = new ArrayList<ArticleCommentModel>();
 				try {
-					if(headerRefresh)
-						articleComment = new MagParse().parseArticleComment(result);
-					else
-					{
-						articleComment.addAll(new MagParse().parseArticleComment(result));
+					if (headerRefresh)
+						articleComment = new MagParse()
+								.parseArticleComment(result);
+					else {
+						articleComment.addAll(new MagParse()
+								.parseArticleComment(result));
 					}
-				
+
 					BindDataToListView();
-					
+
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
@@ -281,7 +281,7 @@ public class MagCommentActivity extends Activity {
 			if (AppUtil.networkAvailable(mContext)) {
 				headerRefresh = true;
 				onRefresh = true;
-				page=1;
+				page = 1;
 				new GetData(MagCommentActivity.this, 1).execute("");
 			} else {
 				ToastUtils.showToast(mContext, "没有网络");
@@ -297,7 +297,7 @@ public class MagCommentActivity extends Activity {
 		TextView TimeDiff;
 		ImageView imageView;
 	}
-	
+
 	private class ArticleAdapter extends BaseAdapter {
 
 		@Override
@@ -308,34 +308,33 @@ public class MagCommentActivity extends Activity {
 			final String content = articleComentModel.getCommentContent();
 			final String time = articleComentModel.getTimeDiff();
 			final String imageUrl = articleComentModel.getMemberImage();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.comment_list_item, null);      
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.comment_list_item, null);
 			viewHolder.textViewTitle = (TextView) convertView
 					.findViewById(R.id.speakerName);
 			viewHolder.textViewTitle.setText(speakerName);
-			
+
 			viewHolder.textViewComment = (TextView) convertView
 					.findViewById(R.id.content);
 			viewHolder.textViewComment.setText(content);
-			
+
 			viewHolder.TimeDiff = (TextView) convertView
 					.findViewById(R.id.time);
 			viewHolder.TimeDiff.setText(time);
-			
+
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.memberImage);
-			
+
 			ImageLoader.getInstance().displayImage(imageUrl,
 					viewHolder.imageView, otp);
 
-
 			return convertView;
 		}
-		
-		public void refresh(ArrayList<ArticleCommentModel> list) { 
-			articleComment = list; 
-	        notifyDataSetChanged(); 
-	    }
 
+		public void refresh(ArrayList<ArticleCommentModel> list) {
+			articleComment = list;
+			notifyDataSetChanged();
+		}
 
 		@Override
 		public int getCount() {
@@ -346,7 +345,7 @@ public class MagCommentActivity extends Activity {
 		@Override
 		public Object getItem(int arg0) {
 			// TODO Auto-generated method stub
-		 return articleComment.get(arg0);
+			return articleComment.get(arg0);
 		}
 
 		@Override
@@ -354,108 +353,96 @@ public class MagCommentActivity extends Activity {
 			// TODO Auto-generated method stub
 			return 0;
 		}
-		
-		
-	}
-	
-	
-	
-	
-	
 
-
-
-private class GetData1 extends AsyncTask<String, String, String> {
-	// private Context mContext;
-	private int mType;
-
-	private GetData1(Context context, int type) {
-		// this.mContext = context;
-		this.mType = type;
-		dialog = new DialogActivity(context, type);
 	}
 
-	@Override
-	protected void onPreExecute() {
-		if (mType == 1) {
-			if (null != dialog && !dialog.isShowing()) {
-				dialog.show();
+	private class GetData1 extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+
+		private GetData1(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
 			}
+			super.onPreExecute();
 		}
-		super.onPreExecute();
-	}
 
-	@Override
-	protected String doInBackground(String... params) {
-		String result = null;
-		MagRequest request = new MagRequest(MagCommentActivity.this);
-		try {
-			Log.d("doInBackground", "start request");
-				result = request.PostCommentByMemberId(articleId, userId, content.getText().toString());
-				
-			
-			Log.d("doInBackground", "returned");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TimeoutException e) {
-			e.printStackTrace();
-		}
-		return result;
-		
-	}
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			MagRequest request = new MagRequest(MagCommentActivity.this);
+			try {
+				Log.d("doInBackground", "start request");
+				result = request.PostCommentByMemberId(articleId, userId,
+						content.getText().toString());
 
-	@Override
-	protected void onPostExecute(String result) {
-		if (null != dialog) {
-			dialog.dismiss();
+				Log.d("doInBackground", "returned");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			return result;
+
 		}
-		Log.d("onPostExecute", "postExec state");
-		if (result == null || result.equals("")) {
-			// show empty alert
-		} else {
-			
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} else {
+
 				CommonModel returnResult = new CommonModel();
 				try {
-					ToMoreParse getrequest= new ToMoreParse();
-		    		 returnResult = getrequest.CommonPares(result);
-		    		} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				finalResult = returnResult.getResult(); 
-	    		if(finalResult.equals("succ")){
-	    			Toast.makeText(getApplicationContext(), "发送成功", Toast.LENGTH_SHORT).show();
-	    		}
-	    		else
-	    		{
-	    			Toast.makeText(getApplicationContext(), "请重新发送", Toast.LENGTH_SHORT).show();
-	    		}
-			
-				if(articleComment!=null && articleComment.size()!=0)
-				{
-					if(headerRefresh)
-						articleComment = new ArrayList<ArticleCommentModel>();
-				}
-				else
-				{
-					articleComment = new ArrayList<ArticleCommentModel>();
-				try {
-					if(headerRefresh)
-						articleComment = new MagParse().parseArticleComment(result);
-					else
-					{
-						articleComment.addAll(new MagParse().parseArticleComment(result));
-					}
-				//	new GetData1(MagCommentActivity.this, 1).execute("");
-					BindDataToListView();
+					ToMoreParse getrequest = new ToMoreParse();
+					returnResult = getrequest.CommonPares(result);
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
-				
+				finalResult = returnResult.getResult();
+				if (finalResult.equals("succ")) {
+					Toast.makeText(getApplicationContext(), "发送成功",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "请重新发送",
+							Toast.LENGTH_SHORT).show();
+				}
+
+				if (articleComment != null && articleComment.size() != 0) {
+					if (headerRefresh)
+						articleComment = new ArrayList<ArticleCommentModel>();
+				} else {
+					articleComment = new ArrayList<ArticleCommentModel>();
+					try {
+						if (headerRefresh)
+							articleComment = new MagParse()
+									.parseArticleComment(result);
+						else {
+							articleComment.addAll(new MagParse()
+									.parseArticleComment(result));
+						}
+						// new GetData1(MagCommentActivity.this, 1).execute("");
+						BindDataToListView();
+					} catch (JsonSyntaxException e) {
+						e.printStackTrace();
+					}
+
+				}
 			}
 		}
-	}
-	
+
 	}
 }
-
-

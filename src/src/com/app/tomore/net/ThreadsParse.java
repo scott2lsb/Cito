@@ -155,16 +155,19 @@ public class ThreadsParse {
 
 	//get threads by member
 	//http://54.213.167.5/getThreadListByMemberID.php?memberID=25&limit=20&page=1
-	public String getThreadListByMemberIDParse(String result) 
+	public ArrayList<ThreadModel> getThreadListByMemberIDParse(String result) 
 			throws JsonSyntaxException
 	{
-		return null;
+		return new ThreadsParse().parseThreadModel(result);
 	}
 	
-	
-	//post thread title.
+	//post thread .
 	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
-
+	public CommonModel postThreadCommentParse(String result)
+			throws JsonSyntaxException
+	{
+		return new ToMoreParse().CommonPares(result);
+	}
 	
 	/////////////////////////************************EVEVTS*************************/////////////////////////////
 	//http://54.213.167.5/APIV2/getEventList.php?limit=5&page=1

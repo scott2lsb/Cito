@@ -97,6 +97,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/likenew" />
     </RelativeLayout>
+    
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -111,31 +112,11 @@
             android:layout_marginLeft="5dip"
             android:scaleType="fitXY"
             android:src="@drawable/likenew" />
-        <!-- need change -->
-
-        <ImageView
-            android:id="@+id/liker_img1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dip"
-            android:layout_toRightOf="@id/like_img2"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/liker_img2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dip"
-            android:layout_toRightOf="@id/liker_img1"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/liker_img3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dip"
-            android:layout_toRightOf="@id/liker_img2"
-            android:scaleType="fitXY" />
+         <com.devsmart.android.ui.HorizontalListView
+            android:id="@+id/like_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+       
     </RelativeLayout>
 
     <ImageView

@@ -254,7 +254,8 @@ public class UserCenterRequest {
 
 	// search
 	// http://54.213.167.5/APIV2/searchByAccountName.php?accountName=neo&viewerID=25
-	public String searchByAccountName(String accountName, int viewerID) {
+	public String searchByAccountName(String accountName, int viewerID)
+			throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
 		ParameterMap params = baseRequest.newParams()
@@ -266,7 +267,8 @@ public class UserCenterRequest {
 	}
 
 	// /http://54.213.167.5/getMemberInfoByMemberID.php?memberID=6&viewerID=3
-	public String getMemberInfoByMemberID(int memberID, int viewerID) {
+	public String getMemberInfoByMemberID(int memberID, int viewerID)
+			throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
 		ParameterMap params = baseRequest.newParams()
@@ -279,28 +281,31 @@ public class UserCenterRequest {
 
 	// forget password
 	// http://54.213.167.5/APIV2/recoverPasswordRequest.php?&email=alexliubo%40gmail.com
-	public String recoverPasswordRequest(String email) {
+	public String recoverPasswordRequest(String email) throws IOException,
+			TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
-		ParameterMap params = baseRequest.newParams()
-				.add("email", email);
+		ParameterMap params = baseRequest.newParams().add("email", email);
 		HttpResponse httpResponse = baseRequest.post(
 				"/recoverPasswordRequest.php", params);
 		return httpResponse.getBodyAsString();
 	}
-	
+
 	/*
 	 * send follow or unfollow info
 	 */
 	// http://54.213.167.5/followOrUnfollow.php
-	public String getFollowOrUnfollowRequest(String followingID, String followedID,
-			String follow) throws IOException, TimeoutException {
+	public String getFollowOrUnfollowRequest(String followingID,
+			String followedID, String follow) throws IOException,
+			TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
-		ParameterMap params = baseRequest.newParams().add("followingID", followingID).add("followedID", followedID).add("follow", follow);
-		HttpResponse httpResponse = baseRequest.post(
-				"/followOrUnfollow.php", params);
+		ParameterMap params = baseRequest.newParams()
+				.add("followingID", followingID).add("followedID", followedID)
+				.add("follow", follow);
+		HttpResponse httpResponse = baseRequest.post("/followOrUnfollow.php",
+				params);
 		return httpResponse.getBodyAsString();
 	}
-	
+
 }
