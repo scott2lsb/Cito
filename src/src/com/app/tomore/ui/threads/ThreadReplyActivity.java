@@ -372,7 +372,7 @@ public class ThreadReplyActivity extends Activity {
 							Integer.parseInt(userId),
 							Integer.parseInt(threadModel.getThreadID()),
 							content.getText().toString());
-				content.setText("");
+				//content.setText("");
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();

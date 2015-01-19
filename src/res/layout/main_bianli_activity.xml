@@ -1,16 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainbllayout"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainbllayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF" >
-
-    <!--
-         <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-    -->
 
     <include
         android:id="@+id/include1"
@@ -28,9 +21,6 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="30dp" >
-
     </GridView>
-
-
 
 </RelativeLayout>

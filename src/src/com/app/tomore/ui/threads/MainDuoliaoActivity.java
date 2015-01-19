@@ -22,6 +22,7 @@ import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
+import com.app.tomore.ui.usercenter.UserInformationActivity;
 import com.app.tomore.utils.ExpandedListView;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.SpUtils;
@@ -295,6 +296,17 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			imageLoader.displayImage(threadItem.getMemberImage(),
 					viewHolder.avatar, otp);
 
+			viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+			    			UserInformationActivity.class);
+					intent.putExtra("memberId", threadItem.getMemberID());
+					startActivity(intent);
+			    }
+			});
+			
 			// get screen width
 			Display display = getWindowManager().getDefaultDisplay();
 			Point size = new Point();
