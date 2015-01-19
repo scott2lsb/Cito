@@ -5,14 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.R;
-import com.app.tomore.R.dimen;
-import com.app.tomore.R.drawable;
-import com.app.tomore.R.id;
-import com.app.tomore.R.layout;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.fragment.BackToMainActivity;
@@ -57,10 +52,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -282,7 +275,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		}
 	}
-
+	
 	private void onAboutUSClick(View v) {
 		Intent intent = new Intent(this, AboutusActivity.class);
 		startActivity(intent);
