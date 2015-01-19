@@ -88,17 +88,18 @@ public class ThreadReplyActivity extends Activity {
 			Button reloadData = (Button)findViewById(R.id.reloadData);
 			reloadData.setOnClickListener(reloadClickListener);
 			
-//			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
-//					.findViewById(R.id.bar_title_);
-//			final Button btnBack = (Button) rl
-//					.findViewById(R.id.bar_title_bt_backtocategory);
-//
-//			btnBack.setOnClickListener(new View.OnClickListener() {
-//				@Override
-//				public void onClick(View view) {
-//					finish();
-//				}
-//			});
+			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
+					.findViewById(R.id.bar_title_mythread);
+			
+			final Button btnBack = (Button) rl
+					.findViewById(R.id.bar_title_blocked_go_back);
+			
+			btnBack.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					finish();
+				}
+			});
 	}
 
 	private void BindDataToListView() {

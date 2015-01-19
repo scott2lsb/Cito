@@ -65,18 +65,18 @@ public class ThreadsRequest {
 	/*
 	 * like or unlike a thread
 	 */
-	public String likeOrUnLikeAThread(int memberID, int threadID, int accountName,int isLike)
+	public String likeOrUnLikeAThread(String memberID, String threadID, String accountName,int isLike)
 			 throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
 		ParameterMap params = baseRequest.newParams()
-				.add("memberID", Integer.toString(memberID))
-				.add("threadID", Integer.toString(threadID))
-				.add("accountName", Integer.toString(accountName))
+				.add("memberID", memberID)
+				.add("threadID", threadID)
+				.add("accountName", accountName)
 				.add("like", Integer.toString(isLike));
 		;
 		HttpResponse httpResponse = baseRequest.post(
-				"/likeOrUnlike.php", params);
+				"/APIV2/likeOrUnlike.php", params);
 		return httpResponse.getBodyAsString();
 	}
 
