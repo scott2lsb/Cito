@@ -3,7 +3,9 @@ package com.app.tomore.ui.usercenter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.R;
+import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsParse;
@@ -13,11 +15,21 @@ import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.utils.SpUtils;
 import com.google.gson.JsonSyntaxException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.Activity;
@@ -30,9 +42,11 @@ public class UserInformationActivity extends Activity {
 	private String logindInUserId = null;
 	private String thisUserId = null;
 	private UserModel userInformation;
-	private TextView userSchool; 
-	private TextView userName; 
+	private TextView userSchool;
+	private TextView userName;
 	private ArrayList<ThreadModel> threadList;
+	private DisplayImageOptions otp;
+	private GridView gridView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +56,14 @@ public class UserInformationActivity extends Activity {
 		thisUserId = getIntent().getStringExtra("memberId");
 		userName = (TextView) findViewById(R.id.username);
 		userSchool = (TextView) findViewById(R.id.userschool);
-		
+		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
+				.build();
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 				.findViewById(R.id.bar_title_mythread);
 		final Button btnBack = (Button) rl
 				.findViewById(R.id.bar_title_blocked_go_back);
-
+		gridView = (GridView) findViewById(R.id.gridView);
 		TextView titleTextView = (TextView) rl.findViewById(R.id.btBlocked);
 		titleTextView.setText("用户中心");
 
@@ -114,11 +130,79 @@ public class UserInformationActivity extends Activity {
 					threadList = threadParse
 							.getThreadListByMemberIDParse(result);
 
+					if (threadList.size() > 0) {
+						BindDataToGridView();
+					}
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	class ViewHolder {
+		private ImageView ImageView;
+	}
+
+	private class UserInformationAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return threadList.size();
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return threadList.get(arg0);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			final ThreadModel item = (ThreadModel) getItem(position);
+			ViewHolder viewHolder = null;
+			if (convertView != null) {
+				viewHolder = (ViewHolder) convertView.getTag();
+			} else {
+				viewHolder = new ViewHolder();
+				convertView = LayoutInflater.from(UserInformationActivity.this)
+						.inflate(R.layout.thread_user_item, null);
+
+				viewHolder.ImageView = (ImageView) convertView
+						.findViewById(R.id.ItemImage);
+
+				convertView.setTag(viewHolder);
+			}
+			ArrayList<ThreadImageModel> threadListImage = item
+					.getThreadImageList();
+			if (threadListImage.size() > 0) {
+				ThreadImageModel image = threadListImage.get(0);
+
+				ImageLoader.getInstance().displayImage(image.getImageUrl(),
+						viewHolder.ImageView, otp);
+			}
+			// viewHolder.textView.setText(item.getName());
+			return convertView;
+		}
+	}
+
+	private void BindDataToGridView() {
+		gridView.setAdapter(new UserInformationAdapter());
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// To thread reply activity
+			}
+		});
 	}
 
 	private class GetUserInformaitonById extends
@@ -182,13 +266,17 @@ public class UserInformationActivity extends Activity {
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
 						userInformation = userModelList.get(0);
+						userName.setText(userInformation.getAccountName());
+						userSchool.setText(userInformation.getSchool());
 					}
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
-				
-				new GetUserThreadList(UserInformationActivity.this, 1).execute("");
+
+				new GetUserThreadList(UserInformationActivity.this, 1)
+						.execute("");
 			}
 		}
 	}
+
 }
