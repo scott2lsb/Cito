@@ -10,12 +10,10 @@ import com.app.tomore.beans.BLMenuModel;
 import com.app.tomore.beans.BLMenuSpecial;
 import com.app.tomore.beans.BLRestaurantModel;
 import com.app.tomore.beans.GeneralBLModel;
-import com.app.tomore.beans.ImageAndText;
 import com.app.tomore.R.drawable;
 import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.R.string;
-import com.app.tomore.adapters.ImageAndTextListAdapter;
 import com.app.tomore.net.*;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.yellowpage.RestaurantBLActivity.ViewHolder;
@@ -62,6 +60,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+
 
 
 
@@ -370,7 +369,22 @@ public class RestaurantDetailActivity extends Activity{
 	    	}
 
 	}
-	  
+	private class ImageAndText
+	{
+	 private String imageUrl;          
+	    private String text;   
+	        public ImageAndText(String imageUrl, String text) {  
+	            this.imageUrl = imageUrl;  
+	            this.text = text;  
+	       }  
+	        public String getImageUrl() {  
+	            return imageUrl;  
+	       }  
+	       public String getText() {  
+	           return text;  
+	        }  
+	}
+	
 	public class GridViewAdapter extends ArrayAdapter<ImageAndText> {  
 	  
 	        private GridView gridView;  
