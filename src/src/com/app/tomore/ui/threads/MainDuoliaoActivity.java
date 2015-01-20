@@ -459,12 +459,12 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.avatar);
 				viewHolder.content_img = (ImageView) convertView
 						.findViewById(R.id.content_img);
-				viewHolder.liker_img1 = (ImageView) convertView
-						.findViewById(R.id.liker_img1);
-				viewHolder.liker_img2 = (ImageView) convertView
-						.findViewById(R.id.liker_img2);
-				viewHolder.liker_img3 = (ImageView) convertView
-						.findViewById(R.id.liker_img3);
+//				viewHolder.liker_img1 = (ImageView) convertView
+//						.findViewById(R.id.liker_img1);
+//				viewHolder.liker_img2 = (ImageView) convertView
+//						.findViewById(R.id.liker_img2);
+//				viewHolder.liker_img3 = (ImageView) convertView
+//						.findViewById(R.id.liker_img3);
 				viewHolder.comment_listview = (ExpandedListView) convertView
 						.findViewById(R.id.comment_listview);
 				

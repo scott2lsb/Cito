@@ -52,6 +52,7 @@ public class MainBlockedActivity extends Activity {
 	private DialogActivity dialog;
 	private Activity mContext;
 	private ArrayList<BlockedModel> blockedList;
+	private String blockOrUnblockItem;
 	private FansModel fansItem;
 	private DisplayImageOptions otp;
 	BlockedAdapter blockedListAdapter;
@@ -65,7 +66,7 @@ public class MainBlockedActivity extends Activity {
 	private LayoutInflater inflater; 
 	private View layout;
 	private Bitmap bitmap;
-	private TextView btnUbBlock;
+	private Button btnUbBlock;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +241,14 @@ public class MainBlockedActivity extends Activity {
 			ImageLoader.getInstance().displayImage(blockedText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(blockedText.getAccountName());
 			btnUbBlock.setText("移除黑名单");
+			btnUbBlock.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					new blockOrUnblock(MainBlockedActivity.this, 1).execute();
+					
+				}
+			});
 			return convertView;
 		}
 	}
@@ -248,6 +257,73 @@ public class MainBlockedActivity extends Activity {
 		ImageView MemberImage;
 	    TextView AccountName;
 	    Button UnBlock;
+	}
+	
+	private class blockOrUnblock extends AsyncTask<String, String, String> {
+		private int mType;
+
+		private blockOrUnblock(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(MainBlockedActivity.this);
+			try {
+				result = request.getBlockOrUnblockRequest("6", "2", "1");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;	
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(blockOrUnblockItem!=null && !blockOrUnblockItem.equals(""))
+				{
+					blockOrUnblockItem = new String();
+				}
+				else
+					blockOrUnblockItem = new String();
+				try {
+					blockOrUnblockItem = new UserCenterParse().parseBlockOrUnblockwResponse(result);
+						if(blockOrUnblockItem.toString().equals("0 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "加入黑名单", 1).show();
+						}else if(blockOrUnblockItem.toString().equals("1 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "移除黑名单", 1).show();
+						}
+						mListView.setOnRefreshListener(onRefreshListener);
+						new MyBlocked(MainBlockedActivity.this, 1).execute("");
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}	
 	}
 	
 	public void onUnBlockClick(View view){

@@ -203,5 +203,15 @@ public class UserCenterParse {
 		return followOrUnfollowExist;
 	}
 	
-
+	public String parseBlockOrUnblockwResponse(String result) {
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		String blockOrUnblockResult = jobject.get("result").toString();
+		String blockOrUnblockExist = null;
+		if (blockOrUnblockResult.equals("\"succ\"")) {
+			blockOrUnblockExist = jobject.get("exist").toString();
+		}
+		return blockOrUnblockExist;
+	}
 }
