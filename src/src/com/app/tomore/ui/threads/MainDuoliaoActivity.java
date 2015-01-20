@@ -1,34 +1,31 @@
 package com.app.tomore.ui.threads;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.R;
-import com.app.tomore.R.dimen;
-import com.app.tomore.R.drawable;
-import com.app.tomore.R.id;
-import com.app.tomore.R.layout;
-import com.app.tomore.beans.ArticleCatogoryModel;
-import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.ThreadCmtModel;
-import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
-import com.app.tomore.ui.mag.MagCategoryActivity;
-import com.app.tomore.ui.mag.MainMagActivity;
+import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.usercenter.AboutusActivity;
 import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
+
 import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.usercenter.UserInformationActivity;
+
 import com.app.tomore.utils.ExpandedListView;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.SpUtils;
-import com.devsmart.android.ui.HorizontalListView;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,12 +33,21 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.slidingmenu.lib.SlidingMenu;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -50,11 +56,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,12 +68,13 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt4, bt5, bt6, bt7,bt8;
 	private Context context;
 	private ImageButton menubtn;
+	private ImageView headView;
 	private SlidingMenu menu;
 	private Activity mContext;
 	private DialogActivity dialog;
 	private boolean headerRefresh;
 	private ArrayList<ThreadModel> threadList;
-	// private ArrayList<ThreadCmtModel> commentList;
+	//private ArrayList<ThreadCmtModel> commentList;
 	private int pageNumber = 1;
 	private int limit = 20;
 	private PullToRefreshListView mListView;
@@ -78,6 +82,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private boolean onRefresh = false;
 	private DisplayImageOptions otp;
 	protected ImageLoader imageLoader;
+	private Bitmap head;
+	private static String path="/sdcard/myHead/";//sd路径
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
 		bt8= (TextView) view.findViewById(R.id.my_reply_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
+		headView = (ImageView) findViewById(R.id.head_view);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -113,7 +120,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt5.setOnClickListener(this);
 		bt6.setOnClickListener(this);
 		bt7.setOnClickListener(this);
+
 		bt8.setOnClickListener(this);
+
+		headView.setOnClickListener(this);
+
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
@@ -137,21 +148,149 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			onMyThreadlist(v);
 		} else if (id == R.id.my_guanzhu_bt) {
 			onMyFollowingClick(v);
-			// Toast.makeText(context, "����3", 1).show();
+//			Toast.makeText(context, "����3", 1).show();
 		} else if (id == R.id.ivTitleBtnLeft) {
 			menu.toggle();
 		} else if (id == R.id.my_fensi_bt) {
 			onMyFansClick(v);
-			// Toast.makeText(context, "����1", 1).show();
+//			Toast.makeText(context, "����1", 1).show();
 		} else if (id == R.id.my_blacklist_bt) {
 			onMyBlockedClick(v);
-			// Toast.makeText(context, "����1", 1).show();
+//			Toast.makeText(context, "����1", 1).show();
 		} else if (id == R.id.my_aboutus_bt) {
-			Toast.makeText(context, "����1", 1).show();
-		} else if (id == R.id.my_logout_bt) {
+			onAboutUSClick(v);
+//			Toast.makeText(context, "����1", 1).show();
+		}else if (id == R.id.my_logout_bt) {
 			onLogoutClick(v);
 		}
+		else if(id == R.id.head_view){
+			OnAvatarClick(v);
+		}
 
+	}
+
+
+	private void OnAvatarClick(View view) {
+		// TODO Auto-generated method stub
+		Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
+		if(bt!=null){
+			@SuppressWarnings("deprecation")
+			Drawable drawable = new BitmapDrawable(bt);//转换成drawable
+			headView.setImageDrawable(drawable);
+		}else{
+			/**
+			 *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
+			 * 
+			 */
+		}
+		String Cancel = getString(R.string.Cancel);
+		String TakePhoto = getString(R.string.TakePhoto);
+		String FromAlbum = getString(R.string.FromAlbum);
+    	CharSequence [] options = {TakePhoto,FromAlbum,Cancel};
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.ChangeAvatar));
+		builder.setItems(options, new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface Optiondialog, int which) {
+		        if (which == 0){
+					Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+									"head.jpg")));
+					startActivityForResult(intent1, 2);//采用ForResult打
+		        }
+		        else if(which == 1){
+					Intent intent2 = new Intent(Intent.ACTION_PICK, null);
+					intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+					startActivityForResult(intent2, 1);
+		        }
+		    }
+		});
+		builder.show();
+    	
+	}
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 1:
+			if (resultCode == RESULT_OK) {
+				cropPhoto(data.getData());//裁剪图片
+			}
+
+			break;
+		case 2:
+			if (resultCode == RESULT_OK) {
+				File temp = new File(Environment.getExternalStorageDirectory()
+						+ "/head.jpg");
+				cropPhoto(Uri.fromFile(temp));//裁剪图片
+			}
+
+			break;
+		case 3:
+			if (data != null) {
+				Bundle extras = data.getExtras();
+				head = extras.getParcelable("data");
+				if(head!=null){
+					/**
+					 * 上传服务器代码
+					 */
+					setPicToView(head);//保存在SD卡中
+					headView.setImageBitmap(head);//用ImageView显示出来
+				}
+			}
+			break;
+		default:
+			break;
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	};
+	/**
+	 * 调用系统的裁剪
+	 * @param uri
+	 */
+	public void cropPhoto(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		 // aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// outputX outputY 是裁剪图片宽高
+		intent.putExtra("outputX", 150);
+		intent.putExtra("outputY", 150);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, 3);
+	}
+	private void setPicToView(Bitmap mBitmap) {
+		new UpdateAvatar(MainDuoliaoActivity.this, 1,mBitmap).execute("");
+		 String sdStatus = Environment.getExternalStorageState();  
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { 
+               return;  
+           }  
+		FileOutputStream b = null;
+		File file = new File(path);
+		file.mkdirs();// 创建文件夹
+		String fileName =path + "head.jpg";//图片名字
+		try {
+			b = new FileOutputStream(fileName);
+			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//关闭流
+				b.flush();
+				b.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+	
+	private void onAboutUSClick(View v) {
+		Intent intent = new Intent(this, AboutusActivity.class);
+		startActivity(intent);
 	}
 	public void onMyreply(View view){
 		Intent intent= new Intent(this,MyReplyListActivity.class);
@@ -165,7 +304,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 	public void onLogoutClick(View view) {
 
-		SpUtils.clearUserInfo(mContext);// 退出登录
+		SpUtils.clearUserInfo(mContext);//退出登录
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 	}
@@ -174,16 +313,63 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		Intent intent = new Intent(this, MainFansActivity.class);
 		startActivity(intent);
 	}
-
+	
 	public void onMyFollowingClick(View view) {
 		Intent intent = new Intent(this, MainFollowingActivity.class);
 		startActivity(intent);
 	}
-
+	
 	public void onMyBlockedClick(View view) {
 		Intent intent = new Intent(this, MainBlockedActivity.class);
 		startActivity(intent);
 	}
+	
+	private class UpdateAvatar extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+		private Bitmap bitmap;
+		private UpdateAvatar(Context context, int type,Bitmap newbitmap) {
+			// this.mContext = context;
+			this.mType = type;
+			bitmap = newbitmap;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(
+					MainDuoliaoActivity.this);
+				Log.d("doInBackground", "start request");
+				//result = request.updateUserProfile(bitmap,"1"); //for
+																//test
+				Log.d("doInBackground", "returned");
+
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} 
+		}
+	}
+
 
 	private class GetData extends AsyncTask<String, String, String> {
 		// private Context mContext;
@@ -272,7 +458,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			final ThreadModel threadItem = (ThreadModel) getItem(position);
+			ThreadModel threadItem = (ThreadModel) getItem(position);
 			ViewHolder viewHolder = null;
 			if (convertView != null) {
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -294,10 +480,15 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.avatar);
 				viewHolder.content_img = (ImageView) convertView
 						.findViewById(R.id.content_img);
+//				viewHolder.liker_img1 = (ImageView) convertView
+//						.findViewById(R.id.liker_img1);
+//				viewHolder.liker_img2 = (ImageView) convertView
+//						.findViewById(R.id.liker_img2);
+//				viewHolder.liker_img3 = (ImageView) convertView
+//						.findViewById(R.id.liker_img3);
 				viewHolder.comment_listview = (ExpandedListView) convertView
 						.findViewById(R.id.comment_listview);
-				viewHolder.like_listview = (HorizontalListView) convertView
-						.findViewById(R.id.like_listview);
+				
 				viewHolder.comment_img1 = (ImageView) convertView
 						.findViewById(R.id.comment_img);
 				viewHolder.comment_img2 = (ImageView) convertView
@@ -312,18 +503,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			imageLoader.displayImage(threadItem.getMemberImage(),
 					viewHolder.avatar, otp);
 
-			viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
-			    @Override
-			    public void onClick(View v) {
-
-			    	Intent intent = new Intent(MainDuoliaoActivity.this,
-			    			UserInformationActivity.class);
-					intent.putExtra("memberId", threadItem.getMemberID());
-					startActivity(intent);
-			    }
-			});
-			
-			// get screen width
+			//get screen width
 			Display display = getWindowManager().getDefaultDisplay();
 			Point size = new Point();
 			display.getSize(size);
@@ -332,12 +512,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			LayoutParams params = (LayoutParams) viewHolder.content_img
 					.getLayoutParams();
 			params.width = screenWidth;
-			params.height = (screenWidth / Integer.parseInt(threadItem
-					.getThreadImageList().get(0).getImageWidth()))
-					* Integer.parseInt(threadItem.getThreadImageList().get(0)
-							.getImageHeight());
-			// params.height = (int) Math.round(Integer.parseInt(threadItem
-			// .getThreadImageList().get(0).getImageHeight()) * 2.5);
+			params.height = (screenWidth/Integer.parseInt(threadItem.getThreadImageList().get(0).getImageWidth()))
+					*Integer.parseInt(threadItem.getThreadImageList().get(0).getImageHeight());
+			//params.height = (int) Math.round(Integer.parseInt(threadItem
+			//		.getThreadImageList().get(0).getImageHeight()) * 2.5);
 			viewHolder.content_img.setLayoutParams(params);
 			//
 
@@ -350,132 +528,33 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			viewHolder.like_num.setText(String.valueOf(threadItem
 					.getThreadLikeList().size()));
 			viewHolder.time.setText(threadItem.getTimeDiff());
-
-			viewHolder.content_img
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-
-			viewHolder.comment_img1
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-			viewHolder.comment_img2
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-			viewHolder.like_img1.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// String result = null;
-					ThreadsRequest request = new ThreadsRequest(
-							MainDuoliaoActivity.this);
-					int isLike=1;
-					String memberID= "25"; // should be global value the memberID who logins
-					String accountName = "neo"; //should be global value accoutName who logins
-					ArrayList<String> likeMemberIDs = new ArrayList<String>();
-					for (int i = 0; i < threadItem.getThreadLikeList().size(); i++) {
-						likeMemberIDs.add(threadItem.getThreadLikeList().get(i)
-								.getMemberID());
-					}
-					if (likeMemberIDs.contains(memberID)) { 
-						isLike=0;
-					}
-					else{
-						isLike=1;
-					}
-					
-						try {
-							request.likeOrUnLikeAThread(
-									memberID, 
-									threadItem.getThreadID(),
-									accountName, isLike);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (TimeoutException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					// if (result == null || result.equals("")) {
-					// // show empty alert
-					// } else {
-					// try {
-					// ComonModel cmmodel = new
-					// ThreadsParse().likeOrUnLikeAThreadParse(result);
-					// String retResult = cmmodel.getResult();
-					// } catch (JsonSyntaxException e) {
-					// e.printStackTrace();
-					// }
-					// }
-				}
-			});
-
-			if (threadItem.getThreadCmtList().size() != 0) {
+			
+			if(!threadItem.getThreadCmtList().isEmpty())
+			{
 				ArrayList<ThreadCmtModel> commentList = new ArrayList<ThreadCmtModel>();
 				commentList = threadItem.getThreadCmtList();
-
-				DuoliaoCommentAdapter duoliaoCommentAdapter = new DuoliaoCommentAdapter(
-						commentList);
+				
+	
+				DuoliaoCommentAdapter duoliaoCommentAdapter = new DuoliaoCommentAdapter(commentList);
 				viewHolder.comment_listview.setAdapter(duoliaoCommentAdapter);
 				duoliaoCommentAdapter.notifyDataSetChanged();
 				viewHolder.comment_img2.setVisibility(View.VISIBLE);
-			} else {
+			}
+			else
+			{
 				viewHolder.comment_img2.setVisibility(View.GONE);
 			}
-
-			if (threadItem.getThreadLikeList().size() != 0) {
-				ArrayList<ThreadLikeModel> likeList = new ArrayList<ThreadLikeModel>();
-				likeList = threadItem.getThreadLikeList();
-
-				DuoliaoLikeAdapter duoliaoLikeAdapter = new DuoliaoLikeAdapter(
-						likeList);
-
-				viewHolder.like_listview.setAdapter(duoliaoLikeAdapter);
-				// duoliaoLikeAdapter.notifyDataSetChanged();
-				viewHolder.like_img2.setVisibility(View.VISIBLE);
-				// viewHolder.like_listview.setRotation(-90);
-
-				// int originalWidth = viewHolder.like_listview.getWidth();
-				// int originalHeight = viewHolder.like_listview.getHeight();
-				// LayoutParams params2 = (LayoutParams)
-				// viewHolder.like_listview .getLayoutParams();
-				// params2.height = originalWidth;
-				// params2.width = originalHeight;
-				// viewHolder.like_listview .setLayoutParams(params2);
-			} else {
+			
+			if(threadItem.getThreadLikeList().isEmpty())
+			{
 				viewHolder.like_img2.setVisibility(View.GONE);
-				// display liker list view
 			}
-
+			else
+			{
+				viewHolder.like_img2.setVisibility(View.VISIBLE);
+				//display liker list view
+			}
+			
 			return convertView;
 		}
 
@@ -499,10 +578,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	}
 
 	private class DuoliaoCommentAdapter extends BaseAdapter {
-
+		
 		private ArrayList<ThreadCmtModel> commentList;
-
-		public DuoliaoCommentAdapter(ArrayList<ThreadCmtModel> list) {
+		public DuoliaoCommentAdapter(ArrayList<ThreadCmtModel> list)
+		{
 			super();
 			commentList = list;
 		}
@@ -532,15 +611,14 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			viewHolder.comment_accountName
 					.setText(commentItem.getAccountName());
 			viewHolder.comment_content.setText(commentItem.getCommentContent());
-
+			
 			// change size of comment list view
-			// int commentHeight;
-			// commentHeight =
-			// viewHolder.comment_content.getHeight()+viewHolder.comment_accountName.getHeight();
-			// LayoutParams params2 = (LayoutParams) ((ListView)convertView
-			// .findViewById(R.id.comment_listview)).getLayoutParams();
-			// params2.height += commentHeight;
-			// viewHolder.comment_listview.setLayoutParams(params2);
+//			int commentHeight;
+//			commentHeight = viewHolder.comment_content.getHeight()+viewHolder.comment_accountName.getHeight();
+//			LayoutParams params2 = (LayoutParams) ((ListView)convertView
+//					.findViewById(R.id.comment_listview)).getLayoutParams();
+//			params2.height += commentHeight;
+//			viewHolder.comment_listview.setLayoutParams(params2);
 			//
 
 			return convertView;
@@ -556,63 +634,6 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		public Object getItem(int arg0) {
 			// TODO Auto-generated method stub
 			return commentList.get(arg0);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-	}
-
-	private class DuoliaoLikeAdapter extends BaseAdapter {
-
-		private ArrayList<ThreadLikeModel> likeList;
-
-		public DuoliaoLikeAdapter(ArrayList<ThreadLikeModel> list) {
-			super();
-			likeList = list;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ThreadLikeModel likeItem = (ThreadLikeModel) getItem(position);
-			ViewHolder viewHolder = null;
-			if (convertView != null) {
-				viewHolder = (ViewHolder) convertView.getTag();
-			} else {
-				viewHolder = new ViewHolder();
-				convertView = LayoutInflater
-						.from(mContext)
-						.inflate(
-								R.layout.duoliao_listview_item_like_listview_item,
-								null);
-				viewHolder.like_avatar = (ImageView) convertView
-						.findViewById(R.id.avatar);
-				// viewHolder.like_avatar.setRotation(90);
-				// LayoutParams params =
-				// (LayoutParams)viewHolder.like_avatar.getLayoutParams();
-
-				// viewHolder.like_avatar.setLayoutParams(params); //causes
-				// layout update
-				convertView.setTag(viewHolder);
-
-			}
-			imageLoader.displayImage(likeItem.getImage(),
-					viewHolder.like_avatar, otp);
-			return convertView;
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return likeList.size();
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return likeList.get(arg0);
 		}
 
 		@Override
@@ -638,11 +659,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		ImageView comment_avatar;
 		TextView comment_accountName;
 		TextView comment_content;
-		HorizontalListView like_listview;
-		ImageView like_avatar;
 		ImageView comment_img1;
 		ImageView comment_img2;
 		ImageView like_img1;
 		ImageView like_img2;
+		
 	}
 }

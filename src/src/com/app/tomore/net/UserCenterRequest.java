@@ -308,4 +308,20 @@ public class UserCenterRequest {
 		return httpResponse.getBodyAsString();
 	}
 
+	/*
+	 * send block or unblock info
+	 */
+	// http://54.213.167.5/APIV2/blockOrUnblock.php
+	public String getBlockOrUnblockRequest(String blockingID,
+			String blockedID, String block) throws IOException,
+			TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+				.add("blockingID", blockingID).add("blockedID", blockedID)
+				.add("block", block);
+		HttpResponse httpResponse = baseRequest.post("/APIV2/blockOrUnblock.php",
+				params);
+		return httpResponse.getBodyAsString();
+	}
 }
