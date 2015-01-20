@@ -23,6 +23,7 @@ import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
+import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.usercenter.UserInformationActivity;
 import com.app.tomore.utils.ExpandedListView;
 import com.app.tomore.utils.PullToRefreshListView;
@@ -61,7 +62,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt1;
 	private TextView bt2;
 	private TextView bt3;
-	private TextView bt4, bt5, bt6, bt7;
+	private TextView bt4, bt5, bt6, bt7,bt8;
 	private Context context;
 	private ImageButton menubtn;
 	private SlidingMenu menu;
@@ -103,6 +104,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt5 = (TextView) view.findViewById(R.id.my_blacklist_bt);
 		bt6 = (TextView) view.findViewById(R.id.my_aboutus_bt);
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
+		bt8= (TextView) view.findViewById(R.id.my_reply_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
@@ -111,6 +113,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt5.setOnClickListener(this);
 		bt6.setOnClickListener(this);
 		bt7.setOnClickListener(this);
+		bt8.setOnClickListener(this);
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
@@ -127,8 +130,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		int id = v.getId();
 		if (id == R.id.my_backtomain_bt) {
 			newContent = new BackToMainActivity();
-		} else if (id == R.id.my_tiezi_bt) {
-			Toast.makeText(context, "����2", 1).show();
+		}else if(id == R.id.my_reply_bt){
+			onMyreply(v);
+		} 
+		else if (id == R.id.my_tiezi_bt) {
+			onMyThreadlist(v);
 		} else if (id == R.id.my_guanzhu_bt) {
 			onMyFollowingClick(v);
 			// Toast.makeText(context, "����3", 1).show();
@@ -146,6 +152,15 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			onLogoutClick(v);
 		}
 
+	}
+	public void onMyreply(View view){
+		Intent intent= new Intent(this,MyReplyListActivity.class);
+		startActivity(intent);
+	}
+	public void onMyThreadlist(View view) {
+
+		Intent intent = new Intent(this, MyThreadActivity.class);
+		startActivity(intent);
 	}
 
 	public void onLogoutClick(View view) {
