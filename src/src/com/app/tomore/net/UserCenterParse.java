@@ -2,6 +2,7 @@ package com.app.tomore.net;
 
 import java.util.ArrayList;
 
+import com.app.tomore.beans.BLMenuSpecial;
 import com.app.tomore.beans.BlockedModel;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.FansModel;
@@ -11,6 +12,7 @@ import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadUpdateLikeModel;
 import com.app.tomore.beans.ThreadUpdateModel;
 import com.app.tomore.beans.ThreadModel;
+import com.app.tomore.beans.UpdateFollowedModel;
 import com.app.tomore.beans.UserModel;
 import com.app.tomore.httpclient.BasicHttpClient;
 import com.app.tomore.httpclient.HttpResponse;
@@ -214,4 +216,6 @@ public class UserCenterParse {
 		}
 		return blockOrUnblockExist;
 	}
+
+
 }

@@ -78,28 +78,27 @@
 
     </com.app.tomore.utils.NoScrollGridview>
 
-
-
-    <ImageView
-        android:id="@+id/contentinfo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/specialdec"
-        android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/RestCall"
-        android:paddingTop="5dp"
-        android:src="@drawable/info" />
-
     <ImageView
         android:id="@+id/RestCall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_above="@+id/specialdec"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
         android:src="@drawable/callyou" />
+
+    <ImageView
+        android:id="@+id/contentinfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/include1"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@+id/RestCall"
+        android:paddingTop="5dp"
+        android:src="@drawable/info" />
 
  </RelativeLayout> 
 </ScrollView>    
