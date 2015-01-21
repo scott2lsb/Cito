@@ -458,7 +458,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ThreadModel threadItem = (ThreadModel) getItem(position);
+			final ThreadModel threadItem = (ThreadModel) getItem(position);
 			ViewHolder viewHolder = null;
 			if (convertView != null) {
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -489,6 +489,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 				viewHolder.comment_listview = (ExpandedListView) convertView
 						.findViewById(R.id.comment_listview);
 				
+				
 				viewHolder.comment_img1 = (ImageView) convertView
 						.findViewById(R.id.comment_img);
 				viewHolder.comment_img2 = (ImageView) convertView
@@ -497,6 +498,28 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.like_img);
 				viewHolder.like_img2 = (ImageView) convertView
 						.findViewById(R.id.like_img2);
+				viewHolder.content_img.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				        //
+				    	//
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", threadItem);
+						startActivity(intent);
+				    }
+				});
+
+				viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+				    			UserInformationActivity.class);
+						intent.putExtra("memberId", threadItem.getMemberID());
+						startActivity(intent);
+				    }
+				});
 
 				convertView.setTag(viewHolder);
 			}

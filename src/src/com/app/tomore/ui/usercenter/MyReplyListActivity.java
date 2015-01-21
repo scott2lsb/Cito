@@ -19,7 +19,6 @@ import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.threads.MyThreadActivity;
-import com.app.tomore.ui.threads.MyThreadActivity.MyThreadAdapter;
 import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewAdapter;
 import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewCache;
 import com.google.gson.JsonSyntaxException;
