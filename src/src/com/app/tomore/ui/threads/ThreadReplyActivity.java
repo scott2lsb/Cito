@@ -5,12 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.beans.ArticleCommentModel;
-import com.app.tomore.beans.ArticleModel;
-import com.app.tomore.net.MagParse;
-import com.app.tomore.net.MagRequest;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.google.gson.JsonSyntaxException;
@@ -61,15 +56,13 @@ public class ThreadReplyActivity extends Activity {
 	ThreadDetailsActivity threadAdapter;
 	private boolean onRefresh = false;
 	private boolean headerRefresh = false;
-	private String page = null;
-	private String num = null;
+	private int page = 1;
+	private int num = 20;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thread_reply);
 		mContext = this;
-		page = "1";
-		num = "20";
 		Intent i = getIntent();
 		commentList =  (ArrayList)getIntent().getSerializableExtra("commentList");
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
@@ -236,7 +229,7 @@ public class ThreadReplyActivity extends Activity {
 			if(AppUtil.networkAvailable(mContext) ){
 				onRefresh = true;
 				headerRefresh = true;
-				Toast.makeText(getApplicationContext(), "到头了，休息一下~", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), "~", Toast.LENGTH_SHORT).show();
 				//new GetData(MainMagActivity.this, 1).execute("");
 
 			}else{
