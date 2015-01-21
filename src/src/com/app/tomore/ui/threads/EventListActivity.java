@@ -1,7 +1,9 @@
 package com.app.tomore.ui.threads;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
@@ -17,6 +19,7 @@ import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
 import com.app.tomore.beans.EventsModel;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -76,15 +79,16 @@ public class EventListActivity extends Activity {
 			RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 					.findViewById(R.id.bar_title_mythread);
 			
-			final Button btnBack = (Button) rl
-					.findViewById(R.id.bar_title_blocked_go_back);
-			
-			btnBack.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					finish();
-				}
-			});
+//			final Button btnBack = (Button) rl
+//					.findViewById(R.id.bar_title_blocked_go_back);
+//			
+//			btnBack.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View view) {
+//					finish();
+//				}
+//			});
+			new GetData(EventListActivity.this, 1).execute("");
 	}
 
 	private void BindDataToListView() {
@@ -201,10 +205,10 @@ public class EventListActivity extends Activity {
 				return;
 			}
 
-//			Intent intent = new Intent(MainMagActivity.this,
-//					MagDetailActivity.class);
-//			intent.putExtra("articleList", (Serializable) obj);
-//			startActivity(intent);
+			Intent intent = new Intent(EventListActivity.this,
+					EventDetailsActivity.class);
+			intent.putExtra("memberList", (Serializable) obj);
+			startActivity(intent);
 		}
 	};
 	

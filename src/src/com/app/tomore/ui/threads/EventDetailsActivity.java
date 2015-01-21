@@ -3,7 +3,9 @@ package com.app.tomore.ui.threads;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.R;
+import com.app.tomore.beans.EventsModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.net.ThreadsParse;
@@ -13,6 +15,7 @@ import com.app.tomore.utils.SpUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.Activity;
 import android.content.Context;
+
 import com.app.tomore.beans.EventMemberModel;
 
 public class EventDetailsActivity extends Activity {
@@ -38,6 +42,7 @@ public class EventDetailsActivity extends Activity {
 	private ArrayList<EventMemberModel> memberList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
+	private String eventId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +54,30 @@ public class EventDetailsActivity extends Activity {
 				.build();
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 				.findViewById(R.id.bar_title_mythread);
-		final Button btnBack = (Button) rl
-				.findViewById(R.id.bar_title_blocked_go_back);
-		gridView = (GridView) findViewById(R.id.gridView);
-		TextView titleTextView = (TextView) rl.findViewById(R.id.btBlocked);
-		titleTextView.setText("用户中心");
+//		final Button btnBack = (Button) rl
+	//			.findViewById(R.id.bar_title_blocked_go_back);
+		gridView = (GridView) findViewById(R.id.gridView1);
+	//	TextView titleTextView = (TextView) rl.findViewById(R.id.btBlocked);
+	//	titleTextView.setText("用户中心");
 
-		btnBack.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				finish();
-			}
-		});
+//		btnBack.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				finish();
+//			}
+//		});
 
-		new GetUserThreadList(EventDetailsActivity.this, 1)
+		EventsModel aEvent = (EventsModel) getIntent().getSerializableExtra(
+				"memberList");
+		eventId = aEvent.getEventID();
+		new GetMemberList(EventDetailsActivity.this, 1)
 				.execute("");
 	}
 
-	private class GetUserThreadList extends AsyncTask<String, String, String> {
+	private class GetMemberList extends AsyncTask<String, String, String> {
 		private int mType;
 
-		private GetUserThreadList(Context context, int type) {
+		private GetMemberList(Context context, int type) {
 			// this.mContext = context;
 			this.mType = type;
 			dialog = new DialogActivity(context, type);
@@ -92,8 +100,7 @@ public class EventDetailsActivity extends Activity {
 					EventDetailsActivity.this);
 			try {
 				Log.d("doInBackground", "start request");
-				result = request.getThreadListByMemberID(100, 1,
-						Integer.parseInt(logindInUserId));
+				result = request.getMemberInfoByEventID(Integer.parseInt(eventId));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -116,8 +123,8 @@ public class EventDetailsActivity extends Activity {
 				memberList = new ArrayList<EventMemberModel>();
 
 				try {
-					ThreadsParse threadParse = new ThreadsParse();
-					memberList = threadParse.getMemberInfoByEventIDParse(result);
+					ThreadsParse aMemberParse = new ThreadsParse();
+					memberList = aMemberParse.getMemberInfoByEventIDParse(result);
 
 					if (memberList.size() > 0) {
 						BindDataToGridView();
@@ -156,7 +163,7 @@ public class EventDetailsActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-			final ThreadModel item = (ThreadModel) getItem(position);
+			final EventMemberModel item = (EventMemberModel) getItem(position);
 			ViewHolder viewHolder = null;
 			if (convertView != null) {
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -170,14 +177,8 @@ public class EventDetailsActivity extends Activity {
 
 				convertView.setTag(viewHolder);
 			}
-			ArrayList<ThreadImageModel> threadListImage = item
-					.getThreadImageList();
-			if (threadListImage.size() > 0) {
-				ThreadImageModel image = threadListImage.get(0);
-
-				ImageLoader.getInstance().displayImage(image.getImageUrl(),
-						viewHolder.ImageView, otp);
-			}
+			ImageLoader.getInstance().displayImage(item.getImage(),
+					viewHolder.ImageView, otp);
 			// viewHolder.textView.setText(item.getName());
 			return convertView;
 		}

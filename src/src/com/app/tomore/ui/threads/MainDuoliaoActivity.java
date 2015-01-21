@@ -19,10 +19,8 @@ import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
-
 import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.usercenter.UserInformationActivity;
-
 import com.app.tomore.utils.ExpandedListView;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.SpUtils;
@@ -56,8 +54,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +68,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt4, bt5, bt6, bt7,bt8;
 	private Context context;
 	private ImageButton menubtn;
+	private ImageButton rightBtn;
 	private ImageView headView;
 	private SlidingMenu menu;
 	private Activity mContext;
@@ -112,6 +113,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
 		bt8= (TextView) view.findViewById(R.id.my_reply_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
+		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
 		headView = (ImageView) findViewById(R.id.head_view);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
@@ -133,6 +135,18 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 				.build();
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
+		
+		
+		rightBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				//goto even list first
+				Intent intent = new Intent(MainDuoliaoActivity.this,
+		    			EventListActivity.class);
+				startActivity(intent);
+			}
+		});
+		
 	}
 
 	@Override
