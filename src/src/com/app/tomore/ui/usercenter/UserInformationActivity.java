@@ -54,8 +54,8 @@ public class UserInformationActivity extends Activity {
 		setContentView(R.layout.activity_user_infomation);
 		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
 		thisUserId = getIntent().getStringExtra("memberId");
-		userName = (TextView) findViewById(R.id.username);
-		userSchool = (TextView) findViewById(R.id.userschool);
+		userName = (TextView) findViewById(R.id.tvUserName);
+		userSchool = (TextView) findViewById(R.id.tvSchool);
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
