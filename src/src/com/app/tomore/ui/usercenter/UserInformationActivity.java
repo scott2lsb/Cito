@@ -3,7 +3,6 @@ package com.app.tomore.ui.usercenter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
-
 import com.app.tomore.R;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
@@ -17,7 +16,6 @@ import com.app.tomore.utils.SpUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;

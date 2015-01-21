@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.app.tomore.beans.BLMenuSpecial;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.EventsModel;
 import com.app.tomore.beans.MemberModel;
@@ -20,6 +19,7 @@ import com.app.tomore.beans.UserModel;
 import com.app.tomore.httpclient.BasicHttpClient;
 import com.app.tomore.httpclient.HttpResponse;
 import com.app.tomore.httpclient.ParameterMap;
+import com.app.tomore.beans.EventMemberModel;
 
 public class ThreadsParse {
 	public ArrayList<ThreadModel> parseThreadModel(String jsonThreads) 
@@ -217,15 +217,15 @@ public class ThreadsParse {
 
 
 	//http://54.213.167.5/APIV2/getMemberInfoByEventID.php?eventID=1
-	public ArrayList<UserModel> getMemberInfoByEventIDParse(String result)
+	public ArrayList<EventMemberModel> getMemberInfoByEventIDParse(String result)
 	{
 		Gson gson = new Gson();
 		JsonElement jelement = new JsonParser().parse(result);
 		JsonObject jobject = jelement.getAsJsonObject();
 		JsonArray jarray = jobject.getAsJsonArray("data");
-		ArrayList<UserModel> lcs = new ArrayList<UserModel>();
+		ArrayList<EventMemberModel> lcs = new ArrayList<EventMemberModel>();
 		for (JsonElement obj : jarray) {
-			UserModel cse = gson.fromJson(obj, UserModel.class);
+			EventMemberModel cse = gson.fromJson(obj, EventMemberModel.class);
 			lcs.add(cse);
 		}
 		return lcs;
