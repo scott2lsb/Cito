@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.app.tomore.beans.BLMenuSpecial;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.EventsModel;
 import com.app.tomore.beans.MemberModel;
@@ -160,6 +161,27 @@ public class ThreadsParse {
 	{
 		return new ThreadsParse().parseThreadModel(result);
 	}
+	public  ArrayList<ThreadImageModel> parseThreadImageModel(String jsonRestaurantDetail) 
+			throws JsonSyntaxException 
+	{
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(jsonRestaurantDetail);
+	    JsonObject  jobject = jelement.getAsJsonObject();
+	    JsonArray jarray = jobject.getAsJsonArray("ThreadImages");
+		ArrayList<ThreadImageModel> MenulistSpecial = new ArrayList<ThreadImageModel>();
+		for (JsonElement obj : jarray) {
+			ThreadImageModel cse= gson.fromJson(obj, ThreadImageModel.class);
+		    MenulistSpecial.add(cse);
+		}
+
+		return MenulistSpecial;
+	}
+	public ArrayList<ThreadImageModel> getThreadimageByMemberIDParse(String result) 
+			throws JsonSyntaxException
+	{
+		return new ThreadsParse().parseThreadImageModel(result);
+	}
+
 	
 	//post thread .
 	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
@@ -208,6 +230,8 @@ public class ThreadsParse {
 		}
 		return lcs;
 	}
+
+
 
 	//http://54.213.167.5/APIV2/LikeOrUnlikeForEvent.php?memberID=25&eventID=1&actionerID=34&like=1
 	public CommonModel LikeOrUnlikeForEventParse(String result)

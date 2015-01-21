@@ -63,6 +63,20 @@
             android:text="@string/toolbox_item_backtomain"
             android:textSize="15sp"
             android:textColor="#000000" />
+          <include
+            android:layout_width="fill_parent"
+            android:layout_height="2px"
+            layout="@layout/line" >
+        </include>
+                <TextView
+            android:id="@+id/my_reply_bt"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/toolbox_item_reply"
+            android:textSize="15sp"
+            android:textColor="#000000" />
 
         <include
             android:layout_width="fill_parent"

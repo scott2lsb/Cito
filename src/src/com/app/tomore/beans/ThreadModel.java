@@ -30,6 +30,7 @@ public class ThreadModel implements Serializable {
 	private ArrayList<ThreadCmtModel> threadCmtList;
 	private ArrayList<ThreadImageModel> threadImageList;
 	private ArrayList<ThreadLikeModel> threadLikeList;
+	private ArrayList<UpdateFollowedModel> threadUpdateList;
 	
 	public String getThreadID() {
 		return ThreadID;
@@ -96,6 +97,13 @@ public class ThreadModel implements Serializable {
 	}
 	public void setTimeDiff(String timeDiff) {
 		TimeDiff = timeDiff;
+	}
+
+	public ArrayList<UpdateFollowedModel> getThreadUpdateList() {
+		return threadUpdateList;
+	}
+	public void setThreadUpdateList(ArrayList<UpdateFollowedModel> threadUpdateList) {
+		this.threadUpdateList = threadUpdateList;
 	}
 	private String ThreadID;
 	private String ThreadTitle;

@@ -52,6 +52,7 @@ public class MainFollowingActivity extends Activity {
 	private DialogActivity dialog;
 	private Activity mContext;
 	private ArrayList<FollowingModel> followingList;
+	private String followOrUnfollowModelItem;
 	private FollowingModel followingItem;
 	private DisplayImageOptions otp;
 	FollowingAdapter followingListAdapter;
@@ -65,7 +66,7 @@ public class MainFollowingActivity extends Activity {
 	private LayoutInflater inflater; 
 	private View layout;
 	private Bitmap bitmap;
-	private TextView btnFollow;
+	private Button btnFollow;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -240,12 +241,85 @@ public class MainFollowingActivity extends Activity {
 			ImageLoader.getInstance().displayImage(followingText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(followingText.getAccountName());
 			btnFollow.setText("取消关注");
+			btnFollow.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					new MyFollowOrUnfollow(MainFollowingActivity.this, 1).execute();					
+				}
+			});
 			return convertView;
 		}
 	}
 	
-	public void onFollowClick(View view){
-		Toast.makeText(getApplicationContext(), "follow", 1).show();
+	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
+		private int mType;
+
+		private MyFollowOrUnfollow(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(MainFollowingActivity.this);
+			try {
+				String followOrUnfollow = "1";
+				if(params[0].equals("0")){
+					followOrUnfollow = "1";
+				}else if(params[0].equals("1")){
+					followOrUnfollow = "0";
+				}
+				System.out.println("followRequest: " + followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			
+			return result;			
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(followOrUnfollowModelItem!=null && !followOrUnfollowModelItem.equals(""))
+				{
+					followOrUnfollowModelItem = new String();
+				}
+				else
+					followOrUnfollowModelItem = new String();
+				try {
+					followOrUnfollowModelItem = new UserCenterParse().parseFollowOrUnfollowResponse(result);
+						if(followOrUnfollowModelItem.toString().equals("0 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+						}else if(followOrUnfollowModelItem.toString().equals("1 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+						}
+						mListView.setOnRefreshListener(onRefreshListener);
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
 	}
 	
 	class ViewHolder {
