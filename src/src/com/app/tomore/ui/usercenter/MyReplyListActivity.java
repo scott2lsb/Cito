@@ -142,18 +142,32 @@ private class GetData extends AsyncTask<String, String, String>{
 	}
       private void BindDataToListView() {
     	  final List<ImageAndText> imageAndTexts = new ArrayList<ImageAndText>();
-    
-    	  for (int i =0;i<3;){
+    	
+          int p ;
+          int q;
+          String information = getString(R.string.Likeinfo);
+          String information1 = getString(R.string.Commentinfo);
+
+     
     	  for(ThreadUpdateModel c: threadupdatemodel)
-    	  {
-    		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent()));
+    	  {  
+    		     q = c.getLikeList().size();
+        	     for (int i =0;i<q;){
+        	    	  imageAndTexts.add(new ImageAndText(c.getLikeList().get(i).getImage(), c.getLikeList().get(i).getAccountName(), information));
+    	    		  i++;
+        	     }
+    		  
+    		  p = c.getCommentList().size();
+    	     for (int i =0;i<p;){
+    		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent(), information1));
     		  i++;
-    	  }
+    	     }
+    
+    	     
     	  }
 	        ListView listView = (ListView) findViewById(R.id.myreplaylistactivity_listview);
 			listView.setAdapter(new MyReplyAdapter(this, imageAndTexts,
 					listView));
-
 
     }
   	class ViewHolder {
@@ -165,15 +179,21 @@ private class GetData extends AsyncTask<String, String, String>{
 	{
 	 private String imageUrl;          
 	    private String text;   
-	        public ImageAndText(String imageUrl, String text) {  
+	    private String text1;
+	        public ImageAndText(String imageUrl, String text,String text1) {  
 	            this.imageUrl = imageUrl;  
 	            this.text = text;  
+	            this.text1 = text1;
 	       }  
 	        public String getImageUrl() {  
 	            return imageUrl;  
 	       }  
+
 	       public String getText() {  
 	           return text;  
+	        }  
+	       public String getText1() {  
+	           return text1;  
 	        }  
 	}
   	public class MyReplyAdapter extends ArrayAdapter<ImageAndText>{
@@ -207,6 +227,9 @@ private class GetData extends AsyncTask<String, String, String>{
             // Set the text on the TextView  
             TextView textView = viewCache.getTextView();  
             textView.setText(imageAndText.getText());  
+            TextView textView1 = viewCache.getTextView1();  
+            textView1.setText(imageAndText.getText1());  
+
             return rowView;  
   	}
   	}
@@ -215,6 +238,7 @@ private class GetData extends AsyncTask<String, String, String>{
 	    private View baseView;
 	    private TextView textView;
 	    private ImageView imageView;
+	    private TextView textView1;
 
 	    public ListViewCache(View baseView) {
 	        this.baseView = baseView;
@@ -222,14 +246,21 @@ private class GetData extends AsyncTask<String, String, String>{
 
 	    public TextView getTextView() {
 	        if (textView == null) {
-	            textView = (TextView) baseView.findViewById(R.id.Myreplymember);
+	            textView = (TextView) baseView.findViewById(R.id.Myreplymembercontent);
 	        }
 	        return textView;
 	    }
+	    public TextView getTextView1() {
+	        if (textView1 == null) {
+	            textView1 = (TextView) baseView.findViewById(R.id.Myreplyinfo);
+	        }
+	        return textView1;
+	    }
+
 
 	    public ImageView getImageView() {
 	        if (imageView == null) {
-	            imageView = (ImageView) baseView.findViewById(R.id.Myreplyimage);
+	            imageView = (ImageView) baseView.findViewById(R.id.Myreplymemberimage);
 	        }
 	        return imageView;
 	    }

@@ -116,6 +116,8 @@
     <string name="TakePhoto">手机拍照</string>
     <string name="FromAlbum">手机相册</string>
     <string name="ChangeAvatar">更改头像</string>
+    <string name="Likeinfo">赞了你的帖子</string>
+     <string name="Commentinfo">你的帖子收到回复</string>
     <string name="PhoneCall">呼叫</string>
     <string name="Cancel">取消</string>
     <string name="Phone">电话</string>
@@ -202,5 +204,6 @@
     <string name="nodatastring">没有数据</string>
     <string name="inputcomment">请输入评论</string>
     <string name="postcomment">发表</string>
+
 
 </resources>
