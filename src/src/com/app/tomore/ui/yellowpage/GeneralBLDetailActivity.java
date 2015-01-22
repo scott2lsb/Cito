@@ -49,7 +49,9 @@ public class GeneralBLDetailActivity extends Activity {
 		Intent intent = getIntent();
 		BLModel = (GeneralBLModel) intent.getSerializableExtra("BLdata");
 		layout = findViewById(R.id.general_bl_detail_layout);
-		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_general_detail_go_back);
+		TextView header_Text = (TextView) layout.findViewById(R.id.btMeg);
+		header_Text.setText(getString(R.string.bar_title_generalBL_detail));
+		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_bl_go_back);
 
 		btnBack.setOnClickListener(new View.OnClickListener() {
 			@Override
