@@ -76,7 +76,7 @@ public class EventDetailsActivity extends Activity {
 	    });
 		
 		TextView titleTextView = (TextView) rl.findViewById(R.id.btLeague);
-		titleTextView.setText("活动列表");
+		titleTextView.setText("活动详情");
 
 		gridView = (GridView) findViewById(R.id.gridView1);
 
