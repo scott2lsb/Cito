@@ -281,9 +281,9 @@ public class UserInformationActivity extends Activity {
 						
 						ImageLoader.getInstance().displayImage(userInformation.getProfileImage(), profileImage, otp);
 						if(userInformation.getGender().equals("Male")){
-							ImageLoader.getInstance().displayImage("@drawable/maleIcon.png", userGender, otp);							
+							ImageLoader.getInstance().displayImage("@drawable/male_icon.png", userGender, otp);							
 						} else if(userInformation.getGender().equals("Female")){
-							ImageLoader.getInstance().displayImage("@drawable/fmaleIcon.png", userGender, otp);							
+							ImageLoader.getInstance().displayImage("@drawable/fmale_icon.png", userGender, otp);							
 						}
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
