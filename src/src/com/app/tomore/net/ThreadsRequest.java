@@ -173,7 +173,7 @@ public class ThreadsRequest {
 	}
 
 	//http://54.213.167.5/APIV2/LikeOrUnlikeForEvent.php?memberID=25&eventID=1&actionerID=34&like=1
-	public String getThreadListByMemberID(int actionerID, int eventID, int memberID, int isLike)
+	public String LikeOrUnlikeForEvent(int actionerID, int eventID, int memberID, int isLike)
 			 throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);

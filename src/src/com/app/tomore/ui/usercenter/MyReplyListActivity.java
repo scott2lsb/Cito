@@ -3,22 +3,28 @@ package com.app.tomore.ui.usercenter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.MyCameraActivity;
 import com.app.tomore.R;
 import com.app.tomore.R.layout;
+import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.ThreadUpdateModel;
+import com.app.tomore.beans.UpdateFollowedModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.threads.MyThreadActivity;
+import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewAdapter;
+import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewCache;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,7 +38,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,7 +52,12 @@ public class MyReplyListActivity extends Activity {
 	private Activity mContext;
 	private ArrayList<ThreadUpdateModel> threadupdatemodel;
 	ThreadUpdateModel threadupdateitem;
-	private ListView listView;
+	private ListView listView2;
+	private ArrayList<ThreadCmtModel> threadcmtmodel;
+	ThreadCmtModel threadcmtitem;
+	private ArrayList<UpdateFollowedModel> followmodel;
+	UpdateFollowedModel followmodelitem;
+	
 
 
 	@Override
@@ -52,6 +65,13 @@ public class MyReplyListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_reply_list);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+		Intent intent = getIntent();
+		new GetData(MyReplyListActivity.this, 1).execute("");
+		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
+				.build();
+		mContext = this;
+		
 
 	}
 private class GetData extends AsyncTask<String, String, String>{
@@ -79,7 +99,7 @@ private class GetData extends AsyncTask<String, String, String>{
 			UserCenterRequest request = new UserCenterRequest(MyReplyListActivity.this);
 			try {
 
-				String memberID="25";
+				String memberID="45";
 				Log.d("doInBackground", "start request");
 				result = request.getUserUpdate(memberID);
 				Log.d("doInBackground", "returned");
@@ -103,13 +123,14 @@ private class GetData extends AsyncTask<String, String, String>{
 				try {
 					threadupdatemodel =new UserCenterParse().praserMyUpdateModel(result);
 					//threadImageList=new ThreadsParse().getThreadimageByMemberIDParse(result);
+					//followmodel=new UserCenterParse().getThreadcmtParse(result);
 					BindDataToListView();
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
-				if(threadupdatemodel !=null){
+				if(threadcmtmodel !=null){
 					Intent intent =new Intent(MyReplyListActivity.this,MyCameraActivity.class);
-					intent.putExtra("threadupdatelist",(Serializable) threadupdatemodel);
+					intent.putExtra("threadupdatelist",(Serializable) threadcmtmodel);
 					// startActivity(intent);
 				}
 				else{
@@ -120,10 +141,19 @@ private class GetData extends AsyncTask<String, String, String>{
 
 	}
       private void BindDataToListView() {
-	
-	//ListView listView = (ListView) findViewById(R.id.bianlirestaurant_listview);
-	//MyThreadAdapter newsListAdapter = new MyThreadAdapter();
-	//listView.setAdapter(newsListAdapter);
+    	  final List<ImageAndText> imageAndTexts = new ArrayList<ImageAndText>();
+    
+    	  for (int i =0;i<3;){
+    	  for(ThreadUpdateModel c: threadupdatemodel)
+    	  {
+    		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent()));
+    		  i++;
+    	  }
+    	  }
+	        ListView listView = (ListView) findViewById(R.id.myreplaylistactivity_listview);
+			listView.setAdapter(new MyReplyAdapter(this, imageAndTexts,
+					listView));
+
 
     }
   	class ViewHolder {
@@ -131,44 +161,78 @@ private class GetData extends AsyncTask<String, String, String>{
 	    private ImageView memberimage;
 	    private TextView comment;
 	}
-  	public class MyThreadAdapter extends BaseAdapter{
+  	private class ImageAndText
+	{
+	 private String imageUrl;          
+	    private String text;   
+	        public ImageAndText(String imageUrl, String text) {  
+	            this.imageUrl = imageUrl;  
+	            this.text = text;  
+	       }  
+	        public String getImageUrl() {  
+	            return imageUrl;  
+	       }  
+	       public String getText() {  
+	           return text;  
+	        }  
+	}
+  	public class MyReplyAdapter extends ArrayAdapter<ImageAndText>{
+  		   
+  		    private ListView listview;  
+	        public MyReplyAdapter(Activity activity, List<ImageAndText> imageAndTexts, ListView listview2) {  
+	            super(activity, 0, imageAndTexts);  
+	            this.listview = listview2;  
+	            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(activity));
 
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return threadupdatemodel.size();
-		}
+	        }  
+	        public View getView(int position, View convertView, ViewGroup parent) {
+	        	Activity activity = (Activity) getContext(); 
+	            View rowView = convertView;  
+	            ListViewCache viewCache;  
+	        
+	        if (rowView == null) {  
+                LayoutInflater inflater = activity.getLayoutInflater();  
+                rowView = inflater.inflate(R.layout.myreplay_activity_usercenter, null);  
+                viewCache = new ListViewCache(rowView);  
+                rowView.setTag(viewCache);  
+            } else {  
+                viewCache = (ListViewCache) rowView.getTag();  
+            }  
+            ImageAndText imageAndText = getItem(position);  
+            final String imageUrl = imageAndText.getImageUrl();  
+            ImageView imageView = viewCache.getImageView();  
+            imageView.setTag(imageUrl);  
+            ImageLoader.getInstance().displayImage(imageUrl,
+            		imageView);
+            // Set the text on the TextView  
+            TextView textView = viewCache.getTextView();  
+            textView.setText(imageAndText.getText());  
+            return rowView;  
+  	}
+  	}
+  	public class ListViewCache {
 
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return threadupdatemodel.get(arg0);
-		}
+	    private View baseView;
+	    private TextView textView;
+	    private ImageView imageView;
 
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-		
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			threadupdateitem =(ThreadUpdateModel) getItem(position);
-			ViewHolder viewHolder = new ViewHolder();
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.myreplay_activity_usercenter, null);
-			viewHolder.memberimage=(ImageView) convertView.findViewById(R.id.Myreplyimage);
-			//ImageLoader.getInstance().displayImage(threadupdateitem.,
-				//	viewHolder.memberimage,otp);
-			viewHolder.membername = (TextView) convertView.findViewById(R.id.Myreplymember);
-			//viewHolder.membername.setText(ThreadItem.getThreadContent());
-			//viewHolder.TimeDiff=(TextView) convertView.findViewById(R.id.MythreadTimeDiff);
-			//viewHolder.TimeDiff.setText(ThreadItem.getTimeDiff());
-			return convertView;
-		}
+	    public ListViewCache(View baseView) {
+	        this.baseView = baseView;
+	    }
 
-	
-		}
+	    public TextView getTextView() {
+	        if (textView == null) {
+	            textView = (TextView) baseView.findViewById(R.id.Myreplymember);
+	        }
+	        return textView;
+	    }
+
+	    public ImageView getImageView() {
+	        if (imageView == null) {
+	            imageView = (ImageView) baseView.findViewById(R.id.Myreplyimage);
+	        }
+	        return imageView;
+	    }
+
+}
 }

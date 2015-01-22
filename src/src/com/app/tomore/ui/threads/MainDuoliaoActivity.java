@@ -9,7 +9,6 @@ import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.R;
 import com.app.tomore.beans.ThreadCmtModel;
-import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
@@ -20,14 +19,11 @@ import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
-import com.app.tomore.ui.usercenter.UserInformationActivity;
 import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.usercenter.UserInformationActivity;
-
 import com.app.tomore.utils.ExpandedListView;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.SpUtils;
-import com.devsmart.android.ui.HorizontalListView;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,8 +54,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,12 +68,14 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt4, bt5, bt6, bt7,bt8;
 	private Context context;
 	private ImageButton menubtn;
+	private ImageButton rightBtn;
+	private ImageView headView;
 	private SlidingMenu menu;
 	private Activity mContext;
 	private DialogActivity dialog;
 	private boolean headerRefresh;
 	private ArrayList<ThreadModel> threadList;
-	// private ArrayList<ThreadCmtModel> commentList;
+	//private ArrayList<ThreadCmtModel> commentList;
 	private int pageNumber = 1;
 	private int limit = 20;
 	private PullToRefreshListView mListView;
@@ -83,7 +83,6 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private boolean onRefresh = false;
 	private DisplayImageOptions otp;
 	protected ImageLoader imageLoader;
-	private ImageView headView;
 	private Bitmap head;
 	private static String path="/sdcard/myHead/";//sd路径
 
@@ -114,8 +113,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
 		bt8= (TextView) view.findViewById(R.id.my_reply_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
+		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
 		headView = (ImageView) findViewById(R.id.head_view);
-		headView.setOnClickListener(this);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -123,9 +122,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt5.setOnClickListener(this);
 		bt6.setOnClickListener(this);
 		bt7.setOnClickListener(this);
+
 		bt8.setOnClickListener(this);
 
 		headView.setOnClickListener(this);
+
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
@@ -134,6 +135,18 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 				.build();
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
+		
+		
+		rightBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				//goto even list first
+				Intent intent = new Intent(MainDuoliaoActivity.this,
+		    			EventListActivity.class);
+				startActivity(intent);
+			}
+		});
+		
 	}
 
 	@Override
@@ -149,19 +162,19 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			onMyThreadlist(v);
 		} else if (id == R.id.my_guanzhu_bt) {
 			onMyFollowingClick(v);
-			// Toast.makeText(context, "����3", 1).show();
+//			Toast.makeText(context, "����3", 1).show();
 		} else if (id == R.id.ivTitleBtnLeft) {
 			menu.toggle();
 		} else if (id == R.id.my_fensi_bt) {
 			onMyFansClick(v);
-			// Toast.makeText(context, "����1", 1).show();
+//			Toast.makeText(context, "����1", 1).show();
 		} else if (id == R.id.my_blacklist_bt) {
 			onMyBlockedClick(v);
-			// Toast.makeText(context, "����1", 1).show();
+//			Toast.makeText(context, "����1", 1).show();
 		} else if (id == R.id.my_aboutus_bt) {
-			//Toast.makeText(context, "����1", 1).show();
 			onAboutUSClick(v);
-		} else if (id == R.id.my_logout_bt) {
+//			Toast.makeText(context, "����1", 1).show();
+		}else if (id == R.id.my_logout_bt) {
 			onLogoutClick(v);
 		}
 		else if(id == R.id.head_view){
@@ -305,7 +318,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 	public void onLogoutClick(View view) {
 
-		SpUtils.clearUserInfo(mContext);// 退出登录
+		SpUtils.clearUserInfo(mContext);//退出登录
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 	}
@@ -314,16 +327,17 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		Intent intent = new Intent(this, MainFansActivity.class);
 		startActivity(intent);
 	}
-
+	
 	public void onMyFollowingClick(View view) {
 		Intent intent = new Intent(this, MainFollowingActivity.class);
 		startActivity(intent);
 	}
-
+	
 	public void onMyBlockedClick(View view) {
 		Intent intent = new Intent(this, MainBlockedActivity.class);
 		startActivity(intent);
 	}
+	
 	private class UpdateAvatar extends AsyncTask<String, String, String> {
 		// private Context mContext;
 		private int mType;
@@ -369,6 +383,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			} 
 		}
 	}
+
+
 	private class GetData extends AsyncTask<String, String, String> {
 		// private Context mContext;
 		private int mType;
@@ -478,10 +494,16 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.avatar);
 				viewHolder.content_img = (ImageView) convertView
 						.findViewById(R.id.content_img);
+//				viewHolder.liker_img1 = (ImageView) convertView
+//						.findViewById(R.id.liker_img1);
+//				viewHolder.liker_img2 = (ImageView) convertView
+//						.findViewById(R.id.liker_img2);
+//				viewHolder.liker_img3 = (ImageView) convertView
+//						.findViewById(R.id.liker_img3);
 				viewHolder.comment_listview = (ExpandedListView) convertView
 						.findViewById(R.id.comment_listview);
-				viewHolder.like_listview = (HorizontalListView) convertView
-						.findViewById(R.id.like_listview);
+				
+				
 				viewHolder.comment_img1 = (ImageView) convertView
 						.findViewById(R.id.comment_img);
 				viewHolder.comment_img2 = (ImageView) convertView
@@ -490,24 +512,35 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.like_img);
 				viewHolder.like_img2 = (ImageView) convertView
 						.findViewById(R.id.like_img2);
+				viewHolder.content_img.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				        //
+				    	//
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", threadItem);
+						startActivity(intent);
+				    }
+				});
+
+				viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+				    			UserInformationActivity.class);
+						intent.putExtra("memberId", threadItem.getMemberID());
+						startActivity(intent);
+				    }
+				});
 
 				convertView.setTag(viewHolder);
 			}
 			imageLoader.displayImage(threadItem.getMemberImage(),
 					viewHolder.avatar, otp);
 
-			viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
-			    @Override
-			    public void onClick(View v) {
-
-			    	Intent intent = new Intent(MainDuoliaoActivity.this,
-			    			UserInformationActivity.class);
-					intent.putExtra("memberId", threadItem.getMemberID());
-					startActivity(intent);
-			    }
-			});
-			
-			// get screen width
+			//get screen width
 			Display display = getWindowManager().getDefaultDisplay();
 			Point size = new Point();
 			display.getSize(size);
@@ -516,12 +549,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			LayoutParams params = (LayoutParams) viewHolder.content_img
 					.getLayoutParams();
 			params.width = screenWidth;
-			params.height = (screenWidth / Integer.parseInt(threadItem
-					.getThreadImageList().get(0).getImageWidth()))
-					* Integer.parseInt(threadItem.getThreadImageList().get(0)
-							.getImageHeight());
-			// params.height = (int) Math.round(Integer.parseInt(threadItem
-			// .getThreadImageList().get(0).getImageHeight()) * 2.5);
+			params.height = (screenWidth/Integer.parseInt(threadItem.getThreadImageList().get(0).getImageWidth()))
+					*Integer.parseInt(threadItem.getThreadImageList().get(0).getImageHeight());
+			//params.height = (int) Math.round(Integer.parseInt(threadItem
+			//		.getThreadImageList().get(0).getImageHeight()) * 2.5);
 			viewHolder.content_img.setLayoutParams(params);
 			//
 
@@ -534,132 +565,33 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			viewHolder.like_num.setText(String.valueOf(threadItem
 					.getThreadLikeList().size()));
 			viewHolder.time.setText(threadItem.getTimeDiff());
-
-			viewHolder.content_img
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-
-			viewHolder.comment_img1
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-			viewHolder.comment_img2
-					.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							//
-							//
-							Intent intent = new Intent(
-									MainDuoliaoActivity.this,
-									ThreadReplyActivity.class);
-							intent.putExtra("threadModel", threadItem);
-							startActivity(intent);
-						}
-					});
-			viewHolder.like_img1.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// String result = null;
-					ThreadsRequest request = new ThreadsRequest(
-							MainDuoliaoActivity.this);
-					int isLike=1;
-					String memberID= "25"; // should be global value the memberID who logins
-					String accountName = "neo"; //should be global value accoutName who logins
-					ArrayList<String> likeMemberIDs = new ArrayList<String>();
-					for (int i = 0; i < threadItem.getThreadLikeList().size(); i++) {
-						likeMemberIDs.add(threadItem.getThreadLikeList().get(i)
-								.getMemberID());
-					}
-					if (likeMemberIDs.contains(memberID)) { 
-						isLike=0;
-					}
-					else{
-						isLike=1;
-					}
-					
-						try {
-							request.likeOrUnLikeAThread(
-									memberID, 
-									threadItem.getThreadID(),
-									accountName, isLike);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (TimeoutException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					// if (result == null || result.equals("")) {
-					// // show empty alert
-					// } else {
-					// try {
-					// ComonModel cmmodel = new
-					// ThreadsParse().likeOrUnLikeAThreadParse(result);
-					// String retResult = cmmodel.getResult();
-					// } catch (JsonSyntaxException e) {
-					// e.printStackTrace();
-					// }
-					// }
-				}
-			});
-
-			if (threadItem.getThreadCmtList().size() != 0) {
+			
+			if(!threadItem.getThreadCmtList().isEmpty())
+			{
 				ArrayList<ThreadCmtModel> commentList = new ArrayList<ThreadCmtModel>();
 				commentList = threadItem.getThreadCmtList();
-
-				DuoliaoCommentAdapter duoliaoCommentAdapter = new DuoliaoCommentAdapter(
-						commentList);
+				
+	
+				DuoliaoCommentAdapter duoliaoCommentAdapter = new DuoliaoCommentAdapter(commentList);
 				viewHolder.comment_listview.setAdapter(duoliaoCommentAdapter);
 				duoliaoCommentAdapter.notifyDataSetChanged();
 				viewHolder.comment_img2.setVisibility(View.VISIBLE);
-			} else {
+			}
+			else
+			{
 				viewHolder.comment_img2.setVisibility(View.GONE);
 			}
-
-			if (threadItem.getThreadLikeList().size() != 0) {
-				ArrayList<ThreadLikeModel> likeList = new ArrayList<ThreadLikeModel>();
-				likeList = threadItem.getThreadLikeList();
-
-				DuoliaoLikeAdapter duoliaoLikeAdapter = new DuoliaoLikeAdapter(
-						likeList);
-
-				viewHolder.like_listview.setAdapter(duoliaoLikeAdapter);
-				// duoliaoLikeAdapter.notifyDataSetChanged();
-				viewHolder.like_img2.setVisibility(View.VISIBLE);
-				// viewHolder.like_listview.setRotation(-90);
-
-				// int originalWidth = viewHolder.like_listview.getWidth();
-				// int originalHeight = viewHolder.like_listview.getHeight();
-				// LayoutParams params2 = (LayoutParams)
-				// viewHolder.like_listview .getLayoutParams();
-				// params2.height = originalWidth;
-				// params2.width = originalHeight;
-				// viewHolder.like_listview .setLayoutParams(params2);
-			} else {
+			
+			if(threadItem.getThreadLikeList().isEmpty())
+			{
 				viewHolder.like_img2.setVisibility(View.GONE);
-				// display liker list view
 			}
-
+			else
+			{
+				viewHolder.like_img2.setVisibility(View.VISIBLE);
+				//display liker list view
+			}
+			
 			return convertView;
 		}
 
@@ -683,10 +615,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	}
 
 	private class DuoliaoCommentAdapter extends BaseAdapter {
-
+		
 		private ArrayList<ThreadCmtModel> commentList;
-
-		public DuoliaoCommentAdapter(ArrayList<ThreadCmtModel> list) {
+		public DuoliaoCommentAdapter(ArrayList<ThreadCmtModel> list)
+		{
 			super();
 			commentList = list;
 		}
@@ -716,15 +648,14 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			viewHolder.comment_accountName
 					.setText(commentItem.getAccountName());
 			viewHolder.comment_content.setText(commentItem.getCommentContent());
-
+			
 			// change size of comment list view
-			// int commentHeight;
-			// commentHeight =
-			// viewHolder.comment_content.getHeight()+viewHolder.comment_accountName.getHeight();
-			// LayoutParams params2 = (LayoutParams) ((ListView)convertView
-			// .findViewById(R.id.comment_listview)).getLayoutParams();
-			// params2.height += commentHeight;
-			// viewHolder.comment_listview.setLayoutParams(params2);
+//			int commentHeight;
+//			commentHeight = viewHolder.comment_content.getHeight()+viewHolder.comment_accountName.getHeight();
+//			LayoutParams params2 = (LayoutParams) ((ListView)convertView
+//					.findViewById(R.id.comment_listview)).getLayoutParams();
+//			params2.height += commentHeight;
+//			viewHolder.comment_listview.setLayoutParams(params2);
 			//
 
 			return convertView;
@@ -740,63 +671,6 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		public Object getItem(int arg0) {
 			// TODO Auto-generated method stub
 			return commentList.get(arg0);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-	}
-
-	private class DuoliaoLikeAdapter extends BaseAdapter {
-
-		private ArrayList<ThreadLikeModel> likeList;
-
-		public DuoliaoLikeAdapter(ArrayList<ThreadLikeModel> list) {
-			super();
-			likeList = list;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ThreadLikeModel likeItem = (ThreadLikeModel) getItem(position);
-			ViewHolder viewHolder = null;
-			if (convertView != null) {
-				viewHolder = (ViewHolder) convertView.getTag();
-			} else {
-				viewHolder = new ViewHolder();
-				convertView = LayoutInflater
-						.from(mContext)
-						.inflate(
-								R.layout.duoliao_listview_item_like_listview_item,
-								null);
-				viewHolder.like_avatar = (ImageView) convertView
-						.findViewById(R.id.avatar);
-				// viewHolder.like_avatar.setRotation(90);
-				// LayoutParams params =
-				// (LayoutParams)viewHolder.like_avatar.getLayoutParams();
-
-				// viewHolder.like_avatar.setLayoutParams(params); //causes
-				// layout update
-				convertView.setTag(viewHolder);
-
-			}
-			imageLoader.displayImage(likeItem.getImage(),
-					viewHolder.like_avatar, otp);
-			return convertView;
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return likeList.size();
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return likeList.get(arg0);
 		}
 
 		@Override
@@ -822,11 +696,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		ImageView comment_avatar;
 		TextView comment_accountName;
 		TextView comment_content;
-		HorizontalListView like_listview;
-		ImageView like_avatar;
 		ImageView comment_img1;
 		ImageView comment_img2;
 		ImageView like_img1;
 		ImageView like_img2;
+		
 	}
 }

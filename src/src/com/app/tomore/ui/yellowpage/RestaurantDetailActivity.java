@@ -415,15 +415,7 @@ public class RestaurantDetailActivity extends Activity{
 	            ImageView imageView = viewCache.getImageView();  
 	            imageView.setTag(imageUrl);  
 	           
-	            /*ImageLoader.getInstance().loadImage(imageUrl, new SimpleImageLoadingListener() {
-	                @Override
-	                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-	                	ImageView imageViewByTag = (ImageView) gridView.findViewWithTag(imageUrl);  
-	                    if (imageViewByTag != null) {  
-	                        imageViewByTag.setImageBitmap(loadedImage); 
-	                    }  
-	                }
-	            }); */
+
 	            
 	            ImageLoader.getInstance().displayImage(imageUrl,
 	            		imageView);

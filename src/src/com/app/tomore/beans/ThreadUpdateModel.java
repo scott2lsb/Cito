@@ -13,6 +13,7 @@ public class ThreadUpdateModel  implements Serializable{
 	private ArrayList<ThreadCmtModel> commentList;
 	private ArrayList<ThreadUpdateLikeModel> likeList;
 	private ArrayList<UpdateFollowedModel> listModel;
+	private int newCommentNum;
 	
 	public ArrayList<UpdateFollowedModel> getListModel() {
 		return listModel;
@@ -33,5 +34,12 @@ public class ThreadUpdateModel  implements Serializable{
 	public void setLikeList(ArrayList<ThreadUpdateLikeModel> likeList) {
 		this.likeList = likeList;
 	}
+	public int getNewCommentNum() {
+		return newCommentNum;
+	}
+	public void setNewCommentNum(int newCommentNum) {
+		this.newCommentNum = newCommentNum;
+	}
+
 
 }

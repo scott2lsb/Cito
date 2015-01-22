@@ -1,7 +1,9 @@
 package com.app.tomore.ui.threads;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
@@ -17,6 +19,7 @@ import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
 import com.app.tomore.beans.EventsModel;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -85,6 +88,10 @@ public class EventListActivity extends Activity {
 					finish();
 				}
 			});
+			
+			TextView titleTextView = (TextView) rl.findViewById(R.id.btBlocked);
+			titleTextView.setText("活动列表");
+			new GetData(EventListActivity.this, 1).execute("");
 	}
 
 	private void BindDataToListView() {
@@ -201,10 +208,10 @@ public class EventListActivity extends Activity {
 				return;
 			}
 
-//			Intent intent = new Intent(MainMagActivity.this,
-//					MagDetailActivity.class);
-//			intent.putExtra("articleList", (Serializable) obj);
-//			startActivity(intent);
+			Intent intent = new Intent(EventListActivity.this,
+					EventDetailsActivity.class);
+			intent.putExtra("memberList", (Serializable) obj);
+			startActivity(intent);
 		}
 	};
 	
@@ -273,7 +280,7 @@ public class EventListActivity extends Activity {
 			final String content = eventModel.getEventName();
 			final String time =  eventModel.getStartTime();
 			final String imageUrl = eventModel.getEventImage();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.comment_list_item, null);      
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.event_list_item, null);      
 			viewHolder.textViewTitle = (TextView) convertView
 					.findViewById(R.id.speakerName);
 			viewHolder.textViewTitle.setText(speakerName);

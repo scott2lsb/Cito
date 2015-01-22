@@ -1,6 +1,8 @@
 package com.app.tomore.beans;
 
-public class EventMemberModel {
+import java.io.Serializable;
+
+public class EventMemberModel  implements Serializable {
 
 	private String memberID;
 	private String image;

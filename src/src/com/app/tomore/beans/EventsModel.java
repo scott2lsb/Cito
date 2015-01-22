@@ -1,7 +1,9 @@
 package com.app.tomore.beans;
 
+import java.io.Serializable;
 
-public class EventsModel {
+
+public class EventsModel  implements Serializable{
 
 	public String getEventID() {
 		return EventID;
