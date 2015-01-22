@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+
 import android.util.DisplayMetrics; 
 
 import com.app.tomore.MyCameraActivity;
@@ -15,6 +16,7 @@ import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
+import com.app.tomore.net.UserCenterRequest;
 import com.google.gson.JsonSyntaxException;
 
 import android.app.Activity;
@@ -47,20 +49,31 @@ public class MyThreadActivity extends Activity {
 	ThreadImageModel ThreadImageitem;
 	private ListView listView;
 	private DisplayMetrics dm = new DisplayMetrics();  
+	private View layout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_thread);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		Intent intent = getIntent();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
 		listView  = (ListView) findViewById(R.id.mythreadactivity_listview);
 		mContext = this;
-		new GetData(MyThreadActivity.this, 1).execute("");
+		layout = findViewById(R.id.thread_my_activity_layout);
+		TextView header_Text = (TextView) layout.findViewById(R.id.btMeg);
+		header_Text.setText(getString(R.string.Mypost));
+		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_bl_go_back);
+
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+		new GetData(MyThreadActivity.this, 1,"0").execute("");
 
 		
 	}
@@ -68,14 +81,16 @@ public class MyThreadActivity extends Activity {
 	private class GetData extends AsyncTask<String, String, String>{
 		
 		private int mType;
-		private GetData(Context context, int type) {
+		private String ThreadID;
+		private GetData(Context context, int type, String threadid) {
 			// this.mContext = context;
 			this.mType = type;
+			this.ThreadID = threadid;
 			dialog = new DialogActivity(context, type);
 		}
 		@Override
 		protected void onPreExecute() {
-			if (mType == 1) {
+			if (mType == 1 || mType ==2) {
 				if (null != dialog && !dialog.isShowing()) {
 					dialog.show();
 				}
@@ -87,21 +102,35 @@ public class MyThreadActivity extends Activity {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			String result = null;
-			String result1 =null;
-			ThreadsRequest request = new ThreadsRequest(MyThreadActivity.this);
-			try {
-				int page =1;
-				int limit=1000;
-				int memberID=25;
-				Log.d("doInBackground", "start request");
-				result = request.getThreadListByMemberID(limit, page, memberID);
-				Log.d("doInBackground", "returned");
-			}catch (IOException e) {
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				e.printStackTrace();
+			if (mType == 1){
+				ThreadsRequest request = new ThreadsRequest(MyThreadActivity.this);
+				try {
+					int page =1;
+					int limit=1000;
+					int memberID=25;
+					Log.d("doInBackground", "start request");
+					result = request.getThreadListByMemberID(limit, page, memberID);
+					Log.d("doInBackground", "returned");
+				}catch (IOException e) {
+					e.printStackTrace();
+				} catch (TimeoutException e) {
+					e.printStackTrace();
+				}
+				return result;
 			}
-			return result;
+			else{
+				UserCenterRequest request = new UserCenterRequest(MyThreadActivity.this);
+				try {
+					Log.d("doInBackground", "start request");
+					result = request.deleteUserThread("1",ThreadID);
+					Log.d("doInBackground", "returned");
+				}catch (IOException e) {
+					e.printStackTrace();
+				} catch (TimeoutException e) {
+					e.printStackTrace();
+				}
+				return result;
+			}
 		}
 		@Override
 		protected void onPostExecute(String result) {
@@ -135,7 +164,6 @@ public class MyThreadActivity extends Activity {
 	private void BindDataToListView() {
 		
 		MyThreadAdapter newsListAdapter = new MyThreadAdapter(mContext, dm.widthPixels);
-		//dm.widthPixels
 		listView.setAdapter(newsListAdapter);
 	
 	}
@@ -184,8 +212,12 @@ public class MyThreadActivity extends Activity {
 		        switch (v.getId())  
 		        {  
 		            case R.id.button1:  
-		  
-		                //colors.add(R.color.blue);  
+		            	
+		            	ThreadModel newthreadmodel = (ThreadModel) getItem(position);
+		            	//new GetData(MyThreadActivity.this, 1,newthreadmodel.getThreadID()).execute("");
+		            	threadmodel.remove(position);    
+	                    notifyDataSetChanged();    
+
 		                break;  
 		  
 		  
@@ -291,7 +323,11 @@ public class MyThreadActivity extends Activity {
 
 			ImageLoader.getInstance().displayImage(ThreadItem.getThreadImageList().get(0).getImageUrl(),
 					viewHolder.ThreadImage,otp);
-			viewHolder.ThreadContent.setText(ThreadItem.getThreadContent());
+			String Content = ThreadItem.getThreadContent();
+			if(Content.length() > 25){
+				Content = Content.substring(0, 23) + "..."; 
+			}
+			viewHolder.ThreadContent.setText(Content);
 			viewHolder.TimeDiff.setText(ThreadItem.getTimeDiff());
 			return convertView;
 		}

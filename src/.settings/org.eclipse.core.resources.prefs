@@ -1,8 +1,10 @@
 eclipse.preferences.version=1
+encoding//res/layout/thread_myactivity.xml=UTF-8
 encoding//src/com/app/tomore/MainActivity.java=UTF-8
 encoding//src/com/app/tomore/MySurfaceView.java=UTF-8
 encoding//src/com/app/tomore/ui/member/MemberAddActivity.java=UTF-8
 encoding//src/com/app/tomore/ui/member/MemberDetailActivity.java=UTF-8
+encoding//src/com/app/tomore/ui/threads/MyThreadActivity.java=UTF-8
 encoding//src/com/app/tomore/ui/usercenter/LoginActivity.java=UTF-8
 encoding//src/com/app/tomore/ui/usercenter/MainBlockedActivity.java=UTF-8
 encoding//src/com/app/tomore/ui/usercenter/MainFansActivity.java=UTF-8

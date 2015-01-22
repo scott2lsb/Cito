@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/include1"
-        layout="@layout/bar_title_general_bl_detail"
+        layout="@layout/bar_title_bianli"
         android:focusable="true" />
 
     <RelativeLayout
