@@ -1,8 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/bar_title_league"
+        layout="@layout/bar_title_league"
+        android:focusable="true" />
 
     <GridView
         android:id="@+id/gridView1"
@@ -27,4 +33,4 @@
 
     <include layout="@layout/no_net_layout" />
 
-</RelativeLayout>
+</LinearLayout>

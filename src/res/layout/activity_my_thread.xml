@@ -6,24 +6,19 @@
     android:background="#FFFFFF"
     tools:context=".MyThreadActivity" >
 
-      <LinearLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-		
+        <ListView
+            android:id="@+id/mythreadactivity_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#e0e0e0"
+            android:dividerHeight="1dip" >
+        </ListView>
+    </LinearLayout>
 
-		<ListView
-		    
-		    android:id="@+id/mythreadactivity_listview"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:divider="#e0e0e0"
-		    android:dividerHeight="1dip">
-		</ListView>
-		
-		
-
-	</LinearLayout>
 </RelativeLayout>
