@@ -130,7 +130,7 @@
              android:background="#000000" />
          
          <Button
-             android:id="@+id/btnFollows"
+             android:id="@+id/btnFollowing"
              android:layout_width="60dp"
              android:layout_height="60dp"
              android:layout_alignLeft="@+id/lnPosts"
@@ -149,7 +149,7 @@
              android:background="#000000" />
          
          <Button
-             android:id="@+id/btnFans"
+             android:id="@+id/btnFollowed"
              android:layout_width="60dp"
              android:layout_height="60dp"
              android:layout_alignLeft="@+id/lnFollows"
