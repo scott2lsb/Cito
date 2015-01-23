@@ -127,7 +127,7 @@ public class MainFollowingActivity extends Activity {
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
 			try {
-				result = request.getFollowingRequest("25", "34", sLimite, sPageNumber);
+				result = request.getFollowingRequest("116", "34", sLimite, sPageNumber);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

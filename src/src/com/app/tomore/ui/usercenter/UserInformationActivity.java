@@ -12,6 +12,7 @@ import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.usercenter.MainFansActivity.ViewHolder;
 import com.app.tomore.utils.SpUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -42,6 +43,12 @@ public class UserInformationActivity extends Activity {
 	private UserModel userInformation;
 	private TextView userSchool;
 	private TextView userName;
+	private ImageView profileImage;
+	private ImageView userGender;
+	private Button btnFollowOrUnfollow;
+	private Button btnPosts;
+	private Button btnFollowing;
+	private Button btnFollowed;
 	private ArrayList<ThreadModel> threadList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
@@ -54,6 +61,12 @@ public class UserInformationActivity extends Activity {
 		thisUserId = getIntent().getStringExtra("memberId");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
+		profileImage = (ImageView) findViewById(R.id.ivProfileImage);
+		userGender = (ImageView)findViewById(R.id.ivUserGender);
+		btnFollowOrUnfollow = (Button)findViewById(R.id.btnFollow);
+		btnPosts = (Button)findViewById(R.id.btnPosts);
+		btnFollowing = (Button)findViewById(R.id.btnFollowing);
+		btnFollowed = (Button)findViewById(R.id.btnFollowed);
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
@@ -264,8 +277,24 @@ public class UserInformationActivity extends Activity {
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
 						userInformation = userModelList.get(0);
+//						userGender = userInformation.getGender();
+						
+						ImageLoader.getInstance().displayImage(userInformation.getProfileImage(), profileImage, otp);
+						if(userInformation.getGender().equals("Male")){
+							ImageLoader.getInstance().displayImage("@drawable/male_icon.png", userGender, otp);							
+						} else if(userInformation.getGender().equals("Female")){
+							ImageLoader.getInstance().displayImage("@drawable/fmale_icon.png", userGender, otp);							
+						}
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
+						if(userInformation.getStatus().equalsIgnoreCase("0")){
+							btnFollowOrUnfollow.setText("+关注");
+						} else if(userInformation.getStatus().equalsIgnoreCase("1")){
+							btnFollowOrUnfollow.setText("取消关注");
+						}
+						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
+						btnFollowing.setText("关注\n" + userInformation.getFollowingNum());
+						btnFollowed.setText("粉丝\n" + userInformation.getFollowedNum());
 					}
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();

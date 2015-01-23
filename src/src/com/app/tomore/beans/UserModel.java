@@ -87,6 +87,27 @@ public class UserModel implements Serializable {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public String getTotalThread() {
+		return totalThread;
+	}
+	public void setTotalThread(String totalThread) {
+		this.totalThread = totalThread;
+	}
+	
+	public String getFollowingNum() {
+		return followingNum;
+	}
+	public void setFollowingNum(String followingNum) {
+		this.followingNum = followingNum;
+	}
+
+	public String getFollowedNum() {
+		return followedNum;
+	}
+	public void setFollowedNum(String followedNum) {
+		this.followedNum = followedNum;
+	}
+
 	private String memberID;
 	 private String school;
 	 private String major;
@@ -101,6 +122,9 @@ public class UserModel implements Serializable {
 	private String phone;
 	private String role;
 	private String gender;
+	private String totalThread;
+	private String followingNum;
+	private String followedNum;	
     	 
 }
 
