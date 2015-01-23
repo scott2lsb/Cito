@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import java.awt.*;
 
 import com.app.tomore.MyCameraActivity;
 import com.app.tomore.R;
@@ -30,6 +31,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -147,20 +150,20 @@ private class GetData extends AsyncTask<String, String, String>{
           int q;
           String information = getString(R.string.Likeinfo);
           String information1 = getString(R.string.Commentinfo);
-
-     
+          Drawable drawable = this.getResources().getDrawable(R.drawable.likednew);
     	  for(ThreadUpdateModel c: threadupdatemodel)
     	  {  
     		     q = c.getLikeList().size();
         	     for (int i =0;i<q;){
-        	    	  imageAndTexts.add(new ImageAndText(c.getLikeList().get(i).getImage(), c.getLikeList().get(i).getAccountName(), information));
+        	    	  imageAndTexts.add(new ImageAndText(c.getLikeList().get(i).getImage(), c.getLikeList().get(i).getAccountName(), information,drawable));
     	    		  i++;
         	     }
     		  
     		  p = c.getCommentList().size();
     	     for (int i =0;i<p;){
-    		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent(), information1));
+    		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent(), information1,null));
     		  i++;
+    	
     	     }
     
     	     
@@ -180,10 +183,13 @@ private class GetData extends AsyncTask<String, String, String>{
 	 private String imageUrl;          
 	    private String text;   
 	    private String text1;
-	        public ImageAndText(String imageUrl, String text,String text1) {  
+	    private Drawable image1;
+	    
+	        public ImageAndText(String imageUrl, String text,String text1, Drawable image1) {  
 	            this.imageUrl = imageUrl;  
 	            this.text = text;  
 	            this.text1 = text1;
+	            this.image1=image1;
 	       }  
 	        public String getImageUrl() {  
 	            return imageUrl;  
@@ -195,6 +201,9 @@ private class GetData extends AsyncTask<String, String, String>{
 	       public String getText1() {  
 	           return text1;  
 	        }  
+	       public Drawable getImage1(){
+	    	   return image1;
+	       }
 	}
   	public class MyReplyAdapter extends ArrayAdapter<ImageAndText>{
   		   
@@ -224,6 +233,11 @@ private class GetData extends AsyncTask<String, String, String>{
             imageView.setTag(imageUrl);  
             ImageLoader.getInstance().displayImage(imageUrl,
             		imageView);
+
+            final Drawable drawable= imageAndText.getImage1();
+            ImageView imageView1 = viewCache.getImageView1();  
+            imageView1.setImageDrawable(drawable);
+
             // Set the text on the TextView  
             TextView textView = viewCache.getTextView();  
             textView.setText(imageAndText.getText());  
@@ -239,6 +253,8 @@ private class GetData extends AsyncTask<String, String, String>{
 	    private TextView textView;
 	    private ImageView imageView;
 	    private TextView textView1;
+	    private ImageView imageView1;
+
 
 	    public ListViewCache(View baseView) {
 	        this.baseView = baseView;
@@ -263,6 +279,13 @@ private class GetData extends AsyncTask<String, String, String>{
 	            imageView = (ImageView) baseView.findViewById(R.id.Myreplymemberimage);
 	        }
 	        return imageView;
+	    }
+	    public ImageView getImageView1(){
+	    	 if (imageView1 == null) {
+		            imageView1 = (ImageView) baseView.findViewById(R.id.heart);
+		        }
+		        return imageView1;
+	    	
 	    }
 
 }
