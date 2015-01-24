@@ -51,6 +51,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import com.app.tomore.utils.SpUtils;
 
 public class MainFansActivity extends Activity {
 
@@ -72,12 +73,21 @@ public class MainFansActivity extends Activity {
 	private View layout;
 	private Bitmap bitmap;
 	private Button btnFollow;
+	private String memberID;
+	private String viewerID;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_fans);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+		viewerID = SpUtils.getUserId(MainFansActivity.this);
+		Intent intent = getIntent();
+		try{
+			memberID = intent.getStringExtra("memberID");
+		} catch(Exception e){
+			memberID = viewerID;
+		}
 		mContext = this;
 		limit = 20;
 		pageNumber = 1;
@@ -132,7 +142,7 @@ public class MainFansActivity extends Activity {
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
 			try {
-				result = request.getFansRequest("25", "25", sLimite, sPageNumber);
+				result = request.getFansRequest(memberID, viewerID, sLimite, sPageNumber);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -303,7 +313,7 @@ public class MainFansActivity extends Activity {
 					followOrUnfollow = "0";
 				}
 				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest(viewerID, memberID, followOrUnfollow);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {

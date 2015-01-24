@@ -14,6 +14,7 @@ import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.usercenter.MainFansActivity.ViewHolder;
 import com.app.tomore.utils.SpUtils;
+import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,11 +32,14 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
 
 public class UserInformationActivity extends Activity {
 	private DialogActivity dialog;
+	private Activity mContext;
+	private String followOrUnfollowModelList;
 	private String userThreadString = null;
 	private String userInforstring = null;
 	private String logindInUserId = null;
@@ -52,12 +56,15 @@ public class UserInformationActivity extends Activity {
 	private ArrayList<ThreadModel> threadList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
+	private String memberID; // not Initialized yet!!!
+	private String viewerID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_infomation);
 		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
+		viewerID = SpUtils.getUserId(UserInformationActivity.this);
 		thisUserId = getIntent().getStringExtra("memberId");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
@@ -82,6 +89,14 @@ public class UserInformationActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				finish();
+			}
+		});
+		
+		btnFollowOrUnfollow.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				new MyFollowOrUnfollow(UserInformationActivity.this, 1).execute("");
 			}
 		});
 		new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
@@ -306,4 +321,74 @@ public class UserInformationActivity extends Activity {
 		}
 	}
 
+	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
+		private int mType;
+
+		private MyFollowOrUnfollow(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(UserInformationActivity.this);
+			try {
+				String followOrUnfollow = "1";
+				if(params[0].equals("0")){
+					followOrUnfollow = "1";
+				}else if(params[0].equals("1")){
+					followOrUnfollow = "0";
+				}
+				System.out.println("followRequest: " + followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest(viewerID, memberID, followOrUnfollow);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			
+			return result;			
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(followOrUnfollowModelList!=null && !followOrUnfollowModelList.equals(""))
+				{
+					followOrUnfollowModelList = new String();
+//					Toast.makeText(getApplicationContext(), "操作失败", 1).show();
+				}
+				else
+					followOrUnfollowModelList = new String();
+				try {
+						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
+						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
+						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+						}
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+	}
 }
