@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 public class UserInformationActivity extends Activity {
 	private DialogActivity dialog;
@@ -100,6 +101,39 @@ public class UserInformationActivity extends Activity {
 			}
 		});
 		new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
+		
+		btnPosts.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFansActivity.class); // should start activity: user posts
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
+		
+		btnFollowing.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFollowingActivity.class); 
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
+		
+		btnFollowed.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFansActivity.class); 
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
 	}
 
 	private class GetUserThreadList extends AsyncTask<String, String, String> {
