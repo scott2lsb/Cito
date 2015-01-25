@@ -66,7 +66,7 @@ public class UserInformationActivity extends Activity {
 		setContentView(R.layout.activity_user_infomation);
 		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
 		viewerID = SpUtils.getUserId(UserInformationActivity.this);
-		thisUserId = getIntent().getStringExtra("memberId");
+		thisUserId = getIntent().getStringExtra("memberID");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
 		profileImage = (ImageView) findViewById(R.id.ivProfileImage);

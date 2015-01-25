@@ -87,8 +87,6 @@ public class MainFansActivity extends Activity {
 		if(memberID == null){
 			memberID = viewerID;
 		}		
-		System.out.println("viewerID: " + viewerID);
-		System.out.println("memberID: " + memberID);
 		mContext = this;
 		limit = 20;
 		pageNumber = 1;
@@ -104,7 +102,6 @@ public class MainFansActivity extends Activity {
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
 		TextView header_Text = (TextView) layout.findViewById(R.id.btFans);
-//		header_Text.setText(name);
 		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_fans_go_back);
 
 		btnBack.setOnClickListener(new View.OnClickListener() {
@@ -255,8 +252,7 @@ public class MainFansActivity extends Activity {
 				viewHolder.AccountName = (TextView) convertView.findViewById(R.id.AccountName);
 				btnFollow = (Button) convertView.findViewById(R.id.Followed);
 				convertView.setTag(viewHolder);
-			}
-			
+			}			
 			String follow = "";
 			if(fansText.getFollowed().equals("0")){
 				follow = "+关注";
@@ -265,6 +261,17 @@ public class MainFansActivity extends Activity {
 			}			
 			ImageLoader.getInstance().displayImage(fansText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(fansText.getAccountName());
+			viewHolder.MemberImage.setTag(fansText.getMemberID());
+			viewHolder.MemberImage.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					String viewMemberID = (String)v.getTag();
+					Intent intent = new Intent(getApplicationContext(),
+							UserInformationActivity.class);
+					intent.putExtra("memberID", viewMemberID);
+					startActivity(intent);					
+				}
+			});
 			btnFollow.setText(follow);
 			btnFollow.setTag(fansText.getMemberID());
 			btnFollow.setOnClickListener(new View.OnClickListener() {
@@ -282,8 +289,7 @@ public class MainFansActivity extends Activity {
 		ImageView MemberImage;
 	    TextView AccountName;
 	    Button Followed;
-	}
-	
+	}	
 	
 	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
 		private int mType;
@@ -316,9 +322,6 @@ public class MainFansActivity extends Activity {
 				}else if(params[0].equals("1")){
 					followOrUnfollow = "0";
 				}
-				System.out.println("followRequest: " + followOrUnfollow);
-				System.out.println("viewerID: " + viewerID);
-				System.out.println("followOrUnfollowMemberID: " + followOrUnfollowMemberID);
 				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, followOrUnfollow);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -352,7 +355,7 @@ public class MainFansActivity extends Activity {
 //						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
 //							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
 //						}
-						mListView.setOnRefreshListener(onRefreshListener);
+//						mListView.setOnRefreshListener(onRefreshListener);
 						new MyFans(MainFansActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
