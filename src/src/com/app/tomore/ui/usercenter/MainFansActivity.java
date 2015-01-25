@@ -83,11 +83,12 @@ public class MainFansActivity extends Activity {
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		viewerID = SpUtils.getUserId(MainFansActivity.this);
 		Intent intent = getIntent();
-		try{
-			memberID = intent.getStringExtra("memberID");
-		} catch(Exception e){
+		memberID = intent.getStringExtra("memberID");
+		if(memberID == null){
 			memberID = viewerID;
-		}
+		}		
+		System.out.println("viewerID: " + viewerID);
+		System.out.println("memberID: " + memberID);
 		mContext = this;
 		limit = 20;
 		pageNumber = 1;
@@ -261,14 +262,16 @@ public class MainFansActivity extends Activity {
 				follow = "+关注";
 			} else if(fansText.getFollowed().equals("1")){
 				follow = "取消关注";
-			}
+			}			
 			ImageLoader.getInstance().displayImage(fansText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(fansText.getAccountName());
 			btnFollow.setText(follow);
+			btnFollow.setTag(fansText.getMemberID());
 			btnFollow.setOnClickListener(new View.OnClickListener() {
 			    @Override
 			    public void onClick(View v) {
-			    	new MyFollowOrUnfollow(MainFansActivity.this, 1).execute(fansText.getFollowed());
+			    	String followOrUnfollowMemberID = (String)v.getTag();
+			    	new MyFollowOrUnfollow(MainFansActivity.this, 1).execute(fansText.getFollowed(), followOrUnfollowMemberID);
 			    }
 			});
 			return convertView;
@@ -305,6 +308,7 @@ public class MainFansActivity extends Activity {
 		protected String doInBackground(String... params) {
 			String result = null;
 			UserCenterRequest request = new UserCenterRequest(MainFansActivity.this);
+			String followOrUnfollowMemberID = params[1];
 			try {
 				String followOrUnfollow = "1";
 				if(params[0].equals("0")){
@@ -313,7 +317,9 @@ public class MainFansActivity extends Activity {
 					followOrUnfollow = "0";
 				}
 				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest(viewerID, memberID, followOrUnfollow);
+				System.out.println("viewerID: " + viewerID);
+				System.out.println("followOrUnfollowMemberID: " + followOrUnfollowMemberID);
+				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, followOrUnfollow);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -341,11 +347,11 @@ public class MainFansActivity extends Activity {
 				try {
 						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
 						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
-						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
-						}
+//						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+//						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+//						}
 						mListView.setOnRefreshListener(onRefreshListener);
 						new MyFans(MainFansActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {
@@ -408,5 +414,13 @@ public class MainFansActivity extends Activity {
 				null); // Should open fans detail activity
 		intent.putExtra("FansData", (Serializable)fansList.get(position));
 		startActivityForResult(intent, 100);
+	}
+	
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		String viewMemberID = (String)fansListAdapter.getItem(position);
+		Intent intent = new Intent(getApplicationContext(),
+				UserInformationActivity.class);
+		intent.putExtra("memberID", viewMemberID);
+		startActivity(intent);
 	}
 }
