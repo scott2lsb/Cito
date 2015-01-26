@@ -59,6 +59,7 @@ public class UserInformationActivity extends Activity {
 	private GridView gridView;
 	private String memberID; // not Initialized yet!!!
 	private String viewerID;
+	private String followed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class UserInformationActivity extends Activity {
 		setContentView(R.layout.activity_user_infomation);
 		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
 		viewerID = SpUtils.getUserId(UserInformationActivity.this);
+		memberID = getIntent().getStringExtra("memberID");
+		followed = getIntent().getStringExtra("followed");
 		thisUserId = getIntent().getStringExtra("memberID");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
@@ -336,9 +339,9 @@ public class UserInformationActivity extends Activity {
 						}
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
-						if(userInformation.getStatus().equalsIgnoreCase("0")){
+						if(followed.equalsIgnoreCase("0")){
 							btnFollowOrUnfollow.setText("+关注");
-						} else if(userInformation.getStatus().equalsIgnoreCase("1")){
+						} else if(followed.equalsIgnoreCase("1")){
 							btnFollowOrUnfollow.setText("取消关注");
 						}
 						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
