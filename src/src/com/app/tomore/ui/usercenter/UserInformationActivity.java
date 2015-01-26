@@ -36,6 +36,7 @@ import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 
 public class UserInformationActivity extends Activity {
 	private DialogActivity dialog;
@@ -166,7 +167,7 @@ public class UserInformationActivity extends Activity {
 			try {
 				Log.d("doInBackground", "start request");
 				result = request.getThreadListByMemberID(100, 1,
-						Integer.parseInt(logindInUserId));
+						Integer.parseInt(memberID));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -328,15 +329,14 @@ public class UserInformationActivity extends Activity {
 							.getMemberInfoByMemberIDParse(result);
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
-						userInformation = userModelList.get(0);
-//						userGender = userInformation.getGender();
-						
+						userInformation = userModelList.get(0);						
 						ImageLoader.getInstance().displayImage(userInformation.getProfileImage(), profileImage, otp);
 						if(userInformation.getGender().equals("Male")){
-							ImageLoader.getInstance().displayImage("@drawable/male_icon.png", userGender, otp);							
+							userGender.setImageResource(R.drawable.male_icon);					
 						} else if(userInformation.getGender().equals("Female")){
-							ImageLoader.getInstance().displayImage("@drawable/fmale_icon.png", userGender, otp);							
+							userGender.setImageResource(R.drawable.female_icon);						
 						}
+
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
 						if(followed.equalsIgnoreCase("0")){
