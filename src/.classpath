@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="libs/umeng_social_sdk.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="D:/jar/CreativeCloud.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

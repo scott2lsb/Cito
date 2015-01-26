@@ -38,7 +38,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="com.app.tomore.permission.MAPS_RECEIVE" />
-
+	<uses-permission android:name="android.permission.VIBRATE" />
     <permission
         android:name="com.app.tomore.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -54,6 +54,12 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBRWo1RsDe8BlIIluRr4XgEupl7iH9wVI" />
+        
+      <provider
+		android:name="com.aviary.android.feather.sdk.internal.cds.AviaryCdsProvider"
+		android:authorities="com.app.tomore.AviaryCdsProvider"
+		android:exported="false"
+		android:process=":aviary_cds" />
 
         <activity
             android:name=".MainActivity"
