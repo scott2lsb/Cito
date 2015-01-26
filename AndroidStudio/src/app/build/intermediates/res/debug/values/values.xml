@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string-array name="schoolArray">
+        <item>Brock University</item>
+        <item>Carleton University</item>
+        <item>College Dominicain</item>
+        <item>College of New Caledonia</item>
+        <item>Charles Sturt University</item>
+        <item>Dominican University College</item>
+        <item>Lakehead University</item>
+        <item>Laurentian University</item>
+        <item>Algoma University College</item>
+        <item>Huntington University</item>
+        <item>Thorneloe University</item>
+        <item>Université de Hearst</item>
+        <item>University of Sudbury</item>
+        <item>McMaster University</item>
+        <item>Nipissing University</item>
+        <item>Ontario College of Art and Design</item>
+        <item>Royal Military College of Canada</item>
+        <item>Ryerson University</item>
+        <item>Trent University</item>
+        <item>University of Guelph</item>
+        <item>University of Guelph</item>
+        <item>University of Ontario Institute of Technology</item>
+        <item>University of Ottawa</item>
+        <item>Saint Paul University</item>
+        <item>University of Toronto</item>
+        <item>U of T at Mississauga</item>
+        <item>U of T at Scarborough</item>
+        <item>Ontario Institute for Studies in Education</item>
+        <item>Trinity College</item>
+        <item>Victoria University</item>
+        <item>University of Waterloo</item>
+        <item>University of Western Ontario</item>
+        <item>Brescia College</item>
+        <item>Huron College</item>
+        <item>University of Windsor</item>
+        <item>Assumption University</item>
+        <item>Wilfrid Laurier University</item>
+        <item>Waterloo Lutheran Seminary</item>
+        <item>York University</item>
+        <item>Glendon College</item>
+        <item>其它</item>
+    </string-array>
+    <color name="black">#000000</color>
+    <color name="grey">#ffffff</color>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="light">#929292</color>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <color name="login_background_color">#3191dd</color>
+    <color name="login_button_color">#0b52c4</color>
+    <color name="register_background_color">#f7f7f7</color>
+    <color name="register_button_color">#5191ff</color>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="title_bar_bg">#180d00</color>
+    <color name="umeng_comm_lv_header_color1">#33b5e5</color>
+    <color name="umeng_comm_lv_header_color2">#ff4444</color>
+    <color name="umeng_comm_lv_header_color3">#99cc00</color>
+    <color name="umeng_comm_lv_header_color4">#ffbb33</color>
+    <color name="white">#ffffff</color>
+    <declare-styleable name="CircleProgressView"><attr format="color" name="circleColor"/><attr format="color" name="barColor"/><attr format="dimension" name="barLengthRatio"/><attr format="dimension" name="padding"/></declare-styleable>
+    <declare-styleable name="PullToRefresh"><attr format="reference|color" name="kalaAdapterViewBackground"/><attr format="reference|color" name="kalaHeaderBackground"/><attr format="reference|color" name="kalaHeaderTextColor"/><attr format="reference|color" name="kalaHeaderSubTextColor"/><attr format="dimension" name="kalaHeaderTextSize"/><attr format="dimension" name="kalaHeaderSubTextSize"/><attr name="kalaMode"><flag name="disabled" value="0x0"/><flag name="pullDownFromTop" value="0x1"/><flag name="pullUpFromBottom" value="0x2"/><flag name="both" value="0x3"/></attr><attr format="reference|boolean" name="kalaShowIndicator"/><attr format="reference" name="kalaDrawable"/><attr format="reference" name="kalaDrawableTop"/><attr format="reference" name="kalaTopProgress"/><attr format="reference|color" name="kalaTopDiviverBackground"/><attr format="reference" name="kalaDrawableBottom"/><attr format="reference|boolean" name="kalaOverScroll"/><attr format="reference" name="kalaHeaderTextAppearance"/><attr format="reference" name="kalaSubHeaderTextAppearance"/><attr name="kalaSubHeaderTextType"><flag name="format" value="0x0"/><flag name="format1" value="0x1"/></attr><attr name="kalaAnimationStyle"><flag name="rotate" value="0x0"/><flag name="flip" value="0x1"/></attr></declare-styleable>
+    <declare-styleable name="SlidingMenu"><attr name="mode"><enum name="left" value="0"/><enum name="right" value="1"/></attr><attr format="reference" name="viewAbove"/><attr format="reference" name="viewBehind"/><attr format="dimension" name="behindOffset"/><attr format="dimension" name="behindWidth"/><attr format="float" name="behindScrollScale"/><attr name="touchModeAbove"><enum name="margin" value="0"/><enum name="fullscreen" value="1"/></attr><attr name="touchModeBehind"><enum name="margin" value="0"/><enum name="fullscreen" value="1"/></attr><attr format="reference" name="shadowDrawable"/><attr format="dimension" name="shadowWidth"/><attr format="boolean" name="fadeEnabled"/><attr format="float" name="fadeDegree"/><attr format="boolean" name="selectorEnabled"/><attr format="reference" name="selectorDrawable"/></declare-styleable>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="header_footer_bottom_padding">0dp</dimen>
+    <dimen name="header_footer_internal_padding">20dp</dimen>
+    <dimen name="header_footer_internal_padding_left">58dp</dimen>
+    <dimen name="header_footer_left_right_padding">0dp</dimen>
+    <dimen name="header_footer_top_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="list_event_item_liveing_flag_marginLeft">9.8dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">5dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="tab_height">47dp</dimen>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="AboutUsVersion">关于：Version 1.10</string>
+    <string name="Call">Call</string>
+    <string name="Cancel">取消</string>
+    <string name="ChangeAvatar">更改头像</string>
+    <string name="Commentinfo">你的帖子收到回复</string>
+    <string name="CopyRight">版权 © Eastcoast Investing Group Inc. 保留所有权利</string>
+    <string name="CustomMade">定制</string>
+    <string name="FromAlbum">手机相册</string>
+    <string name="Likeinfo">赞了你的帖子</string>
+    <string name="MyReply">我的回复</string>
+    <string name="Mypost">我的帖子</string>
+    <string name="Order">Order</string>
+    <string name="Phone">电话</string>
+    <string name="PhoneCall">呼叫</string>
+    <string name="RestaurantsList">餐馆列表</string>
+    <string name="TakePhoto">手机拍照</string>
+    <string name="action_settings">Settings</string>
+    <string name="addressinfo">地址信息</string>
+    <string name="agreement">隐私协议和服务条款</string>
+    <string name="app_name">ToMore</string>
+    <string name="back">返回</string>
+    <string name="bar_title_add">添加</string>
+    <string name="bar_title_bianli">便利</string>
+    <string name="bar_title_blocked">黑名单</string>
+    <string name="bar_title_bt_duoliao">多聊</string>
+    <string name="bar_title_bt_duoyao">多摇</string>
+    <string name="bar_title_fans">粉丝</string>
+    <string name="bar_title_following">关注</string>
+    <string name="bar_title_generalBL_detail">信息详情</string>
+    <string name="bar_title_meg">杂志</string>
+    <string name="bar_title_member">会员卡</string>
+    <string name="bar_title_member_add">添加卡片</string>
+    <string name="bar_title_member_back">会员卡</string>
+    <string name="bar_title_member_detail">我的卡片</string>
+    <string name="bar_title_threadDetails">帖子详情</string>
+    <string name="cancel">Cancel</string>
+    <string name="cantonese">粤</string>
+    <string name="choose_platform">选择同时分享到平台：</string>
+    <string name="comment">评论</string>
+    <string name="commentList">评论列表</string>
+    <string name="commentPost">发表</string>
+    <string name="confirm">Confirm</string>
+    <string name="contact">联系人</string>
+    <string name="contactThrough">联系方式：</string>
+    <string name="contactTo">联系人：</string>
+    <string name="d">图片描述</string>
+    <string name="dataload">Loading...</string>
+    <string name="detailinfo">详细信息</string>
+    <string name="english">英</string>
+    <string name="exit">Exit</string>
+    <string name="female">女</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="inputcomment">请输入评论</string>
+    <string name="join">加盟</string>
+    <string name="lastUpdateTime">最近更新：%s</string>
+    <string name="leagueWelcomeMessage">赶快填写商家信息加入便利联盟吧！</string>
+    <string name="leaveMessage">留言：</string>
+    <string name="load_full">已加载全部</string>
+    <string name="load_mode_label" translatable="false">加载更多</string>
+    <string name="loading">loading</string>
+    <string name="loadingNow">正在加载数据</string>
+    <string name="login_button">登陆</string>
+    <string name="login_email">邮箱/电话</string>
+    <string name="login_password">密码</string>
+    <string name="login_title">登陆</string>
+    <string name="mag_content">正文</string>
+    <string name="mag_detail_back">杂志</string>
+    <string name="maglist">杂志列表</string>
+    <string name="main_bianli">便利</string>
+    <string name="main_camero">相机</string>
+    <string name="main_duoliao">多聊</string>
+    <string name="main_kabao">卡包</string>
+    <string name="main_meg">杂志</string>
+    <string name="male">男</string>
+    <string name="mandarin">汉</string>
+    <string name="member_barcode">条形码</string>
+    <string name="member_barcode_hint">输入条形码</string>
+    <string name="member_des">描述</string>
+    <string name="member_des_hint">输入卡片描述</string>
+    <string name="member_edit">编辑</string>
+    <string name="member_generate_barcode">生成条形码</string>
+    <string name="member_submit">提交</string>
+    <string name="member_title">标题</string>
+    <string name="member_title_hint">输入卡片名字</string>
+    <string name="member_tomore_card">多点卡</string>
+    <string name="menu_list">精选菜系</string>
+    <string name="more">加载中</string>
+    <string name="network_failure">network_failure</string>
+    <string name="no_data">暂无数据</string>
+    <string name="nodatastring">没有数据</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="phone">电话</string>
+    <string name="postComment">Post</string>
+    <string name="postcomment">发表</string>
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="pull_to_refresh_load_label" translatable="false">上拉加载更多</string>
+    <string name="pull_to_refresh_pull_label" translatable="false">下拉刷新</string>
+    <string name="pull_to_refresh_refreshing_label" translatable="false">加载中…</string>
+    <string name="pull_to_refresh_release_label" translatable="false">松开可以刷新</string>
+    <string name="pull_to_refresh_tap_label" translatable="false">点击刷新</string>
+    <string name="pull_to_refresh_update_time_label" translatable="false">上次更新时间 </string>
+    <string name="quit">Quit</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="register">注册</string>
+    <string name="register_confirm_password">确认密码，必填</string>
+    <string name="register_email">邮箱，必填</string>
+    <string name="register_major">专业</string>
+    <string name="register_major_notice">您的相关专业</string>
+    <string name="register_password">密码，必填</string>
+    <string name="register_password_notice">注册后不可更改，3~20位字符，可包含英文、数字和“_”</string>
+    <string name="register_school">学校</string>
+    <string name="register_school_notice">请填写您在读或毕业院校</string>
+    <string name="register_user_name">用户名，必填</string>
+    <string name="release_to_refresh">松开可以刷新</string>
+    <string name="sent">发送</string>
+    <string name="sentMessage">发送短信</string>
+    <string name="servicelanuage">服务语言</string>
+    <string name="share">分享</string>
+    <string name="submit">提交</string>
+    <string name="successMessage">发送成功</string>
+    <string name="sure">sure</string>
+    <string name="time_error">时间有问题</string>
+    <string name="tips">tips</string>
+    <string name="title_activity_aboutus">AboutusActivity</string>
+    <string name="title_activity_duoyao">DuoyaoActivity</string>
+    <string name="title_activity_event_details">EventDetailsActivity</string>
+    <string name="title_activity_event_list">EventListActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_my_reply_list">MyReplyListActivity</string>
+    <string name="title_activity_my_thread">MyThreadActivity</string>
+    <string name="title_activity_search_list">SearchListActivity</string>
+    <string name="title_activity_thread_details">ThreadDetails</string>
+    <string name="title_activity_thread_reply">ThreadReplyActivity</string>
+    <string name="title_activity_user_infomation">UserInfomationActivity</string>
+    <string name="tomoreWeb">http://www.tomoreapp.com/<a href="http://www.tomoreapp.com/"/></string>
+    <string name="toolbox_item_aboutus">关于</string>
+    <string name="toolbox_item_backtomain">回主页</string>
+    <string name="toolbox_item_blacklist">黑名单</string>
+    <string name="toolbox_item_fensi">我的粉丝</string>
+    <string name="toolbox_item_guanzhu">我的关注</string>
+    <string name="toolbox_item_logout">退出</string>
+    <string name="toolbox_item_reply">我的回复</string>
+    <string name="toolbox_item_tiezi">我的帖子</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="wait">Wait...</string>
+    <string name="wholevideo">完整视频</string>
+    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="Anim_scale" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/scale_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/scale_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/scale_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/scale_out</item>
+    </style>
+    <style name="FancyDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+    <style name="MyDialogTopRight">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/Anim_scale</item>
+    </style>
+    <style name="TabButton">
+        <item name="android:textAppearance">@style/tab_item_text_style</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_width">0.0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+    </style>
+    <style name="Theme.UMDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="TwoWayView">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="carteditui" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/dialog_anim_meijika</item>
+    </style>
+    <style name="customProgressBar" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:indeterminateDrawable">@drawable/custom_progress_bar</item>
+        <item name="android:layout_width">21dip</item>
+        <item name="android:layout_height">21dip</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="dialogText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="dialog_anim_meijika">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+    <style name="dialog_meijika" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/dialog_anim_meijika</item>
+    </style>
+    <style name="light_black18">
+        <item name="android:textColor">#404040</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="light_black20">
+        <item name="android:textColor">#404040</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="light_gray18">
+        <item name="android:textColor">#a7a7a7</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="main_tab_bottom">
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+    <style name="my_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+    <style name="myd_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/my_dialog_animation</item>
+    </style>
+    <style name="mystyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/slide_from_bottom</item>
+        <item name="@android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    <style name="shareDialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/mystyle</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 背景有灰度 -->
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="tab_item_text_style">
+        <item name="android:textSize">12.0dip</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="user_face_image">
+        <item name="android:layout_width">40.0dip</item>
+        <item name="android:layout_height">40.0dip</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">1.0dip</item>
+        <item name="android:clickable">true</item>
+        <item name="android:src">@drawable/default_userprofilem</item>
+    </style>
+    <style name="white16">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="white20">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="white28">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+</resources>

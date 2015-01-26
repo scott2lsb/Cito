@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/AboutUSActivitylayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#425FDD">
+    
+       <include
+           android:id="@+id/include1"
+           layout="@layout/about_us_bar_title"
+           android:focusable="true" />
+    
+	    	
+	    <ImageView
+	        android:src="@drawable/tomorelogo" 
+	        android:layout_width="90dp"
+	    	android:layout_height="90dp"
+	    	android:id="@+id/tomorelogo"
+	    	android:layout_gravity="center_horizontal"
+	    	android:layout_marginTop="50dp"
+	    	/>    
+    
+    	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="ToMore"
+	        android:textColor="#ffffff" 
+	        android:textSize="20sp"
+	        android:layout_gravity="center_horizontal"
+	        android:layout_marginTop="20dp">
+	        </TextView>
+
+	    <TextView
+	        android:id="@+id/Version"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="V1.10"
+	        android:textColor="#ffffff" 
+	        android:textSize="18sp"
+	        android:layout_gravity="center_horizontal"
+	        android:layout_marginTop="10dp"/>
+	    
+		      <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="0dip"
+	        android:layout_weight="1"
+	        android:gravity="center|bottom"
+	        android:orientation="vertical" >
+        
+	   <TextView
+	        android:id="@+id/CopyRight"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/CopyRight"
+	        android:textColor="#ffffff" 
+	        android:textSize="12sp"
+	        android:layout_gravity="center_horizontal"
+	       />
+
+	    <TextView
+	        android:id="@+id/WebsiteUrl"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:layout_marginBottom="10dp"
+	        android:layout_marginTop="10dp"
+	        android:autoLink="web"
+	        android:text="@string/tomoreWeb"
+	        android:textColor="#3299CC"
+	        android:textColorLink="@color/umeng_comm_lv_header_color1"
+	        android:textSize="15sp" />
+	    
+	</LinearLayout>
+
+</LinearLayout><!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/layout/activity_aboutus.xml -->
