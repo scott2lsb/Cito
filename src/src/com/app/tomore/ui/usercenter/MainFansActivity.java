@@ -294,7 +294,7 @@ public class MainFansActivity extends Activity {
 	
 	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
 		private int mType;
-
+		private String followOrUnfollow = "1";
 		private MyFollowOrUnfollow(Context context, int type) {
 			// this.mContext = context;
 			this.mType = type;
@@ -317,7 +317,6 @@ public class MainFansActivity extends Activity {
 			UserCenterRequest request = new UserCenterRequest(MainFansActivity.this);
 			String followOrUnfollowMemberID = params[1];
 			try {
-				String followOrUnfollow = "1";
 				if(params[0].equals("0")){
 					followOrUnfollow = "1";
 				}else if(params[0].equals("1")){
@@ -351,11 +350,11 @@ public class MainFansActivity extends Activity {
 				try {
 						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
 						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
-//						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
-//							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-//						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
-//							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
-//						}
+						if(followOrUnfollow.equals("1")){
+							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+						}else if(followOrUnfollow.equals("0")){
+							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+						}
 //						mListView.setOnRefreshListener(onRefreshListener);
 						new MyFans(MainFansActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {

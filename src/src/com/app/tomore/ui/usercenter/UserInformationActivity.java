@@ -12,7 +12,6 @@ import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.ui.usercenter.MainFansActivity.ViewHolder;
 import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
@@ -58,7 +57,7 @@ public class UserInformationActivity extends Activity {
 	private ArrayList<ThreadModel> threadList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
-	private String memberID; // not Initialized yet!!!
+	private String memberID; 
 	private String viewerID;
 	private String followed;
 
@@ -101,7 +100,7 @@ public class UserInformationActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				new MyFollowOrUnfollow(UserInformationActivity.this, 1).execute("");
+				new MyFollowOrUnfollow(UserInformationActivity.this, 1).execute(followed, memberID);
 			}
 		});
 		new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
@@ -357,10 +356,10 @@ public class UserInformationActivity extends Activity {
 			}
 		}
 	}
-
+	
 	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
 		private int mType;
-
+		
 		private MyFollowOrUnfollow(Context context, int type) {
 			// this.mContext = context;
 			this.mType = type;
@@ -381,6 +380,7 @@ public class UserInformationActivity extends Activity {
 		protected String doInBackground(String... params) {
 			String result = null;
 			UserCenterRequest request = new UserCenterRequest(UserInformationActivity.this);
+			String followOrUnfollowMemberID = params[1];
 			try {
 				String followOrUnfollow = "1";
 				if(params[0].equals("0")){
@@ -388,8 +388,7 @@ public class UserInformationActivity extends Activity {
 				}else if(params[0].equals("1")){
 					followOrUnfollow = "0";
 				}
-				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest(viewerID, memberID, followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, followOrUnfollow);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -417,11 +416,14 @@ public class UserInformationActivity extends Activity {
 				try {
 						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
 						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
-						if(followOrUnfollowModelList.toString().equals("0 row(s) exist before command")){
+						if(followed.equals("0")){
 							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-						}else if(followOrUnfollowModelList.toString().equals("1 row(s) exist before command")){
+							followed = "1";
+						}else if(followed.equals("1")){
 							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+							followed = "0";
 						}
+						new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
