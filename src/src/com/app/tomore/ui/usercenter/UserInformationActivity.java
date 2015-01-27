@@ -12,6 +12,8 @@ import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
+import com.app.tomore.ui.threads.ThreadReplyActivity;
 import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
@@ -241,6 +243,17 @@ public class UserInformationActivity extends Activity {
 
 				viewHolder.ImageView = (ImageView) convertView
 						.findViewById(R.id.ItemImage);
+				viewHolder.ImageView.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent(UserInformationActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", item);
+						startActivity(intent);
+					}
+				});
 
 				convertView.setTag(viewHolder);
 			}
