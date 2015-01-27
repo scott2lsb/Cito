@@ -20,6 +20,7 @@ import com.app.tomore.ui.yellowpage.GeneralBLDetailActivity;
 import com.app.tomore.utils.AppUtil;
 import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshListView;
+import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
@@ -67,12 +68,19 @@ public class MainFollowingActivity extends Activity {
 	private View layout;
 	private Bitmap bitmap;
 	private Button btnFollow;
+	private String memberID;
+	private String viewerID;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_following);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+		viewerID = SpUtils.getUserId(MainFollowingActivity.this);
+		memberID = getIntent().getStringExtra("memberID");
+		if(memberID == null){
+			memberID = viewerID;
+		}	
 		mContext = this;
 		limit = 20;
 		pageNumber = 1;
@@ -127,7 +135,7 @@ public class MainFollowingActivity extends Activity {
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
 			try {
-				result = request.getFollowingRequest("116", "34", sLimite, sPageNumber);
+				result = request.getFollowingRequest(memberID, viewerID, sLimite, sPageNumber);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -240,12 +248,26 @@ public class MainFollowingActivity extends Activity {
 			
 			ImageLoader.getInstance().displayImage(followingText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(followingText.getAccountName());
+			viewHolder.MemberImage.setTag(followingText.getMemberID());
+			viewHolder.MemberImage.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					String viewMemberID = (String)v.getTag();
+					Intent intent = new Intent(getApplicationContext(),
+							UserInformationActivity.class);
+					intent.putExtra("memberID", viewMemberID);
+					intent.putExtra("followed", followingText.getFollowed());
+					startActivity(intent);					
+				}
+			});
 			btnFollow.setText("取消关注");
+			btnFollow.setTag(followingText.getMemberID());
 			btnFollow.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					new MyFollowOrUnfollow(MainFollowingActivity.this, 1).execute();					
+					String followOrUnfollowMemberID = (String)v.getTag();
+					new MyFollowOrUnfollow(MainFollowingActivity.this, 1).execute(followOrUnfollowMemberID);					
 				}
 			});
 			return convertView;
@@ -274,16 +296,11 @@ public class MainFollowingActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
+			String followOrUnfollowMemberID = params[0];
 			UserCenterRequest request = new UserCenterRequest(MainFollowingActivity.this);
 			try {
-				String followOrUnfollow = "1";
-				if(params[0].equals("0")){
-					followOrUnfollow = "1";
-				}else if(params[0].equals("1")){
-					followOrUnfollow = "0";
-				}
-				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest("25", "28", followOrUnfollow);
+//				System.out.println("followRequest: " + followOrUnfollow);
+				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, "0");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -309,11 +326,11 @@ public class MainFollowingActivity extends Activity {
 					followOrUnfollowModelItem = new String();
 				try {
 					followOrUnfollowModelItem = new UserCenterParse().parseFollowOrUnfollowResponse(result);
-						if(followOrUnfollowModelItem.toString().equals("0 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-						}else if(followOrUnfollowModelItem.toString().equals("1 row(s) exist before command")){
+//						if(followOrUnfollowModelItem.toString().equals("0 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+//						}else if(followOrUnfollowModelItem.toString().equals("1 row(s) exist before command")){
 							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
-						}
+//						}
 						mListView.setOnRefreshListener(onRefreshListener);
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();

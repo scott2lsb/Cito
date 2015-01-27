@@ -82,8 +82,7 @@ public class MainFansActivity extends Activity {
 		setContentView(R.layout.activity_main_fans);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		viewerID = SpUtils.getUserId(MainFansActivity.this);
-		Intent intent = getIntent();
-		memberID = intent.getStringExtra("memberID");
+		memberID = getIntent().getStringExtra("memberID");
 		if(memberID == null){
 			memberID = viewerID;
 		}		
@@ -418,12 +417,5 @@ public class MainFansActivity extends Activity {
 		intent.putExtra("FansData", (Serializable)fansList.get(position));
 		startActivityForResult(intent, 100);
 	}
-	
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		String viewMemberID = (String)fansListAdapter.getItem(position);
-		Intent intent = new Intent(getApplicationContext(),
-				UserInformationActivity.class);
-		intent.putExtra("memberID", viewMemberID);
-		startActivity(intent);
-	}
+
 }
