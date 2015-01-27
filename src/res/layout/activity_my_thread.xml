@@ -12,8 +12,6 @@
         android:focusable="true" />
 
 
-		
-
 		<ListView
 		    
 		    android:id="@+id/mythreadactivity_listview"

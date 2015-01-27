@@ -12,8 +12,8 @@ import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.ui.usercenter.MainFansActivity.ViewHolder;
 import com.app.tomore.utils.SpUtils;
+import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,11 +31,16 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 
 public class UserInformationActivity extends Activity {
 	private DialogActivity dialog;
+	private Activity mContext;
+	private String followOrUnfollowModelList;
 	private String userThreadString = null;
 	private String userInforstring = null;
 	private String logindInUserId = null;
@@ -52,13 +57,19 @@ public class UserInformationActivity extends Activity {
 	private ArrayList<ThreadModel> threadList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
+	private String memberID; 
+	private String viewerID;
+	private String followed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_infomation);
 		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
-		thisUserId = getIntent().getStringExtra("memberId");
+		viewerID = SpUtils.getUserId(UserInformationActivity.this);
+		memberID = getIntent().getStringExtra("memberID");
+		followed = getIntent().getStringExtra("followed");
+		thisUserId = getIntent().getStringExtra("memberID");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
 		profileImage = (ImageView) findViewById(R.id.ivProfileImage);
@@ -84,7 +95,48 @@ public class UserInformationActivity extends Activity {
 				finish();
 			}
 		});
+		
+		btnFollowOrUnfollow.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				new MyFollowOrUnfollow(UserInformationActivity.this, 1).execute(followed, memberID);
+			}
+		});
 		new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
+		
+		btnPosts.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFansActivity.class); // should start activity: user posts
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
+		
+		btnFollowing.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFollowingActivity.class); 
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
+		
+		btnFollowed.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),
+						MainFansActivity.class); 
+				intent.putExtra("memberID", memberID);
+				startActivity(intent);				
+			}
+		});
 	}
 
 	private class GetUserThreadList extends AsyncTask<String, String, String> {
@@ -114,7 +166,7 @@ public class UserInformationActivity extends Activity {
 			try {
 				Log.d("doInBackground", "start request");
 				result = request.getThreadListByMemberID(100, 1,
-						Integer.parseInt(logindInUserId));
+						Integer.parseInt(memberID));
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -276,20 +328,19 @@ public class UserInformationActivity extends Activity {
 							.getMemberInfoByMemberIDParse(result);
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
-						userInformation = userModelList.get(0);
-//						userGender = userInformation.getGender();
-						
+						userInformation = userModelList.get(0);						
 						ImageLoader.getInstance().displayImage(userInformation.getProfileImage(), profileImage, otp);
 						if(userInformation.getGender().equals("Male")){
-							ImageLoader.getInstance().displayImage("@drawable/male_icon.png", userGender, otp);							
+							userGender.setImageResource(R.drawable.male_icon);					
 						} else if(userInformation.getGender().equals("Female")){
-							ImageLoader.getInstance().displayImage("@drawable/fmale_icon.png", userGender, otp);							
+							userGender.setImageResource(R.drawable.female_icon);						
 						}
+
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
-						if(userInformation.getStatus().equalsIgnoreCase("0")){
+						if(followed.equalsIgnoreCase("0")){
 							btnFollowOrUnfollow.setText("+关注");
-						} else if(userInformation.getStatus().equalsIgnoreCase("1")){
+						} else if(followed.equalsIgnoreCase("1")){
 							btnFollowOrUnfollow.setText("取消关注");
 						}
 						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
@@ -305,5 +356,78 @@ public class UserInformationActivity extends Activity {
 			}
 		}
 	}
+	
+	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
+		private int mType;
+		
+		private MyFollowOrUnfollow(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
 
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(UserInformationActivity.this);
+			String followOrUnfollowMemberID = params[1];
+			try {
+				String followOrUnfollow = "1";
+				if(params[0].equals("0")){
+					followOrUnfollow = "1";
+				}else if(params[0].equals("1")){
+					followOrUnfollow = "0";
+				}
+				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, followOrUnfollow);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			
+			return result;			
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(followOrUnfollowModelList!=null && !followOrUnfollowModelList.equals(""))
+				{
+					followOrUnfollowModelList = new String();
+//					Toast.makeText(getApplicationContext(), "操作失败", 1).show();
+				}
+				else
+					followOrUnfollowModelList = new String();
+				try {
+						followOrUnfollowModelList = new UserCenterParse().parseFollowOrUnfollowResponse(result);
+						System.out.println("followOrUnfollowModelList: " + followOrUnfollowModelList);
+						if(followed.equals("0")){
+							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+							followed = "1";
+						}else if(followed.equals("1")){
+							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+							followed = "0";
+						}
+						new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+	}
 }

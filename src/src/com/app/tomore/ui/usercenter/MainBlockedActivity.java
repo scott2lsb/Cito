@@ -20,6 +20,7 @@ import com.app.tomore.ui.yellowpage.GeneralBLDetailActivity;
 import com.app.tomore.utils.AppUtil;
 import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshListView;
+import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
@@ -67,12 +68,19 @@ public class MainBlockedActivity extends Activity {
 	private View layout;
 	private Bitmap bitmap;
 	private Button btnUbBlock;
+	private String memberID;
+	private String viewerID;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_blocked);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+		viewerID = SpUtils.getUserId(MainBlockedActivity.this);
+		memberID = getIntent().getStringExtra("memberID");
+		if(memberID == null){
+			memberID = viewerID;
+		}	
 		mContext = this;
 		limit = 20;
 		pageNumber = 1;
@@ -127,7 +135,7 @@ public class MainBlockedActivity extends Activity {
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
 			try {
-				result = request.getBlockedRequest("25", sLimite, sPageNumber);
+				result = request.getBlockedRequest(viewerID, sLimite, sPageNumber);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -240,12 +248,26 @@ public class MainBlockedActivity extends Activity {
 			
 			ImageLoader.getInstance().displayImage(blockedText.getMemberImage(), viewHolder.MemberImage, otp);
 			viewHolder.AccountName.setText(blockedText.getAccountName());
+			viewHolder.MemberImage.setTag(blockedText.getMemberID());
+			viewHolder.MemberImage.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					String viewMemberID = (String)v.getTag();
+					Intent intent = new Intent(getApplicationContext(),
+							UserInformationActivity.class);
+					intent.putExtra("memberID", viewMemberID);
+					intent.putExtra("followed", "0");
+					startActivity(intent);					
+				}
+			});
 			btnUbBlock.setText("移除黑名单");
+			btnUbBlock.setTag(blockedText.getMemberID());
 			btnUbBlock.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					new blockOrUnblock(MainBlockedActivity.this, 1).execute();
+					String blockOrUnblockMemberID = (String)v.getTag();
+					new blockOrUnblock(MainBlockedActivity.this, 1).execute(blockOrUnblockMemberID);
 					
 				}
 			});
@@ -282,9 +304,10 @@ public class MainBlockedActivity extends Activity {
 		protected String doInBackground(String... params) {
 			
 			String result = null;
+			String blockOrUnblockMemberID = params[0];
 			UserCenterRequest request = new UserCenterRequest(MainBlockedActivity.this);
 			try {
-				result = request.getBlockOrUnblockRequest("6", "2", "1");
+				result = request.getBlockOrUnblockRequest(viewerID, blockOrUnblockMemberID, "1");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -312,11 +335,11 @@ public class MainBlockedActivity extends Activity {
 					blockOrUnblockItem = new String();
 				try {
 					blockOrUnblockItem = new UserCenterParse().parseBlockOrUnblockwResponse(result);
-						if(blockOrUnblockItem.toString().equals("0 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "加入黑名单", 1).show();
-						}else if(blockOrUnblockItem.toString().equals("1 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "移除黑名单", 1).show();
-						}
+//						if(blockOrUnblockItem.toString().equals("0 row(s) exist before command")){
+//							Toast.makeText(getApplicationContext(), "加入黑名单", 1).show();
+//						}else if(blockOrUnblockItem.toString().equals("1 row(s) exist before command")){
+							Toast.makeText(getApplicationContext(), "移除黑名单成功", 1).show();
+//						}
 						mListView.setOnRefreshListener(onRefreshListener);
 						new MyBlocked(MainBlockedActivity.this, 1).execute("");
 				} catch (JsonSyntaxException e) {

@@ -3,6 +3,7 @@ package com.app.tomore.ui.threads;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.R;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.EventsModel;
@@ -14,6 +15,7 @@ import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+
 import com.app.tomore.beans.EventMemberModel;
 
 public class EventDetailsActivity extends Activity {
@@ -51,7 +55,7 @@ public class EventDetailsActivity extends Activity {
 				.build();
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 				.findViewById(R.id.bar_title_league);
-		
+		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		final Button btnBack = (Button) rl
 				.findViewById(R.id.bar_title_league_go_back);
 		

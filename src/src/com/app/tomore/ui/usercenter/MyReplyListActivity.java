@@ -32,7 +32,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+//import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -60,6 +61,7 @@ public class MyReplyListActivity extends Activity {
 	ThreadCmtModel threadcmtitem;
 	private ArrayList<UpdateFollowedModel> followmodel;
 	UpdateFollowedModel followmodelitem;
+	private View layout;
 	
 
 
@@ -74,6 +76,18 @@ public class MyReplyListActivity extends Activity {
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
 		mContext = this;
+		layout = findViewById(R.id.Activity_my_replay_list_layout);
+		//LinearLayout whole_layout = (LinearLayout)findViewById(R.id.GeneralBLLayout);
+		TextView header_Text = (TextView) layout.findViewById(R.id.btMeg);
+		header_Text.setText(R.string.MyReply);
+		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_bl_go_back);
+
+		btnBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
 		
 
 	}

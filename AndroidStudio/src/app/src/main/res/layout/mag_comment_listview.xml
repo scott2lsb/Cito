@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/bar_title_commentlistbar"
+        layout="@layout/bar_title_mag_comment_list"
+        android:focusable="true" />
+
+    <com.app.tomore.utils.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mag_comment_listviews"
+         android:layout_width="fill_parent"
+        android:layout_height="0dp"
+         android:layout_weight="1"
+        android:layout_marginTop="-1.33dp"
+        android:fadingEdge="none"
+        ptr:kalaAnimationStyle="flip"
+        ptr:kalaDrawable="@drawable/kalagame_icon_arrows"
+        ptr:kalaTopProgress="@drawable/kalagame_hunter_refresh_loading" />
+
+    <TextView
+        android:id="@+id/noneData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/nodatastring"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/comment_bar_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:minHeight="26dp"
+        android:orientation="horizontal" 
+        >
+
+        <EditText
+            android:id="@+id/commentContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:hint="@string/inputcomment"
+            android:maxLines="3" />
+
+        <Button
+            android:id="@+id/commentSubmit"
+            android:layout_width="38dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/back_blue"
+            android:text="@string/postcomment"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <include layout="@layout/no_net_layout" />
+
+</LinearLayout>

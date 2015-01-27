@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+     <include
+        android:id="@+id/bar_title_mythread"
+        layout="@layout/bar_title_mythread"
+        android:focusable="true" />
+
+    <!-- <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bl_detail_border"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/sectionuserinfo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="18sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/userschool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/userimage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/call_icon" />
+    </RelativeLayout> -->
+
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="#15E3EA" >
+
+         <ImageView
+             android:id="@+id/ivProfileImage"
+             android:layout_width="80sp"
+             android:layout_height="80sp"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="5dp"
+             android:layout_marginTop="30dp"
+             android:src="@drawable/action" />
+
+         <ImageView
+             android:id="@+id/ivUserGender"
+             android:layout_width="30sp"
+             android:layout_height="30sp"
+             android:layout_alignTop="@+id/ivProfileImage"
+             android:layout_toRightOf="@+id/ivProfileImage"
+             android:layout_marginLeft="5dp"
+             android:src="@drawable/action" />
+
+         <TextView
+             android:id="@+id/tvUserName"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignTop="@+id/ivUserGender"
+             android:layout_alignBottom="@+id/ivUserGender"
+             android:layout_toRightOf="@+id/ivUserGender"
+             android:layout_marginLeft="5dp"
+             android:text="Large Text"
+             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+         <Button
+             android:id="@+id/btnFollow"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_alignTop="@+id/tvUserName"
+             android:layout_alignBottom="@+id/tvUserName"
+             android:layout_marginRight="5dp"
+             android:background="#00000000"
+             android:text="Button"
+             android:textColor="#1589FF"
+             android:textSize="20sp" />
+
+         <TextView
+             android:id="@+id/tvSchool"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/ivUserGender"
+             android:layout_below="@+id/ivUserGender"
+             android:layout_marginTop="5dp"
+             android:text="Medium Text"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+         <Button
+             android:id="@+id/btnPosts"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
+             android:layout_alignLeft="@+id/tvSchool"
+             android:layout_below="@+id/tvSchool"
+             android:layout_marginTop="5dp"
+             android:background="#00000000"
+             android:text="发帖" />
+         
+         <View
+             android:id="@+id/lnPosts"
+             android:layout_width="1dp"
+             android:layout_height="60dp"
+             android:layout_marginTop="5dp"
+             android:layout_toRightOf="@+id/btnPosts"
+             android:layout_below="@+id/tvSchool"
+             android:background="#000000" />
+         
+         <Button
+             android:id="@+id/btnFollowing"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
+             android:layout_alignLeft="@+id/lnPosts"
+             android:layout_below="@+id/tvSchool"
+             android:layout_marginTop="5dp"
+             android:background="#00000000"
+             android:text="关注" />
+         
+         <View
+             android:id="@+id/lnFollows"
+             android:layout_width="1dp"
+             android:layout_height="60dp"
+             android:layout_marginTop="5dp"
+             android:layout_toRightOf="@+id/btnFollows"
+             android:layout_below="@+id/tvSchool"
+             android:background="#000000" />
+         
+         <Button
+             android:id="@+id/btnFollowed"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
+             android:layout_alignLeft="@+id/lnFollows"
+             android:layout_below="@+id/tvSchool"
+             android:layout_marginTop="5dp"
+             android:background="#00000000"
+             android:text="粉丝" />
+
+     </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="30dp" >
+    </GridView>
+
+    <TextView
+        android:id="@+id/noneData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/nodatastring"
+        android:visibility="gone" />
+
+    <include layout="@layout/no_net_layout" />
+
+</LinearLayout>
