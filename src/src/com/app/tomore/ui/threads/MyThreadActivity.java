@@ -83,26 +83,10 @@ public class MyThreadActivity extends Activity {
 			}
 		});
 		new GetData(MyThreadActivity.this, 1,"0").execute("");
-		listView.setOnItemClickListener(itemClickListener);
 
 		
 	}
-	private OnItemClickListener itemClickListener = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id){
 
-			Object obj = (Object) threadmodel.get(position);
-
-	
-			Intent intent = new Intent(MyThreadActivity.this,
-					RestaurantBLActivity.class);
-			intent.putExtra("threadModel", (Serializable) obj);
-			startActivity(intent);
-
-		}
-	};
-    
 	
 	private class GetData extends AsyncTask<String, String, String>{
 		
