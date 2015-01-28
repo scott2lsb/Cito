@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\library-1.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4075e2f465ca76b2fda728bac647eb18eca5500b">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\library-1.2.1-abf32c63d9accb9d3d7452d0799f6465f941f2cd.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\classes-6d4cac1b1a24e15160da3c90af0518b139fa6cf8.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_Sina.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dfcecc4dc996bc793e351487b8e7182eb7659b78">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_Sina-6c3e06cb2ec792294ff351d05ca032bb307fdbe0.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\umeng_social_sdk.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="32732b2ad43b95f53939cff3acf31ace5a6a7f72">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\umeng_social_sdk-3e35adfb972cafaeb74380bc40f77af1c2b5f054.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\httpcore-4.3.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f91b7a4aadc5cf486df6e4634748d7dd7a73f06d">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\httpcore-4.3.3-4a1051143f2e0637c62a883a28623f8873e08bc6.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_QQZone_2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4a69b33758dcba3ef519cbd4b6c8af5f41603c4f">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_QQZone_2-fbac5a29dc1c182f7d7e88e435197a2739a3232a.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\httpclient-4.3.6.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f3cf3b25e14d3bca47773e95aa85ea8fefbf8e81">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\httpclient-4.3.6-85fd001e21bcc7c956f3ec3afacf7cf387ab4638.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\gson-2.3-cd0a94ea1f1d77afaafb61217bae8b2a3833b1a4.jar" />
+    </item>
+    <item
+        jar="C:\Program Files\adt-bundle-windows-x86-20131030\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-d197853667812060780b31a96636d7216b4df759.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_QQZone_1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c184c69f43b1fe46390f7123717c65bd844bccb6">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_QQZone_1-98fe7e6a2982f00cfd0c2438e83b6cd3f10196c7.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\zxing-2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="69ab751723c7f7c8a01fddb1d169a93160fadca7">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\zxing-2.1-c0132ee80fcf1ce2ef1b043a5880ad59b2f24477.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SDKIntegration.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0ad685ef512d9d7320ebd21f134c11d045ed128e">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SDKIntegration-966a31c4c11ee4b2e1c7e83018c75be1914539b4.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_QQZone_3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d57cae1dcd1eeeec2cd8197fcdd7a0316216481e">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_QQZone_3-2157519415406de16d10177dbdbc0d9da73aa466.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_WeiXin_2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ccb62db89a616f56b951374dcee5e62efd0fa001">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_WeiXin_2-da72af85b807e031449edf5d51c4c96e3b9d9fed.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\android-async-http-1.4.5.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\android-async-http-1.4.5-897aad6636f2d8db09d47c47a709cc0cc9894f6c.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\SocialSDK_WeiXin_1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d7c2f29c05b35e8c8713be2b81c41cf18f98b64a">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\SocialSDK_WeiXin_1-7e939d996ae55cac3fe7e3aae6553dd0c832875b.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\devsmartlib.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8874ca4c8cc30152d52f3c81d404661bc715be16">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\devsmartlib-623158688746b004023754e062e03e6cf1c303c7.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\httpmime-4.3.6.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="66a39a5e37d5da40fdad6176fc24ef4316e74702">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\httpmime-4.3.6-e05d4e6999167155de89a5b7c2bec81de368a93c.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\picasso-2.4.0-81a4ac5b511433e2cfcea9179941ecfbbad0078e.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\slidingmenu.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="942c0d8b6512d787707afbe8293566c413cdb86a">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\slidingmenu-44e1f267cfc19c705dabcdb529cf440c2878c7c3.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\google-play-services.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9b63d9aba531aa7ff5dd30e0c872e8ca550b363a">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\google-play-services-064bfdfa89ed110135f2dd8a28e0ee1da498c5e6.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\libs\basic-http-client-android-0.88.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="62aa3f0df0148b934c29a8085d01e9839955e06e">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\basic-http-client-android-0.88-4b234313d470deece4219e34752b3ccffb176c9f.jar" />
+    </item>
+    <item
+        jar="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\AlexLiu\Desktop\ToCity\Cito\AndroidStudio\src\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a0da60a6f839d20c832977f0e3551e98dd5d50b4.jar" />
+    </item>
+
+</items>

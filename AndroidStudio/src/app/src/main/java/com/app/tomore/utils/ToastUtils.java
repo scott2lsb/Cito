@@ -5,7 +5,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 吐司工具�?
+
  * @author AlexHuang
  *
  */

@@ -12,11 +12,18 @@ import com.app.tomore.MyCameraActivity;
 import com.app.tomore.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.app.tomore.beans.BLRestaurantModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.yellowpage.GeneralBLActivity;
+import com.app.tomore.ui.yellowpage.GeneralBLDetailActivity;
+import com.app.tomore.ui.yellowpage.RestaurantBLActivity;
+import com.app.tomore.ui.yellowpage.RestaurantDetailActivity;
+import com.app.tomore.utils.AppUtil;
+import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 
 import android.app.Activity;
@@ -30,12 +37,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.view.ViewGroup.LayoutParams;  
 
 public class MyThreadActivity extends Activity {
@@ -77,6 +86,7 @@ public class MyThreadActivity extends Activity {
 
 		
 	}
+
 	
 	private class GetData extends AsyncTask<String, String, String>{
 		
@@ -151,7 +161,7 @@ public class MyThreadActivity extends Activity {
 				}
 				if(threadmodel !=null){
 					Intent intent =new Intent(MyThreadActivity.this,MyCameraActivity.class);
-					intent.putExtra("threadslist",(Serializable) threadmodel);
+					intent.putExtra("threadModel",(Serializable) threadmodel);
 					// startActivity(intent);
 				}
 				else{
@@ -165,7 +175,18 @@ public class MyThreadActivity extends Activity {
 		
 		MyThreadAdapter newsListAdapter = new MyThreadAdapter(mContext, dm.widthPixels);
 		listView.setAdapter(newsListAdapter);
-	
+		listView.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		    	Object obj = (Object) threadmodel.get(position);
+		    	
+		    	
+		    	
+				Intent intent = new Intent(MyThreadActivity.this,
+						ThreadReplyActivity.class);
+				intent.putExtra("threadModel", (Serializable) obj);
+				startActivity(intent);
+		    }
+		});
 	}
 	
 	class ViewHolder {

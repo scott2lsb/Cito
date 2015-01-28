@@ -98,7 +98,6 @@ public class SlidingView extends ViewGroup {
 
 	
     /**
-     * 实现了ontouch的分发拦截
      */
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -211,27 +210,21 @@ public class SlidingView extends ViewGroup {
 				int oldScrollX = getScrollX();
 				int dx = 0;
 				if (oldScrollX < 0) {
-					// 左边
 					if (oldScrollX < -getLeftMenuWidth() / 2
 							|| velocityX > SNAP_VELOCITY) {
-						// 左侧页面划出
 						dx = -getLeftMenuWidth() - oldScrollX;
 
 					} else if (oldScrollX >= -getLeftMenuWidth() / 2
 							|| velocityX < -SNAP_VELOCITY) {
-						// 左侧页面关闭
 						dx = -oldScrollX;
 					}
 				} else {
-					// 右边
 					if (oldScrollX > getRightMenuWidth() / 2
 							|| velocityX < -SNAP_VELOCITY) {
-						// 右侧页面划出
 						dx = getRightMenuWidth() - oldScrollX;
 
 					} else if (oldScrollX <= getRightMenuWidth() / 2
 							|| velocityX > SNAP_VELOCITY) {
-						// 右侧页面关闭
 						dx = -oldScrollX;
 					}
 				}
@@ -297,7 +290,6 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * 打开（关闭）左侧页面
 	 */
 	public void showLeftView() {
 		mLeftView.setVisibility(View.VISIBLE);
@@ -312,7 +304,6 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * 打开（关闭）右侧页面
 	 */
 	public void showRightView() {
 		mLeftView.setVisibility(View.GONE);
@@ -329,7 +320,6 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * 显示中间页面
 	 */
 	public void showCenterView() {
 		int menuWidth = mRightView.getWidth();

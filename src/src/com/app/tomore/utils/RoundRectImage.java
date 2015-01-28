@@ -15,7 +15,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * 自定义的圆角矩形ImageView，可以直接当组件在布局中使用。
  * @author caizhiming
  *
  */
@@ -37,7 +36,6 @@ public class RoundRectImage extends ImageView{
     }  
   
     /**
-     * 绘制圆角矩形图片
      * @author caizhiming
      */
     @Override  
@@ -58,9 +56,7 @@ public class RoundRectImage extends ImageView{
     }  
   
     /**
-     * 获取圆角矩形图片方法
      * @param bitmap
-     * @param roundPx,一般设置成14
      * @return Bitmap
      * @author caizhiming
      */
