@@ -17,10 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 /**
- * 2dÆ½»¬±ä»¯µÄÏÔÊ¾Í¼Æ¬µÄImageView
- * ½öÏŞÓÚÓÃÓÚ:´ÓÒ»¸öScaleType==CENTER_CROPµÄImageView£¬ÇĞ»»µ½ÁíÒ»¸öScaleType=
- * FIT_CENTERµÄImageView£¬»òÕß·´Ö® (µ±È»£¬µÃÊ¹ÓÃÍ¬ÑùµÄÍ¼Æ¬×îºÃ)
- * 
+
  * @author Dean Tao
  * 
  */
@@ -70,12 +67,10 @@ public class SmoothImageView extends ImageView {
 		mOriginalHeight = height;
 		mOriginalLocationX = locationX;
 		mOriginalLocationY = locationY;
-		// ÒòÎªÊÇÆÁÄ»×ø±ê£¬ËùÒÔÒª×ª»»Îª¸ÃÊÓÍ¼ÄÚµÄ×ø±ê£¬ÒòÎªÎÒËùÓÃµÄ¸ÃÊÓÍ¼ÊÇMATCH_PARENT£¬ËùÒÔ²»ÓÃ¶¨Î»¸ÃÊÓÍ¼µÄÎ»ÖÃ,Èç¹û²»ÊÇµÄ»°£¬»¹ĞèÒª¶¨Î»ÊÓÍ¼µÄÎ»ÖÃ£¬È»ºó¼ÆËãmOriginalLocationXºÍmOriginalLocationY
 		mOriginalLocationY = mOriginalLocationY - getStatusBarHeight(getContext());
 	}
 
 	/**
-	 * »ñÈ¡×´Ì¬À¸¸ß¶È
 	 * 
 	 * @return
 	 */
@@ -99,7 +94,6 @@ public class SmoothImageView extends ImageView {
 	}
 
 	/**
-	 * ÓÃÓÚ¿ªÊ¼½øÈëµÄ·½·¨¡£ µ÷ÓÃ´Ë·½Ç°£¬ĞèÒÑ¾­µ÷ÓÃ¹ısetOriginalInfo
 	 */
 	public void transformIn() {
 		mState = STATE_TRANSFORM_IN;
@@ -108,7 +102,6 @@ public class SmoothImageView extends ImageView {
 	}
 
 	/**
-	 * ÓÃÓÚ¿ªÊ¼ÍË³öµÄ·½·¨¡£ µ÷ÓÃ´Ë·½Ç°£¬ĞèÒÑ¾­µ÷ÓÃ¹ısetOriginalInfo
 	 */
 	public void transformOut() {
 		mState = STATE_TRANSFORM_OUT;
@@ -117,12 +110,12 @@ public class SmoothImageView extends ImageView {
 	}
 
 	private class Transfrom {
-		float startScale;// Í¼Æ¬¿ªÊ¼µÄËõ·ÅÖµ
-		float endScale;// Í¼Æ¬½áÊøµÄËõ·ÅÖµ
-		float scale;// ÊôĞÔValueAnimator¼ÆËã³öÀ´µÄÖµ
-		LocationSizeF startRect;// ¿ªÊ¼µÄÇøÓò
-		LocationSizeF endRect;// ½áÊøµÄÇøÓò
-		LocationSizeF rect;// ÊôĞÔValueAnimator¼ÆËã³öÀ´µÄÖµ
+		float startScale;
+		float endScale;
+		float scale;
+		LocationSizeF startRect;
+		LocationSizeF endRect;
+		LocationSizeF rect;
 
 		void initStartIn() {
 			scale = startScale;
@@ -145,7 +138,7 @@ public class SmoothImageView extends ImageView {
 	}
 
 	/**
-	 * ³õÊ¼»¯½øÈëµÄ±äÁ¿ĞÅÏ¢
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	private void initTransform() {
 		if (getDrawable() == null) {
@@ -154,7 +147,7 @@ public class SmoothImageView extends ImageView {
 		if (mBitmap == null || mBitmap.isRecycled()) {
 			mBitmap = ((BitmapDrawable) getDrawable()).getBitmap();
 		}
-		//·ÀÖ¹mTransfromÖØ¸´µÄ×öÍ¬ÑùµÄ³õÊ¼»¯
+		//ï¿½ï¿½Ö¹mTransfromï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½
 		if (mTransfrom != null) {
 			return;
 		}
@@ -163,34 +156,23 @@ public class SmoothImageView extends ImageView {
 		}
 		mTransfrom = new Transfrom();
 
-		/** ÏÂÃæÎªËõ·ÅµÄ¼ÆËã */
-		/* ¼ÆËã³õÊ¼µÄËõ·ÅÖµ£¬³õÊ¼ÖµÒòÎªÊÇCENTR_CROPĞ§¹û£¬ËùÒÔÒª±£Ö¤Í¼Æ¬µÄ¿íºÍ¸ßÖÁÉÙ1¸öÄÜÆ¥ÅäÔ­Ê¼µÄ¿íºÍ¸ß£¬Áí1¸ö´óÓÚ */
 		float xSScale = mOriginalWidth / ((float) mBitmap.getWidth());
 		float ySScale = mOriginalHeight / ((float) mBitmap.getHeight());
 		float startScale = xSScale > ySScale ? xSScale : ySScale;
 		mTransfrom.startScale = startScale;
-		/* ¼ÆËã½áÊøÊ±ºòµÄËõ·ÅÖµ£¬½áÊøÖµÒòÎªÒª´ïµ½FIT_CENTERĞ§¹û£¬ËùÒÔÒª±£Ö¤Í¼Æ¬µÄ¿íºÍ¸ßÖÁÉÙ1¸öÄÜÆ¥ÅäÔ­Ê¼µÄ¿íºÍ¸ß£¬Áí1¸öĞ¡ÓÚ */
 		float xEScale = getWidth() / ((float) mBitmap.getWidth());
 		float yEScale = getHeight() / ((float) mBitmap.getHeight());
 		float endScale = xEScale < yEScale ? xEScale : yEScale;
 		mTransfrom.endScale = endScale;
 
-		/**
-		 * ÏÂÃæ¼ÆËãCanvas ClipµÄ·¶Î§£¬Ò²¾ÍÊÇÍ¼Æ¬µÄÏÔÊ¾µÄ·¶Î§£¬ÒòÎªÍ¼Æ¬ÊÇÂıÂı±ä´ó£¬²¢ÇÒÊÇµÈ±ÈÀıµÄ£¬ËùÒÔÕâ¸öĞ§¹û»¹ĞèÒª²Ã¼õÍ¼Æ¬ÏÔÊ¾µÄÇøÓò
-		 * £¬¶øÏÔÊ¾ÇøÓòµÄ±ä»¯·¶Î§ÊÇÔÚÔ­Ê¼CENTER_CROPĞ§¹ûµÄ·¶Î§ÇøÓò
-		 * £¬µ½×îÖÕµÄFIT_CENTERµÄ·¶Î§Ö®¼äµÄ£¬ÇøÓòÎÒÓÃLocationSizeF¸üºÃ¼ÆËã
-		 * £¬Ëû¾Í°üÀ¨×óÉÏ¶¥µã×ø±ê£¬ºÍ¿í¸ß£¬×îºó×ªÎªCanvas²Ã¼õµÄRect.
-		 */
-		/* ¿ªÊ¼ÇøÓò */
 		mTransfrom.startRect = new LocationSizeF();
 		mTransfrom.startRect.left = mOriginalLocationX;
 		mTransfrom.startRect.top = mOriginalLocationY;
 		mTransfrom.startRect.width = mOriginalWidth;
 		mTransfrom.startRect.height = mOriginalHeight;
-		/* ½áÊøÇøÓò */
 		mTransfrom.endRect = new LocationSizeF();
-		float bitmapEndWidth = mBitmap.getWidth() * mTransfrom.endScale;// Í¼Æ¬×îÖÕµÄ¿í¶È
-		float bitmapEndHeight = mBitmap.getHeight() * mTransfrom.endScale;// Í¼Æ¬×îÖÕµÄ¿í¶È
+		float bitmapEndWidth = mBitmap.getWidth() * mTransfrom.endScale;
+		float bitmapEndHeight = mBitmap.getHeight() * mTransfrom.endScale;
 		mTransfrom.endRect.left = (getWidth() - bitmapEndWidth) / 2;
 		mTransfrom.endRect.top = (getHeight() - bitmapEndHeight) / 2;
 		mTransfrom.endRect.width = bitmapEndWidth;
@@ -217,7 +199,6 @@ public class SmoothImageView extends ImageView {
 		
 	}
 
-	/* ÏÂÃæÊµÏÖÁËCENTER_CROPµÄ¹¦ÄÜ µÄMatrix£¬ÔÚÓÅ»¯µÄ¹ı³ÌÖĞ£¬ÒÑ¾­²»ÓÃÁË */
 	private void getCenterCropMatrix() {
 		if (getDrawable() == null) {
 			return;
@@ -225,7 +206,6 @@ public class SmoothImageView extends ImageView {
 		if (mBitmap == null || mBitmap.isRecycled()) {
 			mBitmap = ((BitmapDrawable) getDrawable()).getBitmap();
 		}
-		/* ÏÂÃæÊµÏÖÁËCENTER_CROPµÄ¹¦ÄÜ */
 		float xScale = mOriginalWidth / ((float) mBitmap.getWidth());
 		float yScale = mOriginalHeight / ((float) mBitmap.getHeight());
 		float scale = xScale > yScale ? xScale : yScale;
@@ -244,7 +224,6 @@ public class SmoothImageView extends ImageView {
 		if (mBitmap == null || mBitmap.isRecycled()) {
 			mBitmap = ((BitmapDrawable) getDrawable()).getBitmap();
 		}
-		/* ÏÂÃæÊµÏÖÁËCENTER_CROPµÄ¹¦ÄÜ */
 		mSmoothMatrix.setScale(mTransfrom.scale, mTransfrom.scale);
 		mSmoothMatrix.postTranslate(-(mTransfrom.scale * mBitmap.getWidth() / 2 - mTransfrom.rect.width / 2),
 				-(mTransfrom.scale * mBitmap.getHeight() / 2 - mTransfrom.rect.height / 2));
@@ -287,7 +266,6 @@ public class SmoothImageView extends ImageView {
 			
 			int saveCount = canvas.getSaveCount();
 			canvas.save();
-			// ÏÈµÃµ½Í¼Æ¬ÔÚ´Ë¿ÌµÄÍ¼ÏñMatrix¾ØÕó
 			getBmpMatrix();
 			canvas.translate(mTransfrom.rect.left, mTransfrom.rect.top);
 			canvas.clipRect(0, 0, mTransfrom.rect.width, mTransfrom.rect.height);
@@ -299,7 +277,6 @@ public class SmoothImageView extends ImageView {
 				startTransform(mState);
 			} 
 		} else {
-			//µ±Transform In±ä»¯Íê³Éºó£¬°Ñ±³¾°¸ÄÎªºÚÉ«£¬Ê¹µÃActivity²»Í¸Ã÷
 			mPaint.setAlpha(255);
 			canvas.drawPaint(mPaint);
 			super.onDraw(canvas);
@@ -357,11 +334,7 @@ public class SmoothImageView extends ImageView {
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				/*
-				 * Èç¹ûÊÇ½øÈëµÄ»°£¬µ±È»ÊÇÏ£Íû×îºóÍ£ÁôÔÚcenter_cropµÄÇøÓò¡£µ«ÊÇÈç¹ûÊÇoutµÄ»°£¬¾Í²»Ó¦¸ÃÊÇcenter_cropµÄÎ»ÖÃÁË
-				 * £¬ ¶øÓ¦¸ÃÊÇ×îºó±ä»¯µÄÎ»ÖÃ£¬ÒòÎªµ±outµÄÊ±ºò½áÊøÊ±£¬²»»Ø¸´ÊÓÍ¼ÊÇNormal£¬Òª²»È»»áÓĞÒ»¸öÍ»È»ÉÁ¶¯»ØÈ¥µÄbug
-				 */
-				// TODO Õâ¸ö¿ÉÒÔ¸ù¾İÊµ¼ÊĞèÇóÀ´ĞŞ¸Ä
+				
 				if (state == STATE_TRANSFORM_IN) {
 					mState = STATE_NORMAL;
 				}
