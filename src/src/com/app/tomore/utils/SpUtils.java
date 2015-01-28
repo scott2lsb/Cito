@@ -1,19 +1,25 @@
 package com.app.tomore.utils;
 
 import com.app.tomore.utils.PushModel;
+import com.app.tomore.beans.UserModel;
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 public class SpUtils {
 
+	private static final String USERMODELPREF = "USERMODELPREF";
 	private static final String USERINFO = "userinfo";
 	private static final String USERID = "userid";
 	private static final String UID = "uid";
 	private static final String ACCESS_TOKEN = "access_token";
-	
+	private static SharedPreferences mPrefs ;
+	private static Editor prefsEditor ;
 	//push
 	private static final String PUSH = "push";
 	private static final String PUSH_appId = "appId";
@@ -44,6 +50,31 @@ public class SpUtils {
 	public static void saveNews_notifi (Activity activity,boolean isOpen){
 		SharedPreferences sp = activity.getSharedPreferences(PUSH_SETTING, Activity.MODE_PRIVATE);
 		sp.edit().putBoolean(PUSH_SETTING_news_notifi, isOpen).commit();
+	}
+	
+	/**
+	 * get user information
+	 */
+	public static UserModel getUserInformation(Activity activity)
+	{
+		mPrefs = activity.getSharedPreferences(USERMODELPREF, Activity.MODE_PRIVATE);
+		Gson gson = new Gson();
+		String json = mPrefs.getString("UserModel", "");
+		UserModel obj = gson.fromJson(json, UserModel.class);
+		return obj ;
+	}
+	
+	/**
+	 * set user information 
+	 */
+	public static void saveUserInformation(Activity activity,UserModel model)
+	{
+		mPrefs = activity.getSharedPreferences(USERMODELPREF, Activity.MODE_PRIVATE);
+		prefsEditor = mPrefs.edit();
+		Gson gson = new Gson();
+		String json = gson.toJson(model);
+		prefsEditor.putString("UserModel", json);
+		prefsEditor.commit();
 	}
 	
 	/**

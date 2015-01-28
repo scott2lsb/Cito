@@ -4,17 +4,10 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.R;
-import com.app.tomore.R.array;
-import com.app.tomore.R.id;
-import com.app.tomore.R.layout;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.threads.MainDuoliaoActivity;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import android.app.Activity;
 import android.content.Context;
@@ -163,7 +156,7 @@ public class RegisterActivity extends Activity {
 				dialog.dismiss();
 			}
 			if (result == null || result.equals("")) {
-		    	Toast.makeText(getApplicationContext(), "ע注册失败",
+		    	Toast.makeText(getApplicationContext(), "注册失败",
 						Toast.LENGTH_SHORT).show();
 			}else {
 				UserCenterParse ucParse = new UserCenterParse();

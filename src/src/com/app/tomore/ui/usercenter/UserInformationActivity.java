@@ -342,7 +342,7 @@ public class UserInformationActivity extends Activity {
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
 						userInformation = userModelList.get(0);						
-						ImageLoader.getInstance().displayImage(userInformation.getProfileImage(), profileImage, otp);
+						ImageLoader.getInstance().displayImage(userInformation.getImage(), profileImage, otp);
 						if(userInformation.getGender().equals("Male")){
 							userGender.setImageResource(R.drawable.male_icon);					
 						} else if(userInformation.getGender().equals("Female")){
