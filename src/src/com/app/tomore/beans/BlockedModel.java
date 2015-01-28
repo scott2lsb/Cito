@@ -7,42 +7,13 @@ import org.json.JSONObject;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-public class BlockedModel extends BaseBean implements Serializable, Comparable<BlockedModel> {
+public class BlockedModel  implements Serializable {
 
 	private String MemberID;
 	private String AccountName;
 	private String MemberImage;
 	
-	@Override
-	public int compareTo(BlockedModel another) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object parseJSON(JSONObject jsonObj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONObject toJSON() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object cursorToBean(Cursor cursor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ContentValues beanToValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	public String getMemberID() {
 		return MemberID;
 	}

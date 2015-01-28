@@ -112,7 +112,7 @@ public class MagCommentActivity extends Activity {
 
 		mContext = this;
 		page = 1;
-		limit = 5;
+		limit = 10;
 
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 				.findViewById(R.id.bar_title_commentlistbar);
@@ -160,7 +160,7 @@ public class MagCommentActivity extends Activity {
 		});
 
 		// mListView.setAdapter(articleListAdapter);
-
+		headerRefresh = true;
 		new GetData(MagCommentActivity.this, 1).execute("");
 	}
 

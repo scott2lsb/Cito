@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-public class CardModel extends BaseBean implements Serializable, Comparable<CardModel>  {
+public class CardModel implements Serializable {
 	
 	public String getCardID() {
 		return CardID;
@@ -95,35 +95,5 @@ public class CardModel extends BaseBean implements Serializable, Comparable<Card
 	private String  coupon;
 
 
-	@Override
-	public Object parseJSON(JSONObject jsonObj) {
-		// TODO Auto-generated method stub
-			
-		return jsonObj;
-	}
-
-	@Override
-	public JSONObject toJSON() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object cursorToBean(Cursor cursor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ContentValues beanToValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int compareTo(CardModel another) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

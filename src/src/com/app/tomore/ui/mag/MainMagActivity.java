@@ -254,7 +254,7 @@ public class MainMagActivity extends Activity {
 			if(AppUtil.networkAvailable(mContext)){
 
 				headerRefresh = false;
-				if(pre.equals("0")||next==null)
+				if(pre.equals("0")||next==null || pre== null)
 				{
 					Toast.makeText(getApplicationContext(), "到头了，休息一下~", Toast.LENGTH_SHORT).show();
 				}
