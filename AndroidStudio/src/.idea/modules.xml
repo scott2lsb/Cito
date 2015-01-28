@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/creativesdk/Foundation/CreativeSDKFoundationAuth/CreativeSDKFoundationAuth.iml" filepath="$PROJECT_DIR$/src/creativesdk/Foundation/CreativeSDKFoundationAuth/CreativeSDKFoundationAuth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/creativesdk/CreativeSDKImage/CreativeSDKImage.iml" filepath="$PROJECT_DIR$/src/creativesdk/CreativeSDKImage/CreativeSDKImage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/creativesdk/Foundation/Foundation.iml" filepath="$PROJECT_DIR$/creativesdk/Foundation/Foundation.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/creativesdk/creativesdk.iml" filepath="$PROJECT_DIR$/src/creativesdk/creativesdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/src.iml" filepath="$PROJECT_DIR$/src.iml" />
     </modules>
   </component>
