@@ -15,10 +15,6 @@ import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadLikeModel;
 import com.app.tomore.beans.ThreadModel;
-import com.app.tomore.beans.UserModel;
-import com.app.tomore.httpclient.BasicHttpClient;
-import com.app.tomore.httpclient.HttpResponse;
-import com.app.tomore.httpclient.ParameterMap;
 import com.app.tomore.beans.EventMemberModel;
 
 public class ThreadsParse {

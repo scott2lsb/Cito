@@ -1,4 +1,4 @@
-package com.app.tomore.ui.mag;
+﻿package com.app.tomore.ui.mag;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,7 +101,7 @@ public class MagCommentActivity extends Activity {
 
 		mListView = (PullToRefreshListView) findViewById(R.id.mag_comment_listviews);
 		mListView.setOnRefreshListener(onRefreshListener);
-		noneData = (TextView) findViewById(R.id.noData);
+		noneData = (TextView) findViewById(R.id.noneData);
 		no_net_lay = findViewById(R.id.no_net_lay);
 		submit = (Button) findViewById(R.id.commentSubmit);
 		content = (EditText) findViewById(R.id.commentContent);

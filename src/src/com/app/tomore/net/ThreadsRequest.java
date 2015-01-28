@@ -35,7 +35,7 @@ public class ThreadsRequest {
 				.add("viewerID", Integer.toString(viewerId))
 				.add("filter", Integer.toString(filterId));
 		;
-		HttpResponse httpResponse = baseRequest.post(
+		HttpResponse httpResponse = baseRequest.get(
 				"/APIV2/getThreadList.php", params);
 		return httpResponse.getBodyAsString();
 	}

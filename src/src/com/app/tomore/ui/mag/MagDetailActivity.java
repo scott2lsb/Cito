@@ -1,4 +1,4 @@
-package com.app.tomore.ui.mag;
+﻿package com.app.tomore.ui.mag;
 
 import java.io.IOException;
 import java.io.Serializable;
