@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="schoolArray">
         <item>Brock University</item>
@@ -47,16 +47,16 @@
     </string-array>
     <color name="black">#000000</color>
     <color name="grey">#ffffff</color>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="light">#929292</color>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <color name="login_background_color">#3191dd</color>
     <color name="login_button_color">#0b52c4</color>
     <color name="register_background_color">#f7f7f7</color>
     <color name="register_button_color">#5191ff</color>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="title_bar_bg">#180d00</color>
     <color name="umeng_comm_lv_header_color1">#33b5e5</color>
@@ -67,7 +67,7 @@
     <declare-styleable name="CircleProgressView"><attr format="color" name="circleColor"/><attr format="color" name="barColor"/><attr format="dimension" name="barLengthRatio"/><attr format="dimension" name="padding"/></declare-styleable>
     <declare-styleable name="PullToRefresh"><attr format="reference|color" name="kalaAdapterViewBackground"/><attr format="reference|color" name="kalaHeaderBackground"/><attr format="reference|color" name="kalaHeaderTextColor"/><attr format="reference|color" name="kalaHeaderSubTextColor"/><attr format="dimension" name="kalaHeaderTextSize"/><attr format="dimension" name="kalaHeaderSubTextSize"/><attr name="kalaMode"><flag name="disabled" value="0x0"/><flag name="pullDownFromTop" value="0x1"/><flag name="pullUpFromBottom" value="0x2"/><flag name="both" value="0x3"/></attr><attr format="reference|boolean" name="kalaShowIndicator"/><attr format="reference" name="kalaDrawable"/><attr format="reference" name="kalaDrawableTop"/><attr format="reference" name="kalaTopProgress"/><attr format="reference|color" name="kalaTopDiviverBackground"/><attr format="reference" name="kalaDrawableBottom"/><attr format="reference|boolean" name="kalaOverScroll"/><attr format="reference" name="kalaHeaderTextAppearance"/><attr format="reference" name="kalaSubHeaderTextAppearance"/><attr name="kalaSubHeaderTextType"><flag name="format" value="0x0"/><flag name="format1" value="0x1"/></attr><attr name="kalaAnimationStyle"><flag name="rotate" value="0x0"/><flag name="flip" value="0x1"/></attr></declare-styleable>
     <declare-styleable name="SlidingMenu"><attr name="mode"><enum name="left" value="0"/><enum name="right" value="1"/></attr><attr format="reference" name="viewAbove"/><attr format="reference" name="viewBehind"/><attr format="dimension" name="behindOffset"/><attr format="dimension" name="behindWidth"/><attr format="float" name="behindScrollScale"/><attr name="touchModeAbove"><enum name="margin" value="0"/><enum name="fullscreen" value="1"/></attr><attr name="touchModeBehind"><enum name="margin" value="0"/><enum name="fullscreen" value="1"/></attr><attr format="reference" name="shadowDrawable"/><attr format="dimension" name="shadowWidth"/><attr format="boolean" name="fadeEnabled"/><attr format="float" name="fadeDegree"/><attr format="boolean" name="selectorEnabled"/><attr format="reference" name="selectorDrawable"/></declare-styleable>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -84,7 +84,7 @@
     <dimen name="shadow_width">5dp</dimen>
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="tab_height">47dp</dimen>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="AboutUsVersion">关于：Version 1.10</string>
     <string name="Call">Call</string>
@@ -233,7 +233,7 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="wait">Wait...</string>
     <string name="wholevideo">完整视频</string>
-    <!-- From: file:/C:/Users/300756885/AndroidstudioProjects/src/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/Tomore/Cito/AndroidStudio/src/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="Anim_scale" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/scale_in</item>

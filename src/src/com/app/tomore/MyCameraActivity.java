@@ -4,191 +4,175 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
-public class MyCameraActivity extends Activity {
-	private Button btn_camera_capture = null;
-	private Button btn_camera_cancel = null;
-	private Button btn_camera_ok = null;
-	private ImageButton albums=null;
+public class MyCameraActivity extends Activity implements OnClickListener {
+	private ImageView posting_image;
+	private Bitmap image;
+	private static String path="/sdcard/postingimage/";//sdè·¯å¾„
+	private View layout;
 	
-	private Camera camera = null;
-	private MySurfaceView mySurfaceView = null;
-	
-	private byte[] buffer = null;
-	
-	private final int TYPE_FILE_IMAGE = 1;
-	private final int TYPE_FILE_VEDIO = 2;
-	
-	private PictureCallback pictureCallback = new PictureCallback() {
-		
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-			if (data == null){
-				Log.i("MyPicture", "picture taken data: null");
-			}else{
-				Log.i("MyPicture", "picture taken data: " + data.length);
-			}
-			
-			buffer = new byte[data.length];
-			buffer = data.clone();
-		}
-	};
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mycamera_layout);
-		
-		btn_camera_capture = (Button) findViewById(R.id.camera_capture);
+		Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+						"postimage.jpg")));
+		startActivityForResult(intent1, 2);//é‡‡ç”¨ForResultæ‰“
+		setContentView(R.layout.posting_activity_layout);
+		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+		posting_image = (ImageView) findViewById(R.id.posting_image);
+		layout = findViewById(R.id.posting_layout);
+		posting_image.setOnClickListener(this);
+		final Button btnBack = (Button) layout.findViewById(R.id.bar_title_league_go_back);
+		TextView title = (TextView) layout.findViewById(R.id.btLeague);
+		title.setText(getString(R.string.posting));
+		TextView send = (TextView) layout.findViewById(R.id.submit_button);
+		send.setText(getString(R.string.sendthread));
+		btnBack.setVisibility(View.GONE);
+	}
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+		if(id == R.id.posting_image){
+			MakePostingimage();
+		}
 
-		albums = (ImageButton) findViewById(R.id.albums);
-		
-		btn_camera_capture.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				camera.takePicture(null, null, pictureCallback);
-				
-				btn_camera_capture.setVisibility(View.INVISIBLE);
-				saveImageToFile();
-
-			}
-		});
-		
-		albums.setOnClickListener(new Button.OnClickListener() { //¸ü×¼È·µãÓ¦¸ÃÊÇView.OnClickListener
-		    public void onClick(View v)
-		    {
-		        /* ĞÂ½¨Ò»¸öIntent¶ÔÏó */
-		        Intent intent = new Intent();
-		        //intent.putExtra("name","LeiPei");    
-		        /* Ö¸¶¨intentÒªÆô¶¯µÄÀà */
-		        intent.setClass(MyCameraActivity.this, ViewAlbums.class);
-		        /* Æô¶¯Ò»¸öĞÂµÄActivity */
-		        MyCameraActivity.this.startActivity(intent);
-		        /* ¹Ø±Õµ±Ç°µÄActivity */
-		        MyCameraActivity.this.finish();
+	}
+	
+	private void MakePostingimage() {
+		// TODO Auto-generated method stub
+		Bitmap bt = BitmapFactory.decodeFile(path + "postimage.jpg");//ä»Sdä¸­æ‰¾å¤´åƒï¼Œè½¬æ¢æˆBitmap
+		if(bt!=null){
+			@SuppressWarnings("deprecation")
+			Drawable drawable = new BitmapDrawable(bt);//è½¬æ¢æˆdrawable
+			posting_image.setImageDrawable(drawable);
+		}else{
+			/**
+			 *	å¦‚æœSDé‡Œé¢æ²¡æœ‰åˆ™éœ€è¦ä»æœåŠ¡å™¨å–å¤´åƒï¼Œå–å›æ¥çš„å¤´åƒå†ä¿å­˜åœ¨SDä¸­
+			 * 
+			 */
+		}
+		String Cancel = getString(R.string.Cancel);
+		String TakePhoto = getString(R.string.TakePhoto);
+		String FromAlbum = getString(R.string.FromAlbum);
+    	CharSequence [] options = {TakePhoto,FromAlbum,Cancel};
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.ChangeAvatar));
+		builder.setItems(options, new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface Optiondialog, int which) {
+		        if (which == 0){
+					Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+									"postimage.jpg")));
+					startActivityForResult(intent1, 2);//é‡‡ç”¨ForResultæ‰“
+		        }
+		        else if(which == 1){
+					Intent intent2 = new Intent(Intent.ACTION_PICK, null);
+					intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+					startActivityForResult(intent2, 1);
+		        }
 		    }
 		});
+		builder.show();
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case 1:
+			if (resultCode == RESULT_OK) {
+				cropPhoto(data.getData());//è£å‰ªå›¾ç‰‡
+			}
 
-	}
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		
-		camera.release();
-		camera = null;
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		if (camera == null){
-			camera = getCameraInstance();
+			break;
+		case 2:
+			if (resultCode == RESULT_OK) {
+				File temp = new File(Environment.getExternalStorageDirectory()
+						+ "/head.jpg");
+				cropPhoto(Uri.fromFile(temp));//è£å‰ªå›¾ç‰‡
+			}
+
+			break;
+		case 3:
+			if (data != null) {
+				Bundle extras = data.getExtras();
+				image = extras.getParcelable("data");
+				if(image!=null){
+					/**
+					 * ä¸Šä¼ æœåŠ¡å™¨ä»£ç 
+					 */
+					setPicToView(image);//ä¿å­˜åœ¨SDå¡ä¸­
+					posting_image.setImageBitmap(image);//ç”¨ImageViewæ˜¾ç¤ºå‡ºæ¥
+				}
+			}
+			break;
+		default:
+			break;
+
 		}
-		//±ØĞë·ÅÔÚonResumeÖĞ£¬²»È»»á³öÏÖHome¼üÖ®ºó£¬ÔÙ»Øµ½¸ÃAPP£¬ºÚÆÁ
-		mySurfaceView = new MySurfaceView(getApplicationContext(), camera);
-		FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-		preview.addView(mySurfaceView);
+		super.onActivityResult(requestCode, resultCode, data);
+	};
+	/**
+	 * è°ƒç”¨ç³»ç»Ÿçš„è£å‰ª
+	 * @param uri
+	 */
+	public void cropPhoto(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		 // aspectX aspectY æ˜¯å®½é«˜çš„æ¯”ä¾‹
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// outputX outputY æ˜¯è£å‰ªå›¾ç‰‡å®½é«˜
+		intent.putExtra("outputX", 150);
+		intent.putExtra("outputY", 150);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, 3);
 	}
-	
-	/*µÃµ½Ò»Ïà»ú¶ÔÏó*/
-	private Camera getCameraInstance(){
-		Camera camera = null;
-		try{
-			camera = camera.open();
-		}catch(Exception e){
+	private void setPicToView(Bitmap mBitmap) {
+		 String sdStatus = Environment.getExternalStorageState();  
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { 
+               return;  
+           }  
+		FileOutputStream b = null;
+		File file = new File(path);
+		file.mkdirs();// åˆ›å»ºæ–‡ä»¶å¤¹
+		String fileName =path + "head.jpg";//å›¾ç‰‡åå­—
+		try {
+			b = new FileOutputStream(fileName);
+			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// æŠŠæ•°æ®å†™å…¥æ–‡ä»¶
+			
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		return camera;
-	}
-	
-	
-	//-----------------------±£´æÍ¼Æ¬---------------------------------------
-	private void saveImageToFile(){
-		File file = getOutFile(TYPE_FILE_IMAGE);
-		if (file == null){
-			Toast.makeText(getApplicationContext(), "ÎÄ¼ş´´½¨Ê§°Ü,Çë¼ì²éSD¿¨¶ÁĞ´È¨ÏŞ", Toast.LENGTH_SHORT).show();
-			return ;
-		}
-		Log.i("MyPicture", "×Ô¶¨ÒåÏà»úÍ¼Æ¬Â·¾¶:" + file.getPath());
-		Toast.makeText(getApplicationContext(), "Í¼Æ¬±£´æÂ·¾¶£º" + file.getPath(), Toast.LENGTH_SHORT).show();
-		if (buffer == null){
-			Log.i("MyPicture", "×Ô¶¨ÒåÏà»úBuffer: null");
-		}else{
-			try{
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.write(buffer);
-				fos.close();
-			}catch(IOException e){
+		} finally {
+			try {
+				//å…³é—­æµ
+				b.flush();
+				b.close();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
-	
-	//-----------------------Éú³ÉUri---------------------------------------
-	//µÃµ½Êä³öÎÄ¼şµÄURI
-	private Uri getOutFileUri(int fileType) {
-		return Uri.fromFile(getOutFile(fileType));
-	}
-	
-	//Éú³ÉÊä³öÎÄ¼ş
-	private File getOutFile(int fileType) {
-		
-		String storageState = Environment.getExternalStorageState();
-		if (Environment.MEDIA_REMOVED.equals(storageState)){
-			Toast.makeText(getApplicationContext(), "oh,no, SD¿¨²»´æÔÚ", Toast.LENGTH_SHORT).show();
-			return null;
-		}
-		
-		File mediaStorageDir = new File (Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-				,"MyPictures");
-		if (!mediaStorageDir.exists()){
-			if (!mediaStorageDir.mkdirs()){
-				Log.i("MyPictures", "´´½¨Í¼Æ¬´æ´¢Â·¾¶Ä¿Â¼Ê§°Ü");
-				Log.i("MyPictures", "mediaStorageDir : " + mediaStorageDir.getPath());
-				return null;
-			}
-		}
-		
-		File file = new File(getFilePath(mediaStorageDir,fileType));
-		
-		return file;
-	}
-	//Éú³ÉÊä³öÎÄ¼şÂ·¾¶
-	private String getFilePath(File mediaStorageDir, int fileType){
-		String timeStamp =new SimpleDateFormat("yyyyMMdd_HHmmss")
-							.format(new Date());
-		String filePath = mediaStorageDir.getPath() + File.separator;
-		if (fileType == TYPE_FILE_IMAGE){
-			filePath += ("IMG_" + timeStamp + ".jpg");
-		}else if (fileType == TYPE_FILE_VEDIO){
-			filePath += ("VIDEO_" + timeStamp + ".mp4");
-		}else{
-			return null;
-		}
-		return filePath;
-	}
-	
-	
 }

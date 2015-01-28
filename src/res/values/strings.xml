@@ -125,6 +125,8 @@
     <string name="Mypost">我的帖子</string>
     <string name="MyReply">我的回复</string>
     <string name ="choose_platform">选择同时分享到平台：</string>
+    <string name ="posting">发布多聊</string>
+    <string name ="sendthread">发送</string>
     <string name="tomoreWeb">http://www.tomoreapp.com/<a href="http://www.tomoreapp.com/"></a></string>
     <string name="CopyRight">版权 &#x00A9; Eastcoast Investing Group Inc. 保留所有权利</string>
     <string name="AboutUsVersion">关于：Version 1.10</string>

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SDKIntegration">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/SDKIntegration.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

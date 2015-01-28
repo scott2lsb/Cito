@@ -10,6 +10,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/creativesdk/Foundation" />
+            <option value="$PROJECT_DIR$/src/creativesdk" />
+            <option value="$PROJECT_DIR$/src/creativesdk/CreativeSDKImage" />
+            <option value="$PROJECT_DIR$/src/creativesdk/Foundation/CreativeSDKFoundationAuth" />
           </set>
         </option>
       </GradleProjectSettings>
