@@ -73,17 +73,12 @@ public class MyCameraActivity extends Activity {
 			}
 		});
 		
-		albums.setOnClickListener(new Button.OnClickListener() { //更准确点应该是View.OnClickListener
+		albums.setOnClickListener(new Button.OnClickListener() {
 		    public void onClick(View v)
 		    {
-		        /* 新建一个Intent对象 */
 		        Intent intent = new Intent();
-		        //intent.putExtra("name","LeiPei");    
-		        /* 指定intent要启动的类 */
 		        intent.setClass(MyCameraActivity.this, ViewAlbums.class);
-		        /* 启动一个新的Activity */
 		        MyCameraActivity.this.startActivity(intent);
-		        /* 关闭当前的Activity */
 		        MyCameraActivity.this.finish();
 		    }
 		});
@@ -105,13 +100,11 @@ public class MyCameraActivity extends Activity {
 		if (camera == null){
 			camera = getCameraInstance();
 		}
-		//必须放在onResume中，不然会出现Home键之后，再回到该APP，黑屏
 		mySurfaceView = new MySurfaceView(getApplicationContext(), camera);
 		FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 		preview.addView(mySurfaceView);
 	}
 	
-	/*得到一相机对象*/
 	private Camera getCameraInstance(){
 		Camera camera = null;
 		try{
@@ -123,17 +116,15 @@ public class MyCameraActivity extends Activity {
 	}
 	
 	
-	//-----------------------保存图片---------------------------------------
 	private void saveImageToFile(){
 		File file = getOutFile(TYPE_FILE_IMAGE);
 		if (file == null){
-			Toast.makeText(getApplicationContext(), "文件创建失败,请检查SD卡读写权限", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(),"", Toast.LENGTH_SHORT).show();
 			return ;
 		}
-		Log.i("MyPicture", "自定义相机图片路径:" + file.getPath());
-		Toast.makeText(getApplicationContext(), "图片保存路径：" + file.getPath(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), "图片锟斤拷锟斤拷路锟斤拷锟斤拷" + file.getPath(), Toast.LENGTH_SHORT).show();
 		if (buffer == null){
-			Log.i("MyPicture", "自定义相机Buffer: null");
+			Log.i("MyPicture", "锟皆讹拷锟斤拷锟斤拷锟紹uffer: null");
 		}else{
 			try{
 				FileOutputStream fos = new FileOutputStream(file);
@@ -145,18 +136,18 @@ public class MyCameraActivity extends Activity {
 		}
 	}
 	
-	//-----------------------生成Uri---------------------------------------
-	//得到输出文件的URI
+	//-----------------------锟斤拷锟経ri---------------------------------------
+	//锟矫碉拷锟斤拷锟斤拷募锟斤拷锟経RI
 	private Uri getOutFileUri(int fileType) {
 		return Uri.fromFile(getOutFile(fileType));
 	}
 	
-	//生成输出文件
+	//锟斤拷锟斤拷锟斤拷锟侥硷拷
 	private File getOutFile(int fileType) {
 		
 		String storageState = Environment.getExternalStorageState();
 		if (Environment.MEDIA_REMOVED.equals(storageState)){
-			Toast.makeText(getApplicationContext(), "oh,no, SD卡不存在", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "oh,no, SD锟斤拷锟斤拷锟斤拷锟斤拷", Toast.LENGTH_SHORT).show();
 			return null;
 		}
 		
@@ -165,7 +156,7 @@ public class MyCameraActivity extends Activity {
 				,"MyPictures");
 		if (!mediaStorageDir.exists()){
 			if (!mediaStorageDir.mkdirs()){
-				Log.i("MyPictures", "创建图片存储路径目录失败");
+				Log.i("MyPictures", "锟斤拷锟斤拷图片锟芥储路锟斤拷目录失锟斤拷");
 				Log.i("MyPictures", "mediaStorageDir : " + mediaStorageDir.getPath());
 				return null;
 			}
@@ -175,7 +166,7 @@ public class MyCameraActivity extends Activity {
 		
 		return file;
 	}
-	//生成输出文件路径
+	//锟斤拷锟斤拷锟斤拷锟侥硷拷路锟斤拷
 	private String getFilePath(File mediaStorageDir, int fileType){
 		String timeStamp =new SimpleDateFormat("yyyyMMdd_HHmmss")
 							.format(new Date());

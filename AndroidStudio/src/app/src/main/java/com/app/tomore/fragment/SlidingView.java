@@ -96,10 +96,7 @@ public class SlidingView extends ViewGroup {
 
 	private boolean mIsBeingDragged;
 
-	
-    /**
-     * ÊµÏÖÁËontouchµÄ·Ö·¢À¹½Ø
-     */
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 
@@ -211,27 +208,27 @@ public class SlidingView extends ViewGroup {
 				int oldScrollX = getScrollX();
 				int dx = 0;
 				if (oldScrollX < 0) {
-					// ×ó±ß
+					// ï¿½ï¿½ï¿½
 					if (oldScrollX < -getLeftMenuWidth() / 2
 							|| velocityX > SNAP_VELOCITY) {
-						// ×ó²àÒ³Ãæ»®³ö
+						// ï¿½ï¿½ï¿½Ò³ï¿½æ»®ï¿½ï¿½
 						dx = -getLeftMenuWidth() - oldScrollX;
 
 					} else if (oldScrollX >= -getLeftMenuWidth() / 2
 							|| velocityX < -SNAP_VELOCITY) {
-						// ×ó²àÒ³Ãæ¹Ø±Õ
+						// ï¿½ï¿½ï¿½Ò³ï¿½ï¿½Ø±ï¿½
 						dx = -oldScrollX;
 					}
 				} else {
-					// ÓÒ±ß
+					// ï¿½Ò±ï¿½
 					if (oldScrollX > getRightMenuWidth() / 2
 							|| velocityX < -SNAP_VELOCITY) {
-						// ÓÒ²àÒ³Ãæ»®³ö
+						// ï¿½Ò²ï¿½Ò³ï¿½æ»®ï¿½ï¿½
 						dx = getRightMenuWidth() - oldScrollX;
 
 					} else if (oldScrollX <= getRightMenuWidth() / 2
 							|| velocityX > SNAP_VELOCITY) {
-						// ÓÒ²àÒ³Ãæ¹Ø±Õ
+						// ï¿½Ò²ï¿½Ò³ï¿½ï¿½Ø±ï¿½
 						dx = -oldScrollX;
 					}
 				}
@@ -297,7 +294,7 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * ´ò¿ª£¨¹Ø±Õ£©×ó²àÒ³Ãæ
+	 * ï¿½ò¿ª£ï¿½ï¿½Ø±Õ£ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 */
 	public void showLeftView() {
 		mLeftView.setVisibility(View.VISIBLE);
@@ -312,7 +309,7 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * ´ò¿ª£¨¹Ø±Õ£©ÓÒ²àÒ³Ãæ
+	 * ï¿½ò¿ª£ï¿½ï¿½Ø±Õ£ï¿½ï¿½Ò²ï¿½Ò³ï¿½ï¿½
 	 */
 	public void showRightView() {
 		mLeftView.setVisibility(View.GONE);
@@ -329,7 +326,7 @@ public class SlidingView extends ViewGroup {
 	}
 
 	/**
-	 * ÏÔÊ¾ÖÐ¼äÒ³Ãæ
+	 * ï¿½ï¿½Ê¾ï¿½Ð¼ï¿½Ò³ï¿½ï¿½
 	 */
 	public void showCenterView() {
 		int menuWidth = mRightView.getWidth();

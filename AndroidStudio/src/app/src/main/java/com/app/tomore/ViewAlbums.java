@@ -23,17 +23,13 @@ public class ViewAlbums extends Activity {
         setContentView(R.layout.mycamera_layout);  
           
         ImageButton button = (ImageButton)findViewById(R.id.albums);  
-        //button.setText("选择图片");  
-        button.setOnClickListener(new ImageButton.OnClickListener(){  
+        button.setOnClickListener(new ImageButton.OnClickListener(){
             @Override  
             public void onClick(View v) {  
                 Intent intent = new Intent();  
-                /* 开启Pictures画面Type设定为image */  
-                intent.setType("image/*");  
-                /* 使用Intent.ACTION_GET_CONTENT这个Action */  
-                intent.setAction(Intent.ACTION_GET_CONTENT);   
-                /* 取得相片后返回本画面 */  
-                startActivityForResult(intent, 1);  
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
             }  
               
         });  
@@ -48,7 +44,7 @@ public class ViewAlbums extends Activity {
             try {  
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));  
                 ImageView imageView = (ImageView) findViewById(R.id.iv01);  
-                /* 将Bitmap设定到ImageView */  
+                /* 锟斤拷Bitmap锟借定锟斤拷ImageView */  
                 imageView.setImageBitmap(bitmap);  
             } catch (FileNotFoundException e) {  
                 Log.e("Exception", e.getMessage(),e);  
