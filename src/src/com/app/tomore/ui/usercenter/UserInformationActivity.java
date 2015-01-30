@@ -25,6 +25,8 @@ import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+
 import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +71,7 @@ public class UserInformationActivity extends Activity {
 	private Button btnFollowed;
 	private Button commentButton;
 	private ArrayList<ThreadModel> threadList;
+	private DisplayImageOptions otpPorfileImage;
 	private DisplayImageOptions otp;
 	private GridView gridView;
 	private String memberID; 
@@ -105,6 +108,9 @@ public class UserInformationActivity extends Activity {
 		btnFollowed = (Button)findViewById(R.id.btnFollowed);
 		commentButton = (Button)findViewById(R.id.bar_title_bt_share);
 		commentButton.setOnClickListener(new buttonComment());
+		otpPorfileImage = new DisplayImageOptions.Builder().displayer(new RoundedBitmapDisplayer(100)).cacheInMemory(true)
+				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
+				.build();
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
@@ -367,7 +373,7 @@ public class UserInformationActivity extends Activity {
 					userInformation = new UserModel();
 					if (userModelList.size() > 0 || userModelList != null) {
 						userInformation = userModelList.get(0);						
-						ImageLoader.getInstance().displayImage(userInformation.getImage(), profileImage, otp);
+						ImageLoader.getInstance().displayImage(userInformation.getImage(), profileImage, otpPorfileImage);
 						if(userInformation.getGender().equals("Male")){
 							userGender.setImageResource(R.drawable.male_icon);					
 						} else if(userInformation.getGender().equals("Female")){

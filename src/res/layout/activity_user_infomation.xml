@@ -61,8 +61,8 @@
 
          <ImageView
              android:id="@+id/ivProfileImage"
-             android:layout_width="80sp"
-             android:layout_height="80sp"
+             android:layout_width="100sp"
+             android:layout_height="100sp"
              android:layout_alignParentLeft="true"
              android:layout_marginLeft="15dp"
              android:layout_marginTop="30dp" />
@@ -73,7 +73,7 @@
              android:layout_height="30sp"
              android:layout_alignTop="@+id/ivProfileImage"
              android:layout_toRightOf="@+id/ivProfileImage"
-             android:layout_marginLeft="5dp"/>
+             android:layout_marginLeft="10dp"/>
 
          <TextView
              android:id="@+id/tvUserName"
@@ -93,6 +93,7 @@
              android:layout_alignTop="@+id/tvUserName"
              android:layout_alignBottom="@+id/tvUserName"
              android:layout_marginRight="5dp"
+             android:paddingRight="15dp"
              android:background="#00000000"
              android:textColor="#1589FF"
              android:textSize="20sp" />
