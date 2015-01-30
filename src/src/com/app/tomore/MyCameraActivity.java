@@ -30,6 +30,8 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	private Bitmap image;
 	private static String path="/sdcard/postingimage/";//sd路径
 	private View layout;
+	private boolean webchatOnclick = false;
+	private boolean qqOnclick = false;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -49,6 +51,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		TextView send = (TextView) layout.findViewById(R.id.submit_button);
 		send.setText(getString(R.string.sendthread));
 		btnBack.setVisibility(View.GONE);
+		BindData();
 	}
 	@Override
 	public void onClick(View v) {
@@ -108,7 +111,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		case 2:
 			if (resultCode == RESULT_OK) {
 				File temp = new File(Environment.getExternalStorageDirectory()
-						+ "/head.jpg");
+						+ "/postimage.jpg");
 				cropPhoto(Uri.fromFile(temp));//裁剪图片
 			}
 
@@ -157,7 +160,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		FileOutputStream b = null;
 		File file = new File(path);
 		file.mkdirs();// 创建文件夹
-		String fileName =path + "head.jpg";//图片名字
+		String fileName =path + "postimage.jpg";//图片名字
 		try {
 			b = new FileOutputStream(fileName);
 			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
@@ -174,5 +177,37 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 			}
 
 		}
+	}
+	private void BindData()
+	{
+		final ImageView qq_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.qq_platform);
+		final ImageView webchat_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.webchat_platform);
+		qq_platform.setOnClickListener(new View.OnClickListener() {
+			@Override
+		    public void onClick(View v) {
+		    	if (qqOnclick == true){
+		    		qq_platform.setBackground(getResources().getDrawable(R.drawable.friendsg));
+		    		qqOnclick = false;
+		    	}
+		    	else{
+		    		qq_platform.setBackground(getResources().getDrawable(R.drawable.friends));
+		    		qqOnclick = true;
+		    	}
+		    }
+		});;
+		webchat_platform.setOnClickListener(new View.OnClickListener() {
+			@Override
+		    public void onClick(View v) {
+		    	if (webchatOnclick == true){
+		    		webchat_platform.setBackground(getResources().getDrawable(R.drawable.wxg));
+		    		webchatOnclick = false;
+		    	}
+		    	else{
+		    		webchat_platform.setBackground(getResources().getDrawable(R.drawable.wx));
+		    		webchatOnclick = true;
+		    	}
+		    }
+		});;
+		
 	}
 }
