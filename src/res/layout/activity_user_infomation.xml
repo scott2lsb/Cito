@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#FFFFFF">
 
      <include
         android:id="@+id/bar_title_mythread"
@@ -63,7 +64,7 @@
              android:layout_width="80sp"
              android:layout_height="80sp"
              android:layout_alignParentLeft="true"
-             android:layout_marginLeft="5dp"
+             android:layout_marginLeft="15dp"
              android:layout_marginTop="30dp" />
 
          <ImageView
@@ -152,17 +153,26 @@
 
      </RelativeLayout>
 
+     <TextView
+         android:id="@+id/textView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textColor="#1589FF"
+         android:layout_marginLeft="15dp"
+         android:text="@string/member_picture"
+         android:background="#FFFFFF"
+         android:textSize="20sp" />
+
     <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#FFFFFF"
-        android:columnWidth="90dp"
         android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="30dp" >
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth" >
     </GridView>
 
     <TextView

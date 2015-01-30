@@ -243,7 +243,7 @@ public class UserInformationActivity extends Activity {
 		}
 
 		@Override
-		public Object getItem(int arg0) {
+		public Object getItem(int arg0) { 	
 			// TODO Auto-generated method stub
 			return threadList.get(arg0);
 		}
@@ -264,10 +264,10 @@ public class UserInformationActivity extends Activity {
 			} else {
 				viewHolder = new ViewHolder();
 				convertView = LayoutInflater.from(UserInformationActivity.this)
-						.inflate(R.layout.thread_user_item, null);
+						.inflate(R.layout.gridview_item, null);
 
 				viewHolder.ImageView = (ImageView) convertView
-						.findViewById(R.id.ItemImage);
+						.findViewById(R.id.picture);
 				viewHolder.ImageView.setOnClickListener(new View.OnClickListener() {
 					
 					@Override
