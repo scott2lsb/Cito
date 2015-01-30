@@ -2,6 +2,9 @@ package com.app.tomore.ui.usercenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import com.app.tomore.R;
 import com.app.tomore.beans.ThreadImageModel;
@@ -11,9 +14,12 @@ import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.mag.MagCommentActivity;
+import com.app.tomore.ui.mag.MagDetailActivity;
 import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.ui.threads.ThreadReplyActivity;
+import com.app.tomore.utils.AndroidShare;
 import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
@@ -24,17 +30,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -43,6 +53,7 @@ public class UserInformationActivity extends Activity {
 	private DialogActivity dialog;
 	private Activity mContext;
 	private String followOrUnfollowModelList;
+	private String blockList;
 	private String userThreadString = null;
 	private String userInforstring = null;
 	private String logindInUserId = null;
@@ -56,12 +67,24 @@ public class UserInformationActivity extends Activity {
 	private Button btnPosts;
 	private Button btnFollowing;
 	private Button btnFollowed;
+	private Button commentButton;
 	private ArrayList<ThreadModel> threadList;
 	private DisplayImageOptions otp;
 	private GridView gridView;
 	private String memberID; 
 	private String viewerID;
 	private String followed;
+	private AlertDialog alertDialog;
+	
+	private String[] allOptionsMenuTexts = {"加入黑名单","举报该用户"};  
+	   private int[] allOptionsMenuOrders = {2,6};  
+	   private int[] allOptionsMenuIds = {Menu.FIRST+2,Menu.FIRST+6};  
+	   private int[] allOptionsMenuIcons = {   
+	        android.R.drawable.ic_menu_edit,  
+	        android.R.drawable.ic_menu_send,  
+	        }; 
+	   
+	   
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +103,8 @@ public class UserInformationActivity extends Activity {
 		btnPosts = (Button)findViewById(R.id.btnPosts);
 		btnFollowing = (Button)findViewById(R.id.btnFollowing);
 		btnFollowed = (Button)findViewById(R.id.btnFollowed);
+		commentButton = (Button)findViewById(R.id.bar_title_bt_share);
+		commentButton.setOnClickListener(new buttonComment());
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
@@ -437,6 +462,139 @@ public class UserInformationActivity extends Activity {
 							followed = "0";
 						}
 						new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+	}
+	
+	private class buttonComment implements OnClickListener  
+    {  
+        public void onClick(View v)  
+        {  
+        	showDialog8();
+        }  
+    } 
+	
+	public void showDialog8(){  
+	    final Context context = this;  
+	       
+	    LayoutInflater layoutInflater = getLayoutInflater();  
+	    View menuView = layoutInflater.inflate(R.layout.group_list, null);  
+	    
+	    GridView gridView = (GridView)menuView.findViewById(R.id.gridview);  
+	    SimpleAdapter menuSimpleAdapter = createSimpleAdapter(allOptionsMenuTexts,allOptionsMenuIcons);  
+	    gridView.setAdapter(menuSimpleAdapter);  
+	    
+	    AlertDialog.Builder builder ;
+	    builder = new AlertDialog.Builder(context);  
+        builder.setView(menuView);  
+        //alertDialog = builder.create();  
+        alertDialog=builder.show();  
+	    gridView.setOnItemClickListener(new OnItemClickListener(){  
+	        @Override  
+	        public void onItemClick(AdapterView<?> parent, View view,  
+	                int position, long id) {  
+	        	if(position==0)
+	        	{
+	        		new MyBlock(UserInformationActivity.this, 1).execute(followed, memberID);
+//	        		Intent intent=new Intent(UserInformationActivity.this,ThreadReplyActivity.class);   
+//	    			intent.putExtra("articleid", articleItem.getArticleID());
+//	                startActivity(intent);  
+//	                alertDialog.dismiss();
+	                //finish();
+	        	}
+	        	else if(position==1)
+	        	{
+	        		//here should be report function!!!
+	        		AndroidShare as = new AndroidShare(
+	        				UserInformationActivity.this,
+	        				"你正在使用多伦多最潮的APP，快来看看吧",
+	        				"www.tomoreapp.com");
+	        		as.show();
+	        		alertDialog.dismiss();
+//	        		mController.getConfig().removePlatform(SHARE_MEDIA.RENREN,
+//	    					SHARE_MEDIA.DOUBAN);
+//	    			//Ĭ�Ϸ��?ʽ
+//	    			mController.openShare(MagDetailActivity.this, null);
+	        				
+	        	}
+
+	        }  
+	    });  
+	   // new AlertDialog.Builder(context).setView(menuView).show();  
+	}
+	
+	public SimpleAdapter createSimpleAdapter(String[] menuNames,int[] menuImages){  
+	    List<Map<String,?>> data = new ArrayList<Map<String,?>>();  
+	    String[] fromsAdapter = {"item_text","item_image"};  
+	    int[] tosAdapter = {R.id.item_text,R.id.item_image};  
+	    for(int i=0;i<menuNames.length;i++){  
+	        Map<String,Object> map = new HashMap<String,Object>();  
+	        map.put(fromsAdapter[0], menuNames[i]);  
+	        map.put(fromsAdapter[1], menuImages[i]);  
+	        data.add(map);  
+	    }  
+	      
+	    SimpleAdapter SimpleAdapter = new SimpleAdapter(this, data, R.layout.group_item_view, fromsAdapter, tosAdapter);  
+	    return SimpleAdapter;  
+	}  
+	
+	private class MyBlock extends AsyncTask<String, String, String> {
+		private int mType;
+		
+		private MyBlock(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			UserCenterRequest request = new UserCenterRequest(UserInformationActivity.this);
+			String blockMemberID = params[1];
+			try {
+				String block = "1";
+				result = request.getBlockOrUnblockRequest(viewerID, blockMemberID, block);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			
+			return result;			
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			if (result == null || result.equals("")) {
+				ToastUtils.showToast(mContext, "列表为空");
+			} else {				
+				if(blockList!=null && !blockList.equals(""))
+				{
+					blockList = new String();
+//					Toast.makeText(getApplicationContext(), "操作失败", 1).show();
+				}
+				else
+					blockList = new String();
+				try {
+					blockList = new UserCenterParse().parseBlockOrUnblockwResponse(result);
+							Toast.makeText(getApplicationContext(), "加入黑名单", 1).show();
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
