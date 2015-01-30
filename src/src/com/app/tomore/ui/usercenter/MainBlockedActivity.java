@@ -307,7 +307,7 @@ public class MainBlockedActivity extends Activity {
 			String blockOrUnblockMemberID = params[0];
 			UserCenterRequest request = new UserCenterRequest(MainBlockedActivity.this);
 			try {
-				result = request.getBlockOrUnblockRequest(viewerID, blockOrUnblockMemberID, "1");
+				result = request.getBlockOrUnblockRequest(viewerID, blockOrUnblockMemberID, "0");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

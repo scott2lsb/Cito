@@ -3,7 +3,11 @@ import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
-	 public String getMemberID() {
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String getMemberID() {
 		return memberID;
 	}
 	public void setMemberID(String memberID) {
@@ -124,7 +128,15 @@ public class UserModel implements Serializable {
 	private String gender;
 	private String totalThread;
 	private String followingNum;
-	private String followedNum;	
+	private String followedNum;
+	private String image;
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
     	 
 }
 

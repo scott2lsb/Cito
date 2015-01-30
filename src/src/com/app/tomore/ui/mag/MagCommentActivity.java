@@ -1,4 +1,4 @@
-package com.app.tomore.ui.mag;
+﻿package com.app.tomore.ui.mag;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,7 +101,7 @@ public class MagCommentActivity extends Activity {
 
 		mListView = (PullToRefreshListView) findViewById(R.id.mag_comment_listviews);
 		mListView.setOnRefreshListener(onRefreshListener);
-		noneData = (TextView) findViewById(R.id.noData);
+		noneData = (TextView) findViewById(R.id.noneData);
 		no_net_lay = findViewById(R.id.no_net_lay);
 		submit = (Button) findViewById(R.id.commentSubmit);
 		content = (EditText) findViewById(R.id.commentContent);
@@ -112,7 +112,7 @@ public class MagCommentActivity extends Activity {
 
 		mContext = this;
 		page = 1;
-		limit = 5;
+		limit = 10;
 
 		RelativeLayout rl = (RelativeLayout) getWindow().getDecorView()
 				.findViewById(R.id.bar_title_commentlistbar);
@@ -160,7 +160,7 @@ public class MagCommentActivity extends Activity {
 		});
 
 		// mListView.setAdapter(articleListAdapter);
-
+		headerRefresh = true;
 		new GetData(MagCommentActivity.this, 1).execute("");
 	}
 

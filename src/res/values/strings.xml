@@ -70,6 +70,7 @@
     <color name="login_background_color">#3191dd</color>
     <color name="login_button_color">#0b52c4</color>
 
+    <string name="member_picture">Ta的图片：</string>
     <string name="submit">提交</string>
     <string name="register_email">邮箱，必填</string>
     <string name="register_user_name">用户名，必填</string>

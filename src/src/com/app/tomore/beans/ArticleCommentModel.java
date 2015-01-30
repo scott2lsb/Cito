@@ -6,8 +6,12 @@ import org.json.JSONObject;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-public class ArticleCommentModel extends BaseBean implements Serializable, Comparable<ArticleCommentModel>{ 
+public class ArticleCommentModel implements Serializable{ 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String CommentID;
 	private String  CommentContent;
 	private String  MemberID;
@@ -82,36 +86,5 @@ public class ArticleCommentModel extends BaseBean implements Serializable, Compa
 		MemberImage = memberImage;
 	}
 
-
-	
-	@Override
-	public int compareTo(ArticleCommentModel another) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object parseJSON(JSONObject jsonObj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSONObject toJSON() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object cursorToBean(Cursor cursor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ContentValues beanToValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 	

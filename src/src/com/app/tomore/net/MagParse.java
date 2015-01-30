@@ -1,4 +1,4 @@
-package com.app.tomore.net;
+﻿package com.app.tomore.net;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,20 +66,23 @@ public class MagParse {
 	{
 		JsonElement jelement = new JsonParser().parse(pre);
 		JsonObject  jobject2 = jelement.getAsJsonObject();
-		pre =jobject2.get("pre").getAsString();
-
-		return pre;
-		
+		if(jobject2.get("pre").isJsonNull())
+		{
+			return null;
+		}
+		else
+			return jobject2.get("pre").getAsString();
 	}
 	
 	public String parseNext(String next) throws JsonSyntaxException
 	{
 		JsonElement jelement = new JsonParser().parse(next);
 		JsonObject  jobject3 = jelement.getAsJsonObject();
-		next =jobject3.get("next").getAsString();
-		return next;
-
-		
+		if(jobject3.get("next").isJsonNull())
+		{
+			return null;
+		}
+		else
+			return jobject3.get("next").getAsString();
 	}
-	
 }

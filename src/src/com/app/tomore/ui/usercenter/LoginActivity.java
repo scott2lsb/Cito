@@ -101,7 +101,9 @@ public class LoginActivity extends Activity{
 				UserCenterParse ucParse = new UserCenterParse();
 				UserModel usermodel = ucParse.parseLoginResponse(result);
 			    if(usermodel!=null){
-			    	SpUtils.saveUserId(LoginActivity.this, usermodel.getMemberID());
+			    	SpUtils.saveUserInformation(LoginActivity.this, usermodel);
+			    	Toast.makeText(getApplicationContext(), "登陆成功",
+							Toast.LENGTH_SHORT).show();
 			    	finish();
 			    }else {
 			    	Toast.makeText(getApplicationContext(), "请输入有效的邮箱和密码",

@@ -1,4 +1,4 @@
-package com.app.tomore.net;
+﻿package com.app.tomore.net;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MagRequest {
         ParameterMap params = baseRequest.newParams()
                 .add("articleIssue",articleIssue)
         		.add("articleCategory",categoryId);
-        HttpResponse httpResponse = baseRequest.post("/APIV2/getArticleByArticleCategoryAndIssue.php", params);
+        HttpResponse httpResponse = baseRequest.get("/APIV2/getArticleByArticleCategoryAndIssue.php", params);
         return httpResponse.getBodyAsString();
 	}
 	
@@ -55,7 +55,7 @@ public class MagRequest {
         		.add("articleID",articleID)
         		.add("memberID",memberID)
         		.add("commentContent",commentContent);
-        HttpResponse httpResponse = baseRequest.post("/postCommentToArticle.php", params);
+        HttpResponse httpResponse = baseRequest.get("/postCommentToArticle.php", params);
         return httpResponse.getBodyAsString();
 	}
 	
@@ -67,7 +67,7 @@ public class MagRequest {
                 .add("articleID",articleID)
         		.add("page",page)
         		.add("limit",limit);
-        HttpResponse httpResponse = baseRequest.post("/getCommentsByArticleID.php", params);
+        HttpResponse httpResponse = baseRequest.get("/getCommentsByArticleID.php", params);
         return httpResponse.getBodyAsString();
 	}
 	
@@ -75,7 +75,7 @@ public class MagRequest {
 			throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
         baseRequest.setConnectionTimeout(2000);
-        HttpResponse httpResponse = baseRequest.post("/APIV2/getArticleCategories.php", null);
+        HttpResponse httpResponse = baseRequest.get("/APIV2/getArticleCategories.php", null);
         return httpResponse.getBodyAsString();
 	}
 	
