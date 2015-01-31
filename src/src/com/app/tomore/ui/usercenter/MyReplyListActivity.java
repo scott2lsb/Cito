@@ -59,6 +59,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyReplyListActivity extends Activity {
 	private DialogActivity dialog;
@@ -135,7 +136,7 @@ private class GetData extends AsyncTask<String, String, String>{
 			UserCenterRequest request = new UserCenterRequest(MyReplyListActivity.this);
 			try {
 
-				String memberID="45";
+				String memberID="25";
 				Log.d("doInBackground", "start request");
 				result = request.getUserUpdate(memberid);
 				Log.d("doInBackground", "returned");
@@ -176,77 +177,10 @@ private class GetData extends AsyncTask<String, String, String>{
 		}
 
 	}
-private class GetData1 extends AsyncTask<String, String, String>{
-	
-	private int mType;
-	private String ThreadID;
-	private GetData1(Context context, int type, String threadid) {
-		// this.mContext = context;
-		this.mType = type;
-		this.ThreadID = threadid;
-		dialog = new DialogActivity(context, type);
-	}
-	@Override
-	protected void onPreExecute() {
-		if (mType == 1 || mType ==2) {
-			if (null != dialog && !dialog.isShowing()) {
-				dialog.show();
-			}
-		}
-		super.onPreExecute();
-	}
-	
-	@Override
-	protected String doInBackground(String... params) {
-		// TODO Auto-generated method stub
-		String result = null;
-		if (mType == 1){
-			ThreadsRequest request = new ThreadsRequest(MyReplyListActivity.this);
-			try {
-
-				Log.d("doInBackground", "start request");
-				result = request.getThreadInfoBythreadrID(393);
-				Log.d("doInBackground", "returned");
-			}catch (IOException e) {
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			}
-			
-		}
-		return result;
-	
-	}
-	@Override
-	protected void onPostExecute(String result) {
-		if (null != dialog) {
-			dialog.dismiss();
-		}
-		Log.d("onPostExecute", "postExec state");
-		if (result == null || result.equals("")) {
-			// show empty alert
-		} else {
-			
-			try {
-				threadmodel =new ThreadsParse().getThreadByThreadIDParse(result);
-	
-			} catch (JsonSyntaxException e) {
-				e.printStackTrace();
-			}
-			if(threadmodel !=null){
-				Intent intent =new Intent(MyReplyListActivity.this,MyCameraActivity.class);
-				intent.putExtra("threadModel",(Serializable) threadmodel);
-				// startActivity(intent);
-			}
-			else{
-				// show empty alert
-			}
-		}
-	}
-
-}
-      private void BindDataToListView() {
+  private void BindDataToListView() {
     	  final List<ImageAndText> imageAndTexts = new ArrayList<ImageAndText>();
+ 
+    	  final List<String> threadidlist= new ArrayList<String>();
     	
           int p ;
           int q;
@@ -258,12 +192,15 @@ private class GetData1 extends AsyncTask<String, String, String>{
     		     q = c.getLikeList().size();
         	     for (int i =0;i<q;){
         	    	  imageAndTexts.add(new ImageAndText(c.getLikeList().get(i).getImage(), c.getLikeList().get(i).getAccountName(), information,drawable));
+        	    	  threadidlist.add(c.getLikeList().get(i).getThreadID());
     	    		  i++;
+    	    		  
         	     }
     		  
-    		  p = c.getCommentList().size();
-    	     for (int i =0;i<p;){
+    		    p = c.getCommentList().size();
+    	        for (int i =0;i<p;){
     		  imageAndTexts.add(new ImageAndText(c.getCommentList().get(i).getMemberImage(), c.getCommentList().get(i).getCommentContent(), information1,null));
+    		  threadidlist.add(c.getCommentList().get(i).getThreadID());
     		  i++;
     	
     	     }
@@ -278,16 +215,25 @@ private class GetData1 extends AsyncTask<String, String, String>{
 
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id){
+				    
+					threadupdateitem =  threadupdatemodel.get(0);
+					threadid=threadidlist.get(position) ;
+					
+			
+
+					
 				
-	                new GetData1(MyReplyListActivity.this, 1,"0").execute("");	
+	              //  new GetData1(MyReplyListActivity.this, 1,"0").execute("");	
 	               
 	             
-		
+		            
 
 					Intent intent = new Intent(MyReplyListActivity.this,
 							ThreadReplyActivity.class);
-					intent.putExtra("threadModel", threadmodel.get(0) );
-					startActivity(intent);
+			    	Toast.makeText(getApplicationContext(), threadid,
+							Toast.LENGTH_SHORT).show();
+					intent.putExtra("threadModel1", threadid );
+				//	startActivity(intent);
 
 				}
 				

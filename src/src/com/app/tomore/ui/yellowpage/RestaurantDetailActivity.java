@@ -194,6 +194,7 @@ public class RestaurantDetailActivity extends Activity{
 		LayoutInflater inflater = (LayoutInflater) mContext
 		.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.restaurant_picturelarge, null);
+		layout.getBackground().setAlpha(255);
 		ImageView largeimage = (ImageView) layout.findViewById(R.id.MenuImagelargesize);
         
 	    ImageLoader.getInstance().displayImage(menulist.get(positon).getItemImage(),
