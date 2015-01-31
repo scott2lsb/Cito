@@ -107,7 +107,7 @@ public class LoginActivity extends Activity{
 				UserCenterParse ucParse = new UserCenterParse();
 				UserModel usermodel = ucParse.parseLoginResponse(result);
 			    if(usermodel!=null){
-			    	if(usermodel.getStatus().equals("0")){
+			    	if(usermodel.getStatus().equals("1")){
 			    	SpUtils.saveUserInformation(LoginActivity.this, usermodel);
 			    	Toast.makeText(getApplicationContext(), "登陆成功",
 							Toast.LENGTH_SHORT).show();
@@ -115,7 +115,7 @@ public class LoginActivity extends Activity{
 					startActivity(intent); 
 //			    	finish();
 			    	} 
-			    	else if(usermodel.getStatus().equals("1")){
+			    	else if(usermodel.getStatus().equals("0")){
 			    		Toast.makeText(getApplicationContext(), "请查看邮箱并激活账号",
 								Toast.LENGTH_SHORT).show();
 			    	}
