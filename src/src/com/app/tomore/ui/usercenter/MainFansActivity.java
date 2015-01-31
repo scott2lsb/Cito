@@ -16,6 +16,7 @@ import com.app.tomore.R.layout;
 import com.app.tomore.beans.FansModel;
 import com.app.tomore.beans.FollowOrUnfollowModel;
 import com.app.tomore.beans.GeneralBLModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.net.YellowPageParse;
@@ -51,6 +52,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.app.tomore.utils.SpUtils;
 
 public class MainFansActivity extends Activity {
@@ -75,6 +77,7 @@ public class MainFansActivity extends Activity {
 	private Button btnFollow;
 	private String memberID;
 	private String viewerID;
+	UserModel usermodel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,9 @@ public class MainFansActivity extends Activity {
 		setContentView(R.layout.activity_main_fans);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		viewerID = SpUtils.getUserId(MainFansActivity.this);
-		memberID = getIntent().getStringExtra("memberID");
+		usermodel=SpUtils.getUserInformation(MainFansActivity.this);
+		memberID= usermodel.getMemberID();
+	
 		if(memberID == null){
 			memberID = viewerID;
 		}		

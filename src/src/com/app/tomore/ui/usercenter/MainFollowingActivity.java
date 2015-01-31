@@ -11,6 +11,7 @@ import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.beans.FansModel;
 import com.app.tomore.beans.FollowingModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
@@ -70,14 +71,17 @@ public class MainFollowingActivity extends Activity {
 	private Button btnFollow;
 	private String memberID;
 	private String viewerID;
+	 private String memberid;
+	 UserModel usermodel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_following);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		viewerID = SpUtils.getUserId(MainFollowingActivity.this);
-		memberID = getIntent().getStringExtra("memberID");
+		usermodel = SpUtils.getUserInformation(MainFollowingActivity.this);
+		memberID = usermodel.getMemberID();
+		
 		if(memberID == null){
 			memberID = viewerID;
 		}	

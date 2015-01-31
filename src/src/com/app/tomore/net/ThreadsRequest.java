@@ -114,6 +114,18 @@ public class ThreadsRequest {
 				"/getThreadListByMemberID.php", params);
 		return httpResponse.getBodyAsString();
 	}
+	//http://54.213.167.5/getThreadInfo.php?threadID=724
+	public String getThreadInfoBythreadrID(int threadId)
+			 throws IOException, TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+
+				.add("threadID", Integer.toString(threadId));
+		HttpResponse httpResponse = baseRequest.post(
+				"/getThreadInfo.php", params);
+		return httpResponse.getBodyAsString();
+	}
 	
 	//post thread comment
 	//http://54.213.167.5/postThreadComment.php?&memberID=20&parentID=6&threadContent=hihi&threadTitle=2323&threadType=0
@@ -186,4 +198,7 @@ public class ThreadsRequest {
 				"/APIV2/LikeOrUnlikeForEvent.php", params);
 		return httpResponse.getBodyAsString();
 	}
+
+	
+
 }

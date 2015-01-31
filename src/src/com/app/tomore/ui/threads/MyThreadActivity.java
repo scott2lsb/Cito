@@ -15,14 +15,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.app.tomore.beans.BLRestaurantModel;
 import com.app.tomore.beans.ThreadImageModel;
 import com.app.tomore.beans.ThreadModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.yellowpage.GeneralBLActivity;
 import com.app.tomore.ui.yellowpage.GeneralBLDetailActivity;
 import com.app.tomore.ui.yellowpage.RestaurantBLActivity;
 import com.app.tomore.ui.yellowpage.RestaurantDetailActivity;
 import com.app.tomore.utils.AppUtil;
+import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 
@@ -59,6 +62,8 @@ public class MyThreadActivity extends Activity {
 	private ListView listView;
 	private DisplayMetrics dm = new DisplayMetrics();  
 	private View layout;
+	 private String memberid;
+	 UserModel usermodel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,8 @@ public class MyThreadActivity extends Activity {
 			}
 		});
 		new GetData(MyThreadActivity.this, 1,"0").execute("");
+		usermodel =SpUtils.getUserInformation(MyThreadActivity.this);
+		memberid =usermodel.getMemberID();
 
 		
 	}
@@ -116,10 +123,10 @@ public class MyThreadActivity extends Activity {
 				ThreadsRequest request = new ThreadsRequest(MyThreadActivity.this);
 				try {
 					int page =1;
-					int limit=1000;
-					int memberID=25;
+					int limit=25;
+					int memberID =Integer.parseInt(memberid);
 					Log.d("doInBackground", "start request");
-					result = request.getThreadListByMemberID(limit, page, memberID);
+					result = request.getThreadListByMemberID(limit, page, 25);
 					Log.d("doInBackground", "returned");
 				}catch (IOException e) {
 					e.printStackTrace();

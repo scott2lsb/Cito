@@ -11,6 +11,7 @@ import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.beans.BlockedModel;
 import com.app.tomore.beans.FansModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.threads.DialogActivity;
@@ -70,6 +71,7 @@ public class MainBlockedActivity extends Activity {
 	private Button btnUbBlock;
 	private String memberID;
 	private String viewerID;
+	UserModel usermodel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,8 @@ public class MainBlockedActivity extends Activity {
 		setContentView(R.layout.activity_main_blocked);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		viewerID = SpUtils.getUserId(MainBlockedActivity.this);
-		memberID = getIntent().getStringExtra("memberID");
+		usermodel=SpUtils.getUserInformation(MainBlockedActivity.this);
+		memberID = usermodel.getMemberID();
 		if(memberID == null){
 			memberID = viewerID;
 		}	

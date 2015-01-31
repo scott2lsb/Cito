@@ -214,6 +214,7 @@ public class ThreadsParse {
 
 	//http://54.213.167.5/APIV2/getMemberInfoByEventID.php?eventID=1
 	public ArrayList<EventMemberModel> getMemberInfoByEventIDParse(String result)
+		throws JsonSyntaxException
 	{
 		Gson gson = new Gson();
 		JsonElement jelement = new JsonParser().parse(result);
@@ -225,6 +226,25 @@ public class ThreadsParse {
 			lcs.add(cse);
 		}
 		return lcs;
+	}
+	//http://54.213.167.5/getThreadInfo.php?threadID=724
+	public  ArrayList<ThreadModel> getThreadInfoBythreadrIDParse(String result)
+	{
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		JsonArray jarray = jobject.getAsJsonArray("data");
+		ArrayList<ThreadModel> lcs = new ArrayList<ThreadModel>();
+		for (JsonElement obj : jarray) {
+			ThreadModel cse = gson.fromJson(obj, ThreadModel.class);
+			lcs.add(cse);
+		}
+		return lcs;
+	}
+	public  ArrayList<ThreadModel> getThreadByThreadIDParse(String result) 
+			throws JsonSyntaxException
+	{
+		return new ThreadsParse().getThreadInfoBythreadrIDParse(result);
 	}
 
 
