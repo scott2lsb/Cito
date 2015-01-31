@@ -241,6 +241,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 					InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
 					inputMethodManager.hideSoftInputFromWindow(((Activity) mcontext).getCurrentFocus().getWindowToken(), 
 					InputMethodManager.HIDE_NOT_ALWAYS);
+					shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
 					mController.setShareContent(getString(R.string.mcontrollerContext));
 					mController.setShareMedia(new UMImage(mcontext, R.drawable.tomorelogo));
 					String appID = "wxc9197d3be76aca03";
