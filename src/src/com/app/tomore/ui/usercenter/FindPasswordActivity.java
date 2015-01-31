@@ -30,7 +30,7 @@ public class FindPasswordActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find_password);
-		etFindPasswordEmail.findViewById(R.id.etFindPasswordEmail);
+		etFindPasswordEmail = (EditText) findViewById(R.id.etFindPasswordEmail);
 	}
 	
 	public void onBackLoginClick(View view){				
@@ -89,9 +89,14 @@ public class FindPasswordActivity extends Activity{
 			if (null != dialog) {
 				dialog.dismiss();
 			}
-			Toast.makeText(getApplicationContext(), "请查看邮箱",
-					Toast.LENGTH_SHORT).show();
 			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("") || result.equals("\"email not exists\"")) {
+		    	Toast.makeText(getApplicationContext(), "请输入有效的邮箱",
+						Toast.LENGTH_SHORT).show();
+			}else if(result.equals("\"succ\"")){
+				Toast.makeText(getApplicationContext(), "请查看邮箱",
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 }

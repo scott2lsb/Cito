@@ -81,7 +81,7 @@
         <activity android:name=".CameroActivity" />
         <activity android:name=".MyCameraActivity" />
         <activity android:name=".ViewAlbums" />
-        <activity android:name=".FindPasswordActivity" />
+        <activity android:name=".ui.usercenter.FindPasswordActivity" />
         <activity android:name=".ui.usercenter.LoginActivity" />
         <activity android:name=".ui.usercenter.RegisterActivity" />
         <activity android:name=".ui.mag.MagDetailActivity" />
