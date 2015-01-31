@@ -73,7 +73,7 @@ public class FindPasswordActivity extends Activity{
 			UserCenterRequest request = new UserCenterRequest(
 					FindPasswordActivity.this);
 			try {
-				result = request.getLoginResponse("email", email);
+				result = request.findPasswordRequest(email);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -93,9 +93,17 @@ public class FindPasswordActivity extends Activity{
 			if (result == null || result.equals("") || result.equals("\"email not exists\"")) {
 		    	Toast.makeText(getApplicationContext(), "请输入有效的邮箱",
 						Toast.LENGTH_SHORT).show();
-			}else if(result.equals("\"succ\"")){
-				Toast.makeText(getApplicationContext(), "请查看邮箱",
-						Toast.LENGTH_SHORT).show();
+			}else{
+				UserCenterParse ucParse = new UserCenterParse();
+				boolean usermodel = ucParse.parseFindPasswordResponse(result);
+				if(usermodel == true){
+					Toast.makeText(getApplicationContext(), "请查看邮箱",
+							Toast.LENGTH_SHORT).show();					
+				}
+				else{
+					Toast.makeText(getApplicationContext(), "请输入有效的邮箱",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
