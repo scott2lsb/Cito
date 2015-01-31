@@ -139,7 +139,7 @@ public class RegisterActivity extends Activity {
 			UserCenterRequest request = new UserCenterRequest(
 					RegisterActivity.this);
 			try {
-				result = request.getLoginResponse(registerEmail, registerUserName, registerPassword, registerSchool, registerMajor, registerGender);
+				result = request.getRegisterResponse(registerEmail, registerUserName, registerPassword, registerSchool, registerMajor, registerGender);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,7 +162,9 @@ public class RegisterActivity extends Activity {
 				UserCenterParse ucParse = new UserCenterParse();
 				String registerResult = ucParse.parseRegisterResponse(result);
 			    if(registerResult.equals("\"succ\"")){	
-			    	Intent intent = new Intent(RegisterActivity.this, MainDuoliaoActivity.class);
+			    	Toast.makeText(getApplicationContext(), "请查看邮箱并激活账号",
+							Toast.LENGTH_SHORT).show();
+			    	Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 					startActivity(intent);   
 			    }else if(registerResult.equals("\"2\"")){
 			    	Toast.makeText(getApplicationContext(), "用户名已存在",
