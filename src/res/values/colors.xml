@@ -9,5 +9,6 @@
 	<color name="white">#ffffff</color> 
 	<color name="light">#929292</color>
 	<color name="title_bar_bg">#180d00</color>
+	 <color name="transparent">#ffffff</color>
     
 </resources>
