@@ -324,4 +324,19 @@ public class UserCenterRequest {
 				params);
 		return httpResponse.getBodyAsString();
 	}
+	
+	/*
+	 * send find password info
+	 */
+	// http://54.213.167.5/APIV2/recoverPasswordRequest.php
+	public String findPasswordRequest(String email) throws IOException,
+			TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+				.add("email", email);
+		HttpResponse httpResponse = baseRequest.post("/APIV2/recoverPasswordRequest.php",
+				params);
+		return httpResponse.getBodyAsString();
+	}
 }

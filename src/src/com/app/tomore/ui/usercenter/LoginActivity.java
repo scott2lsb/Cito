@@ -52,6 +52,11 @@ public class LoginActivity extends Activity{
 		startActivity(intent);   		
 	}
 	
+	public void onForgetPasswordClick(View view){				
+    	Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+		startActivity(intent);   		
+	}	
+	
 	private class Login extends AsyncTask<String, String, String> {
 		private int mType;
 

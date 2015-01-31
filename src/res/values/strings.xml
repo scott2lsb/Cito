@@ -66,6 +66,9 @@
     <string name="login_email">邮箱/电话</string>
     <string name="login_password">密码</string>
     <string name="login_button">登陆</string>
+    <string name="btn_forget_password">忘记密码？</string>
+    <string name="find_password">找回密码</string>
+    <string name="find_password_email">输入您注册邮箱</string>
 
     <color name="login_background_color">#3191dd</color>
     <color name="login_button_color">#0b52c4</color>
