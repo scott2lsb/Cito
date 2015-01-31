@@ -4,7 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
+import com.app.tomore.beans.GeneralBLModel;
+import com.app.tomore.net.YellowPageParse;
+import com.app.tomore.net.YellowPageRequest;
+import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.yellowpage.GeneralBLActivity;
+import com.google.gson.JsonSyntaxException;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -24,9 +32,11 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -44,18 +54,18 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	private boolean webchatOnclick = false;
 	private boolean qqOnclick = false;
 	private Context mcontext;
-	private boolean deleted = false;
+	private boolean send = false;
 	final UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.share");
 	File shareimage;;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		mcontext = this;
 		Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
 						"postimage.jpg")));
 		startActivityForResult(intent1, 2);//采用ForResult打
+		mcontext = this;
 		setContentView(R.layout.posting_activity_layout);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		posting_image = (ImageView) findViewById(R.id.posting_image);
@@ -84,7 +94,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		if(bt!=null){
 			@SuppressWarnings("deprecation")
 			Drawable drawable = new BitmapDrawable(bt);//转换成drawable
-			posting_image.setImageDrawable(drawable);
+			//posting_image.setImageDrawable(drawable);
 		}else{
 			/**
 			 *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
@@ -121,6 +131,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		case 1:
 			if (resultCode == RESULT_OK) {
 				cropPhoto(data.getData());//裁剪图片
+				send = true;
 			}
 
 			break;
@@ -129,6 +140,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 				File temp = new File(Environment.getExternalStorageDirectory()
 						+ "/postimage.jpg");
 				cropPhoto(Uri.fromFile(temp));//裁剪图片
+				send = true;
 			}
 
 			break;
@@ -143,6 +155,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 					setPicToView(image);//保存在SD卡中
 					posting_image.setImageBitmap(image);//用ImageView显示出来
 				}
+				send = true;
 			}
 			break;
 		default:
@@ -201,10 +214,17 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		final ImageView qq_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.qq_platform);
 		final ImageView webchat_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.webchat_platform);
 		final ImageView removeIcon = (ImageView) getWindow().getDecorView().findViewById(R.id.RemoveIcon);
+		final EditText messageText = (EditText) getWindow().getDecorView().findViewById(R.id.messageText);
+		TextView sendButton = (TextView) getWindow().getDecorView().findViewById(R.id.submit_button);
+		/*if(image != null){
+			posting_image.setImageBitmap(image);
+		}*/
+		//shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
 		removeIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 		    public void onClick(View v) {
-				deleted = shareimage.delete();
+				posting_image.setImageDrawable(null);
+				send = false;
 		    }
 		});;
 		qq_platform.setOnClickListener(new View.OnClickListener() {
@@ -233,38 +253,112 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		    	}
 		    }
 		});;
-		final EditText messageText = (EditText) getWindow().getDecorView().findViewById(R.id.messageText);
-		TextView sendButton = (TextView) getWindow().getDecorView().findViewById(R.id.submit_button);
+
 		sendButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 			    public void onClick(View v) {
-					InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
-					inputMethodManager.hideSoftInputFromWindow(((Activity) mcontext).getCurrentFocus().getWindowToken(), 
-					InputMethodManager.HIDE_NOT_ALWAYS);
-					shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
-					mController.setShareContent(getString(R.string.mcontrollerContext));
-					mController.setShareMedia(new UMImage(mcontext, R.drawable.tomorelogo));
-					String appID = "wxc9197d3be76aca03";
-					String appSecret = "9c253edcab52fdb8458c99ec798c3c91";
-					UMWXHandler wxHandler = new UMWXHandler(mcontext,appID,appSecret);
-					wxHandler.addToSocialSDK();
-					WeiXinShareContent weixinContent = new WeiXinShareContent();
-					weixinContent.setShareContent(messageText.getText().toString());
-					weixinContent.setTitle("");
-					//weixinContent.setTargetUrl("http://tomoreapp.com/");
-					weixinContent.setShareImage(new UMImage(mcontext, shareimage));
-					UMWXHandler wxCircleHandler = new UMWXHandler(mcontext, appID, appSecret);
-					CircleShareContent circleMedia = new CircleShareContent();
-					circleMedia.setShareImage(new UMImage(mcontext, shareimage));
-					//circleMedia.setTargetUrl("http://tomoreapp.com/");
-					circleMedia.setShareContent(messageText.getText().toString());
-					mController.setShareMedia(circleMedia);
-					mController.setShareMedia(weixinContent);
-					wxCircleHandler.setToCircle(true);
-					wxCircleHandler.addToSocialSDK();
-					mController.getConfig().removePlatform( SHARE_MEDIA.QQ,SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.TENCENT);
-					mController.openShare((Activity) mcontext, false);
+					if(send == true && (webchatOnclick == true || qqOnclick == true)){
+						InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+						inputMethodManager.hideSoftInputFromWindow(((Activity) mcontext).getCurrentFocus().getWindowToken(), 
+						InputMethodManager.HIDE_NOT_ALWAYS);
+						
+						mController.setShareContent(getString(R.string.mcontrollerContext));
+						mController.setShareMedia(new UMImage(mcontext, R.drawable.tomorelogo));
+						
+						String appID = "wxc9197d3be76aca03";
+						String appSecret = "9c253edcab52fdb8458c99ec798c3c91";
+						
+						shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
+						UMWXHandler wxHandler = new UMWXHandler(mcontext,appID,appSecret);
+						wxHandler.addToSocialSDK();
+						WeiXinShareContent weixinContent = new WeiXinShareContent();
+						weixinContent.setShareContent(messageText.getText().toString());
+						weixinContent.setTitle("");
+						//weixinContent.setTargetUrl("http://tomoreapp.com/");
+						weixinContent.setShareImage(new UMImage(mcontext, shareimage));
+						UMWXHandler wxCircleHandler = new UMWXHandler(mcontext, appID, appSecret);
+						CircleShareContent circleMedia = new CircleShareContent();
+						circleMedia.setShareImage(new UMImage(mcontext, shareimage));
+						//circleMedia.setTargetUrl("http://tomoreapp.com/");
+						circleMedia.setShareContent(messageText.getText().toString());
+						mController.setShareMedia(circleMedia);
+						mController.setShareMedia(weixinContent);
+						wxCircleHandler.setToCircle(true);
+						wxCircleHandler.addToSocialSDK();
+						mController.getConfig().removePlatform( SHARE_MEDIA.QQ,SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.TENCENT);
+						mController.openShare((Activity) mcontext, false);
+					}
 			}
 		});
 	}
+	
+	/*private class Post extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+
+		private Post(Context context, int type) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			YellowPageRequest request = new YellowPageRequest(GeneralBLActivity.this); // BLRequest
+			try {
+				Log.d("doInBackground", "start request");
+				result = request.getBlList(pageNumber, limit,Integer.toString(BLID));
+				Log.d("doInBackground", "returned");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			mListView.onRefreshComplete();
+			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} else {
+				
+				if(dataList!=null && dataList.size()!=0)
+				{
+					if(headerRefresh)
+						dataList = new ArrayList<GeneralBLModel>();
+				}
+				else
+					dataList = new ArrayList<GeneralBLModel>();
+				try {
+					if(headerRefresh)
+						dataList = new YellowPageParse().parseGeneralBLResponse(result);
+					else
+					{
+						dataList.addAll(new YellowPageParse().parseGeneralBLResponse(result));
+					}
+					BindDataToListView();
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}*/
 }
