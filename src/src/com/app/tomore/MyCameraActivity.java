@@ -5,8 +5,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +29,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,10 +43,15 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	private View layout;
 	private boolean webchatOnclick = false;
 	private boolean qqOnclick = false;
-	
+	private Context mcontext;
+	private boolean deleted = false;
+	final UMSocialService mController = UMServiceFactory
+			.getUMSocialService("com.umeng.share");
+	File shareimage;;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mcontext = this;
 		Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
 						"postimage.jpg")));
@@ -156,10 +172,12 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		 String sdStatus = Environment.getExternalStorageState();  
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { 
                return;  
-           }  
+           }
 		FileOutputStream b = null;
-		File file = new File(path);
-		file.mkdirs();// 创建文件夹
+		//File file = new File(path);
+		//shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
+		shareimage = new File(path);
+		shareimage.mkdirs();// 创建文件夹
 		String fileName =path + "postimage.jpg";//图片名字
 		try {
 			b = new FileOutputStream(fileName);
@@ -182,6 +200,13 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	{
 		final ImageView qq_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.qq_platform);
 		final ImageView webchat_platform = (ImageView) getWindow().getDecorView().findViewById(R.id.webchat_platform);
+		final ImageView removeIcon = (ImageView) getWindow().getDecorView().findViewById(R.id.RemoveIcon);
+		removeIcon.setOnClickListener(new View.OnClickListener() {
+			@Override
+		    public void onClick(View v) {
+				deleted = shareimage.delete();
+		    }
+		});;
 		qq_platform.setOnClickListener(new View.OnClickListener() {
 			@Override
 		    public void onClick(View v) {
@@ -208,6 +233,37 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		    	}
 		    }
 		});;
-		
+		final EditText messageText = (EditText) getWindow().getDecorView().findViewById(R.id.messageText);
+		TextView sendButton = (TextView) getWindow().getDecorView().findViewById(R.id.submit_button);
+		sendButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+			    public void onClick(View v) {
+					InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
+					inputMethodManager.hideSoftInputFromWindow(((Activity) mcontext).getCurrentFocus().getWindowToken(), 
+					InputMethodManager.HIDE_NOT_ALWAYS);
+					mController.setShareContent(getString(R.string.mcontrollerContext));
+					mController.setShareMedia(new UMImage(mcontext, R.drawable.tomorelogo));
+					String appID = "wxc9197d3be76aca03";
+					String appSecret = "9c253edcab52fdb8458c99ec798c3c91";
+					UMWXHandler wxHandler = new UMWXHandler(mcontext,appID,appSecret);
+					wxHandler.addToSocialSDK();
+					WeiXinShareContent weixinContent = new WeiXinShareContent();
+					weixinContent.setShareContent(messageText.getText().toString());
+					weixinContent.setTitle("");
+					//weixinContent.setTargetUrl("http://tomoreapp.com/");
+					weixinContent.setShareImage(new UMImage(mcontext, shareimage));
+					UMWXHandler wxCircleHandler = new UMWXHandler(mcontext, appID, appSecret);
+					CircleShareContent circleMedia = new CircleShareContent();
+					circleMedia.setShareImage(new UMImage(mcontext, shareimage));
+					//circleMedia.setTargetUrl("http://tomoreapp.com/");
+					circleMedia.setShareContent(messageText.getText().toString());
+					mController.setShareMedia(circleMedia);
+					mController.setShareMedia(weixinContent);
+					wxCircleHandler.setToCircle(true);
+					wxCircleHandler.addToSocialSDK();
+					mController.getConfig().removePlatform( SHARE_MEDIA.QQ,SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.TENCENT);
+					mController.openShare((Activity) mcontext, false);
+			}
+		});
 	}
 }
