@@ -32,7 +32,7 @@ public class UserCenterParse {
 		String loninResult = jobject.get("result").toString();
 		JsonArray jarray = jobject.getAsJsonArray("data");
 
-		if (loninResult.equals("\"succ\"")) {
+		if (loninResult.equals("\"succ\"") || loninResult.equals("\"Unactivated account\"")) {
 			for (JsonElement obj : jarray) {
 				UserModel cse = gson.fromJson(obj, UserModel.class);
 				if (cse != null) {
@@ -216,6 +216,17 @@ public class UserCenterParse {
 		}
 		return blockOrUnblockExist;
 	}
+	
+	// find password
+	public boolean parseFindPasswordResponse(String result) {
+		JsonElement jelement = new JsonParser().parse(result);
+		JsonObject jobject = jelement.getAsJsonObject();
+		String resultSucc = jobject.get("result").toString();
 
+		if (resultSucc.equals("\"succ\"")) {
+			return true;
+		} else
+			return false;
+	}
 
 }

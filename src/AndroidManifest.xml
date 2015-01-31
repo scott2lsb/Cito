@@ -81,6 +81,7 @@
         <activity android:name=".CameroActivity" />
         <activity android:name=".MyCameraActivity" />
         <activity android:name=".ViewAlbums" />
+        <activity android:name=".ui.usercenter.FindPasswordActivity" />
         <activity android:name=".ui.usercenter.LoginActivity" />
         <activity android:name=".ui.usercenter.RegisterActivity" />
         <activity android:name=".ui.mag.MagDetailActivity" />
@@ -155,7 +156,7 @@
         </meta-data>
 
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.exmaple.test_umeng.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

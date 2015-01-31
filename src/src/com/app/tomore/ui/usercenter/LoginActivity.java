@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.utils.SpUtils;
 
 public class LoginActivity extends Activity{
@@ -51,6 +52,11 @@ public class LoginActivity extends Activity{
     	Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
 		startActivity(intent);   		
 	}
+	
+	public void onForgetPasswordClick(View view){				
+    	Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+		startActivity(intent);   		
+	}	
 	
 	private class Login extends AsyncTask<String, String, String> {
 		private int mType;
@@ -101,10 +107,19 @@ public class LoginActivity extends Activity{
 				UserCenterParse ucParse = new UserCenterParse();
 				UserModel usermodel = ucParse.parseLoginResponse(result);
 			    if(usermodel!=null){
+			    	if(usermodel.getStatus().equals("1")){
 			    	SpUtils.saveUserInformation(LoginActivity.this, usermodel);
 			    	Toast.makeText(getApplicationContext(), "登陆成功",
 							Toast.LENGTH_SHORT).show();
-			    	finish();
+			    	Intent intent = new Intent(LoginActivity.this, MainDuoliaoActivity.class);
+					startActivity(intent); 
+//			    	finish();
+			    	} 
+			    	else if(usermodel.getStatus().equals("0")){
+			    		Toast.makeText(getApplicationContext(), "请查看邮箱并激活账号",
+								Toast.LENGTH_SHORT).show();
+			    	}
+			    	
 			    }else {
 			    	Toast.makeText(getApplicationContext(), "请输入有效的邮箱和密码",
 							Toast.LENGTH_SHORT).show();

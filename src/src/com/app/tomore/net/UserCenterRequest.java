@@ -80,8 +80,8 @@ public class UserCenterRequest {
 	/*
 	 * send register info
 	 */
-	// http://54.213.167.5/APIV2/register.php
-	public String getLoginResponse(String email, String userName,
+	// http://54.213.167.5/APIV2/registerNew.php
+	public String getRegisterResponse(String email, String userName,
 			String password, String school, String major, String gender)
 			throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
@@ -90,7 +90,7 @@ public class UserCenterRequest {
 				.add("accountName", userName).add("password", password)
 				.add("school", password).add("major", major)
 				.add("gender", gender);
-		HttpResponse httpResponse = baseRequest.post("/APIV2/register.php",
+		HttpResponse httpResponse = baseRequest.post("/APIV2/registerNew.php",
 				params);
 		return httpResponse.getBodyAsString();
 	}
@@ -321,6 +321,21 @@ public class UserCenterRequest {
 				.add("blockingID", blockingID).add("blockedID", blockedID)
 				.add("block", block);
 		HttpResponse httpResponse = baseRequest.post("/APIV2/blockOrUnblock.php",
+				params);
+		return httpResponse.getBodyAsString();
+	}
+	
+	/*
+	 * send find password info
+	 */
+	// http://54.213.167.5/APIV2/recoverPasswordRequest.php
+	public String findPasswordRequest(String email) throws IOException,
+			TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+				.add("email", email);
+		HttpResponse httpResponse = baseRequest.post("/APIV2/recoverPasswordRequest.php",
 				params);
 		return httpResponse.getBodyAsString();
 	}
