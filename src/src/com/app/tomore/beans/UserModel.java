@@ -130,11 +130,18 @@ public class UserModel implements Serializable {
 	private String followingNum;
 	private String followedNum;
 	private String image;
+	private String followed;
 	public String getImage() {
 		return image;
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getFollowed() {
+		return followed;
+	}
+	public void setFollowed(String followed) {
+		this.followed = followed;
 	}
 	
     	 

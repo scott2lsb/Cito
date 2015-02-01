@@ -101,7 +101,7 @@ public class UserInformationActivity extends Activity {
 		//viewerID = SpUtils.getUserId(UserInformationActivity.this);
 		memberID = getIntent().getStringExtra("memberID");
 		//followed= usermodel.getFollowedNum();
-		//followed = getIntent().getStringExtra("followed");
+//		followed = getIntent().getStringExtra("followed");
 		thisUserId = getIntent().getStringExtra("memberID");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
@@ -134,6 +134,11 @@ public class UserInformationActivity extends Activity {
 			}
 		});
 		
+//		if(followed.equals("0")){
+//			btnFollowOrUnfollow.setText("+关注");
+//		}else if(followed.equalsIgnoreCase("1")){
+//			btnFollowOrUnfollow.setText("取消关注");
+//		}
 		btnFollowOrUnfollow.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -384,14 +389,14 @@ public class UserInformationActivity extends Activity {
 						} else if(userInformation.getGender().equals("Female")){
 							userGender.setImageResource(R.drawable.female_icon);						
 						}
-
+						followed = userInformation.getFollowed();
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
-						/*if(followed.equalsIgnoreCase("0")){
+						if(followed.equalsIgnoreCase("0")){
 							btnFollowOrUnfollow.setText("+关注");
 						} else if(followed.equalsIgnoreCase("1")){
 							btnFollowOrUnfollow.setText("取消关注");
-						}*/
+						}
 						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
 						btnFollowing.setText("关注\n" + userInformation.getFollowingNum());
 						btnFollowed.setText("粉丝\n" + userInformation.getFollowedNum());

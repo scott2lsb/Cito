@@ -260,7 +260,6 @@ public class MainBlockedActivity extends Activity {
 					Intent intent = new Intent(getApplicationContext(),
 							UserInformationActivity.class);
 					intent.putExtra("memberID", viewMemberID);
-					intent.putExtra("followed", "0");
 					startActivity(intent);					
 				}
 			});

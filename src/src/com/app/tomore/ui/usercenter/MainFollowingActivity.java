@@ -260,7 +260,6 @@ public class MainFollowingActivity extends Activity {
 					Intent intent = new Intent(getApplicationContext(),
 							UserInformationActivity.class);
 					intent.putExtra("memberID", viewMemberID);
-					intent.putExtra("followed", followingText.getFollowed());
 					startActivity(intent);					
 				}
 			});

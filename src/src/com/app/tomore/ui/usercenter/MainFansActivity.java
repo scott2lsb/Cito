@@ -273,7 +273,6 @@ public class MainFansActivity extends Activity {
 					Intent intent = new Intent(getApplicationContext(),
 							UserInformationActivity.class);
 					intent.putExtra("memberID", viewMemberID);
-					intent.putExtra("followed", fansText.getFollowed());
 					startActivity(intent);					
 				}
 			});
