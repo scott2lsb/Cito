@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.beans.GeneralBLModel;
+import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.YellowPageParse;
 import com.app.tomore.net.YellowPageRequest;
 import com.app.tomore.ui.threads.DialogActivity;
@@ -57,6 +58,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	private boolean send = false;
 	final UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.share");
+	private DialogActivity dialog;
 	File shareimage;;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -292,13 +294,20 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		});
 	}
 	
-	/*private class Post extends AsyncTask<String, String, String> {
+	private class Post extends AsyncTask<String, String, String> {
 		// private Context mContext;
 		private int mType;
-
-		private Post(Context context, int type) {
+		private String Content;
+		private int memberID;
+		private int ImageWidth;
+		private int ImageHeight;
+		private Post(Context context, int type,String Content,int memberID,int Imagewidth,int Imageheight) {
 			// this.mContext = context;
 			this.mType = type;
+			this.Content = Content;
+			this.memberID = memberID;
+			this.ImageWidth = Imagewidth;
+			this.ImageHeight = Imageheight;
 			dialog = new DialogActivity(context, type);
 		}
 
@@ -315,10 +324,10 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			YellowPageRequest request = new YellowPageRequest(GeneralBLActivity.this); // BLRequest
+			ThreadsRequest request = new ThreadsRequest(MyCameraActivity.this); // BLRequest
 			try {
 				Log.d("doInBackground", "start request");
-				result = request.getBlList(pageNumber, limit,Integer.toString(BLID));
+				result = request.PostThread("title", Content, memberID, ImageWidth, ImageHeight);
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -334,31 +343,12 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 			if (null != dialog) {
 				dialog.dismiss();
 			}
-			mListView.onRefreshComplete();
 			Log.d("onPostExecute", "postExec state");
 			if (result == null || result.equals("")) {
 				// show empty alert
 			} else {
 				
-				if(dataList!=null && dataList.size()!=0)
-				{
-					if(headerRefresh)
-						dataList = new ArrayList<GeneralBLModel>();
-				}
-				else
-					dataList = new ArrayList<GeneralBLModel>();
-				try {
-					if(headerRefresh)
-						dataList = new YellowPageParse().parseGeneralBLResponse(result);
-					else
-					{
-						dataList.addAll(new YellowPageParse().parseGeneralBLResponse(result));
-					}
-					BindDataToListView();
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
 			}
 		}
-	}*/
+	}
 }
