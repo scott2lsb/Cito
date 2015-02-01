@@ -228,7 +228,7 @@ public class ThreadsParse {
 		return lcs;
 	}
 	//http://54.213.167.5/getThreadInfo.php?threadID=724
-	public  ArrayList<ThreadModel> getThreadInfoBythreadrIDParse(String result)
+	public  ArrayList<ThreadModel> getThreadInfoBythreadIDParse(String result)
 	{
 		Gson gson = new Gson();
 		JsonElement jelement = new JsonParser().parse(result);
@@ -244,7 +244,7 @@ public class ThreadsParse {
 	public  ArrayList<ThreadModel> getThreadByThreadIDParse(String result) 
 			throws JsonSyntaxException
 	{
-		return new ThreadsParse().getThreadInfoBythreadrIDParse(result);
+		return new ThreadsParse().getThreadInfoBythreadIDParse(result);
 	}
 
 
