@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 import com.app.tomore.R;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.EventsModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.ui.threads.DialogActivity;
@@ -44,12 +45,15 @@ public class EventDetailsActivity extends Activity {
 	private DisplayImageOptions otp;
 	private GridView gridView;
 	private String eventId;
+	UserModel usermodel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_details);
-		logindInUserId = SpUtils.getUserId(EventDetailsActivity.this);
+		usermodel=SpUtils.getUserInformation(EventDetailsActivity.this);
+		logindInUserId = usermodel.getMemberID();
+		//logindInUserId = SpUtils.getUserId(EventDetailsActivity.this);
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();

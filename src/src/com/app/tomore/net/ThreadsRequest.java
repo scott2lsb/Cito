@@ -198,7 +198,22 @@ public class ThreadsRequest {
 				"/APIV2/LikeOrUnlikeForEvent.php", params);
 		return httpResponse.getBodyAsString();
 	}
-
+	//http://54.213.167.5/postThread.php?threadTitle=title&threadContent=content&threadType=1&memberID=25&imageWidth=50&imageHeight=50
+	public String PostThread(String title, String Content, int memberID, int imagewidth, int imageHeight)
+			 throws IOException, TimeoutException {
+		baseRequest = new BasicHttpClient(url);
+		baseRequest.setConnectionTimeout(2000);
+		ParameterMap params = baseRequest.newParams()
+				.add("title", title)
+				.add("threadContent", Content)
+				.add("threadType", "1")
+				.add("memberID", Integer.toString(memberID))
+				.add("imageWidth", Integer.toString(imagewidth))
+				.add("imageHeight", Integer.toString(imageHeight));
+		HttpResponse httpResponse = baseRequest.post(
+				"/postThread.php?", params);
+		return httpResponse.getBodyAsString();
+	}
 	
 
 }

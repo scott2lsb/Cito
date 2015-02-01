@@ -204,6 +204,7 @@ public class EventListActivity extends Activity {
 				return;
 			}
 			Object obj = (Object) eventList.get(position-1);
+			
 			if (obj instanceof String) {
 				return;
 			}
