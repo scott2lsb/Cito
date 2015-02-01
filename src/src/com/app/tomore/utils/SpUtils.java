@@ -63,6 +63,15 @@ public class SpUtils {
 		UserModel obj = gson.fromJson(json, UserModel.class);
 		return obj ;
 	}
+	/**
+	 * remove user information 
+	 */
+	public static void removeUserInformation(Activity activity)
+	{
+		mPrefs = activity.getSharedPreferences(USERMODELPREF, Activity.MODE_PRIVATE);
+		String json = mPrefs.getString("UserModel", "");
+		mPrefs.edit().remove(json).commit();
+	}
 	
 	/**
 	 * set user information 
