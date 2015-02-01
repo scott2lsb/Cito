@@ -606,7 +606,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 			    	Intent intent = new Intent(MainDuoliaoActivity.this,
 			    			UserInformationActivity.class);
-					intent.putExtra("memberId", threadItem.getMemberID());
+					intent.putExtra("memberID", threadItem.getMemberID());
 					startActivity(intent);
 			    }
 			});

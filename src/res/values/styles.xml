@@ -263,7 +263,7 @@
 
     
     
-	<style name="umeng_socialize_action_bar_itemlayout">
+	<!-- <style name="umeng_socialize_action_bar_itemlayout">
 	<item name="android:layout_height">fill_parent</item>
 	
 	<item name="android:layout_width">fill_parent</item>
@@ -579,5 +579,5 @@
 	
 	<item name="android:layout_marginBottom">6dp</item>
 	
-	</style>
+	</style> -->
 </resources>
