@@ -176,21 +176,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		            bt7.setVisibility(View.GONE);
 		             bt8.setVisibility(View.GONE);
 		             bt9.setVisibility(View.VISIBLE);*/}
-        	    
-			
-		      
-		         
-			 }
         
-    
-		  
+		         
+			 } 
 	   }
 
-		
-		
-
-		
-	
 
 	@Override
 	public void onClick(View v) {
