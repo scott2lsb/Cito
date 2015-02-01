@@ -80,8 +80,8 @@ public class MainFollowingActivity extends Activity {
 		setContentView(R.layout.activity_main_following);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		usermodel = SpUtils.getUserInformation(MainFollowingActivity.this);
-		memberID = usermodel.getMemberID();
-		
+		viewerID = usermodel.getMemberID();
+		memberID = getIntent().getStringExtra("memberID");			
 		if(memberID == null){
 			memberID = viewerID;
 		}	

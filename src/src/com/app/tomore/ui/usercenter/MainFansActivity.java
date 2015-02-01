@@ -84,10 +84,10 @@ public class MainFansActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_fans);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		viewerID = SpUtils.getUserId(MainFansActivity.this);
+//		viewerID = SpUtils.getUserId(MainFansActivity.this);
 		usermodel=SpUtils.getUserInformation(MainFansActivity.this);
-		memberID= usermodel.getMemberID();
-	
+		viewerID = usermodel.getMemberID();
+		memberID = getIntent().getStringExtra("memberID");	
 		if(memberID == null){
 			memberID = viewerID;
 		}		

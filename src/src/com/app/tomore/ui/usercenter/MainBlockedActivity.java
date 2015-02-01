@@ -78,9 +78,10 @@ public class MainBlockedActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_blocked);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		viewerID = SpUtils.getUserId(MainBlockedActivity.this);
+//		viewerID = SpUtils.getUserId(MainBlockedActivity.this);
 		usermodel=SpUtils.getUserInformation(MainBlockedActivity.this);
-		memberID = usermodel.getMemberID();
+		viewerID = usermodel.getMemberID();
+		memberID = getIntent().getStringExtra("memberID");	
 		if(memberID == null){
 			memberID = viewerID;
 		}	
