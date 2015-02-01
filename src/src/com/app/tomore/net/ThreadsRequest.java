@@ -75,7 +75,7 @@ public class ThreadsRequest {
 				.add("accountName", accountName)
 				.add("like", Integer.toString(isLike));
 		;
-		HttpResponse httpResponse = baseRequest.post(
+		HttpResponse httpResponse = baseRequest.get (
 				"/APIV2/LikeOrUnlike.php", params);
 		return httpResponse.getBodyAsString();
 		
