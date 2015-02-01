@@ -6,6 +6,7 @@ import java.util.concurrent.TimeoutException;
 import com.app.tomore.R;
 import com.app.tomore.net.UserCenterParse;
 import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.MainActivity;
 import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.beans.UserModel;
@@ -111,7 +112,7 @@ public class LoginActivity extends Activity{
 			    	SpUtils.saveUserInformation(LoginActivity.this, usermodel);
 			    	Toast.makeText(getApplicationContext(), "登陆成功",
 							Toast.LENGTH_SHORT).show();
-			    	Intent intent = new Intent(LoginActivity.this, MainDuoliaoActivity.class);
+			    	Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 					startActivity(intent); 
 //			    	finish();
 			    	} 

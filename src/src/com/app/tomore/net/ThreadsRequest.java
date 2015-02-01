@@ -116,7 +116,7 @@ public class ThreadsRequest {
 		return httpResponse.getBodyAsString();
 	}
 	//http://54.213.167.5/getThreadInfo.php?threadID=724
-	public String getThreadInfoBythreadrID(int threadId)
+	public String getThreadInfoBythreadID(int threadId)
 			 throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);

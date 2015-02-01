@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
+import com.app.tomore.MainActivity;
 import com.app.tomore.R;
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.ThreadCmtModel;
@@ -104,8 +105,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.main_duoliao_activity);
 		mContext = this;
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-		//usermodel=SpUtils.getUserInformation(MainDuoliaoActivity.this);
-		//usermodel1 =SpUtils.getUserInformation(mContext);
+		usermodel1=SpUtils.getUserInformation(MainDuoliaoActivity.this);
+	
 		context = this;
 		menu = new SlidingMenu(this);
 		menu.setMode(SlidingMenu.LEFT);
@@ -129,15 +130,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
 		headView = (ImageView) findViewById(R.id.head_view);
-		accountname=(TextView) view.findViewById(R.id.name_textview);
-		
-		if(usermodel !=null){
-		
-		 ImageLoader.getInstance().displayImage(usermodel.getImage(),
-				 headView);
-		 Toast.makeText(getApplicationContext(), usermodel.getAccountName(),
-					Toast.LENGTH_SHORT).show();
-		 accountname.setText(usermodel.getAccountName());} 
+
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -171,9 +164,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 		});
-		/*
-        if(usermodel1 ==null||usermodel ==null){
+		
+        if(usermodel ==null){
         	
+        	    if(usermodel1.getMemberID()==null){
 		   
 			     bt2.setVisibility(View.GONE);
 		            bt3.setVisibility(View.GONE);
@@ -181,25 +175,26 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		            bt5.setVisibility(View.GONE);
 		            bt7.setVisibility(View.GONE);
 		             bt8.setVisibility(View.GONE);
-		             bt9.setVisibility(View.VISIBLE);
+		             bt9.setVisibility(View.VISIBLE);}
+        	    else if (usermodel1.getMemberID() !=null){
+        	    	   
+   			     bt2.setVisibility(View.VISIBLE);
+   		            bt3.setVisibility(View.VISIBLE);
+   		             bt4.setVisibility(View.VISIBLE);
+   		            bt5.setVisibility(View.VISIBLE);
+   		            bt7.setVisibility(View.VISIBLE);
+   		             bt8.setVisibility(View.VISIBLE);
+   		          bt9.setVisibility(View.GONE);
+        	    	 
+        	    	
+        	    }
 			
 		      
 		         
 			 }
-        /*
-        else if (usermodel1.getMemberID().isEmpty()==false)
-	       {
-        	 if(usermodel1 !=null){
-        		 ImageLoader.getInstance().displayImage(usermodel1.getImage(),
-        				 headView);
-        		 Toast.makeText(getApplicationContext(), usermodel1.getAccountName(),
-        					Toast.LENGTH_SHORT).show();
-        		 accountname.setText(usermodel.getAccountName());
-		         bt7.setVisibility(View.VISIBLE);
-		
-        	 }
-		    }
-		  */ 
+        
+    
+		  
 	   }
 
 		
@@ -366,7 +361,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		}
 	}
 	private void BacktoMainClick(View v) {
-		Intent intent = new Intent(this, MainDuoliaoActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
 	
@@ -387,6 +382,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	public void onLogoutClick(View view) {
 
 		SpUtils.removeUserInformation(MainDuoliaoActivity.this);//退出登录
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 		
 
 	}
