@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.R;
+import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.UserModel;
@@ -15,6 +16,7 @@ import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.UserCenterRequest;
+import com.app.tomore.ui.member.MainMemActivity;
 import com.app.tomore.ui.usercenter.AboutusActivity;
 import com.app.tomore.ui.usercenter.LoginActivity;
 import com.app.tomore.ui.usercenter.MainBlockedActivity;
@@ -22,9 +24,14 @@ import com.app.tomore.ui.usercenter.MainFansActivity;
 import com.app.tomore.ui.usercenter.MainFollowingActivity;
 import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.usercenter.UserInformationActivity;
+import com.app.tomore.utils.AppUtil;
 import com.app.tomore.utils.ExpandedListView;
+import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.SpUtils;
+import com.app.tomore.utils.ToastUtils;
+import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
+import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,6 +65,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -520,6 +528,9 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
+	
+	
+	
 
 	private void BindDataToListView() {
 		if (onRefresh) {
@@ -577,81 +588,60 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.like_img);
 				viewHolder.like_img2 = (ImageView) convertView
 						.findViewById(R.id.like_img2);
-				viewHolder.content_img.setOnClickListener(new View.OnClickListener() {
-				    @Override
-				    public void onClick(View v) {
-				        //
-				    	//
-				    	Intent intent = new Intent(MainDuoliaoActivity.this,
-								ThreadReplyActivity.class);
-						intent.putExtra("threadModel", threadItem);
-						startActivity(intent);
-				    }
-				});
-
-				viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
-				    @Override
-				    public void onClick(View v) {
-
-				    	Intent intent = new Intent(MainDuoliaoActivity.this,
-				    			UserInformationActivity.class);
-						intent.putExtra("memberID", threadItem.getMemberID());
-						startActivity(intent);
-				    }
-				});
-				
-				viewHolder.comment_img1.setOnClickListener(new View.OnClickListener() {
-				    @Override
-				    public void onClick(View v) {
-				    	Intent intent = new Intent(MainDuoliaoActivity.this,
-								ThreadReplyActivity.class);
-						intent.putExtra("threadModel", threadItem);
-						startActivity(intent);
-				    }
-				});
-
-				viewHolder.comment_img2.setOnClickListener(new View.OnClickListener() {
-				    @Override
-				    public void onClick(View v) {
-				    	Intent intent = new Intent(MainDuoliaoActivity.this,
-								ThreadReplyActivity.class);
-						intent.putExtra("threadModel", threadItem);
-						startActivity(intent);
-				    }
-				});
-				
-				viewHolder.like_img1.setOnClickListener(new View.OnClickListener() {
-				    @Override
-				    public void onClick(View v) {
-				    	String  memberID="34"; //for test
-				    	String accountName="NeoWu"; // for test
-				    	String result = "hah";
-				    	int isLike=1;
-				    	for(int i =0; i<threadItem.getThreadLikeList().size(); i++)
-				    	{
-				    		if(threadItem.getThreadLikeList().get(i).getMemberID()==memberID)
-				    		{
-				    			isLike = 0;
-				    		}
-				    	}
-				    	ThreadsRequest request = new ThreadsRequest(
-								MainDuoliaoActivity.this);
-				    	try {
-				    		request.likeOrUnLikeAThread(memberID, threadItem.getThreadID(), accountName, isLike);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (TimeoutException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				    	
-				    }
-				});
-				
-
+			
 				convertView.setTag(viewHolder);
 			}
+			viewHolder.content_img.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			        //
+			    	//
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+							ThreadReplyActivity.class);
+					intent.putExtra("threadModel", threadItem);
+					startActivity(intent);
+			    }
+			});
+
+			viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+			    			UserInformationActivity.class);
+					intent.putExtra("memberId", threadItem.getMemberID());
+					startActivity(intent);
+			    }
+			});
+			
+			viewHolder.comment_img1.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+							ThreadReplyActivity.class);
+					intent.putExtra("threadModel", threadItem);
+					startActivity(intent);
+			    }
+			});
+
+			viewHolder.comment_img2.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			    	Intent intent = new Intent(MainDuoliaoActivity.this,
+							ThreadReplyActivity.class);
+					intent.putExtra("threadModel", threadItem);
+					startActivity(intent);
+			    }
+			});
+			
+			viewHolder.like_img1.setOnClickListener(new View.OnClickListener() {
+			    @Override
+			    public void onClick(View v) {
+			    	new LikeOrUnLike(MainDuoliaoActivity.this, 1,threadItem).execute("");
+						//new GetData(MainDuoliaoActivity.this, 1).execute("");
+			    }
+			});
+			
 			imageLoader.displayImage(threadItem.getMemberImage(),
 					viewHolder.avatar, otp);
 
@@ -816,5 +806,120 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		ImageView like_img1;
 		ImageView like_img2;
 		
+	}
+	
+	public OnRefreshListener<ListView> onRefreshListener = new OnRefreshListener<ListView>() {
+		@Override
+		public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+			if (AppUtil.networkAvailable(mContext)) {
+				onRefresh = true;
+				new GetData(MainDuoliaoActivity.this, 1).execute("");
+			} else {
+				ToastUtils.showToast(mContext, "到头了");
+				mListView.onRefreshComplete();
+			}
+		}
+	};
+
+	private OnLastItemVisibleListener onLastItemVisibleListener = new OnLastItemVisibleListener() {
+		@Override
+		public void onLastItemVisible() {
+			if (AppUtil.networkAvailable(mContext)) {
+				// new GetData(MainMemActivity.this, 1).execute("");
+			} else {
+				ToastUtils.showToast(mContext, "到头了");
+			}
+		}
+	};
+
+	OnClickListener reloadClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			onRefresh = true;
+
+			new GetData(MainDuoliaoActivity.this, 1).execute("");
+		}
+	};
+
+
+	private class LikeOrUnLike extends AsyncTask<String, String, String> {
+		// private Context mContext;
+		private int mType;
+		private ThreadModel threadItem;
+		private LikeOrUnLike(Context context, int type,ThreadModel threadItemPara) {
+			// this.mContext = context;
+			this.mType = type;
+			dialog = new DialogActivity(context, type);
+			threadItem = threadItemPara;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			String  memberID="34"; //for test
+	    	String accountName="NeoWu"; // for test
+			String result = null;
+	    	int isLike=1;
+	    	for(int i =0; i<threadItem.getThreadLikeList().size(); i++)
+	    	{
+	    		String likerID = threadItem.getThreadLikeList().get(i).getMemberID();
+	    		if(likerID.equals(memberID))
+	    		{
+	    			isLike = 0;
+	    		}
+	    	}
+			ThreadsRequest request = new ThreadsRequest(
+					MainDuoliaoActivity.this);
+			try {
+				Log.d("doInBackground", "start request");
+				result = request.likeOrUnLikeAThread(memberID, threadItem.getThreadID(), accountName, isLike);
+				Log.d("doInBackground", "returned");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} 
+			else {
+				    //showAlert(new ThreadsParse().likeOrUnLikeAThreadParse(result).getResult());
+				
+			}
+			}
+		}
+
+	/**
+	 * Method to show alert dialog
+	 * */
+	private void showAlert(String message) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(message).setCancelable(false)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// do nothing
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 }

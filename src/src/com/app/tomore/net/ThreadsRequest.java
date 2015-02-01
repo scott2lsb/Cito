@@ -74,8 +74,9 @@ public class ThreadsRequest {
 				.add("threadID", threadID)
 				.add("accountName", accountName)
 				.add("like", Integer.toString(isLike));
-		HttpResponse httpResponse = baseRequest.get(
-				"APIV2/LikeOrUnlike.php", params);
+		;
+		HttpResponse httpResponse = baseRequest.get (
+				"/APIV2/LikeOrUnlike.php", params);
 		return httpResponse.getBodyAsString();
 		
 	}
@@ -115,7 +116,7 @@ public class ThreadsRequest {
 		return httpResponse.getBodyAsString();
 	}
 	//http://54.213.167.5/getThreadInfo.php?threadID=724
-	public String getThreadInfoBythreadID(int threadId)
+	public String getThreadInfoBythreadrID(int threadId)
 			 throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
