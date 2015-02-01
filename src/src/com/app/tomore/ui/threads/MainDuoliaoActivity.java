@@ -534,6 +534,56 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 						startActivity(intent);
 				    }
 				});
+				
+				viewHolder.comment_img1.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", threadItem);
+						startActivity(intent);
+				    }
+				});
+
+				viewHolder.comment_img2.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", threadItem);
+						startActivity(intent);
+				    }
+				});
+				
+				viewHolder.like_img1.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				    	String  memberID="34"; //for test
+				    	String accountName="NeoWu"; // for test
+				    	String result = "hah";
+				    	int isLike=1;
+				    	for(int i =0; i<threadItem.getThreadLikeList().size(); i++)
+				    	{
+				    		if(threadItem.getThreadLikeList().get(i).getMemberID()==memberID)
+				    		{
+				    			isLike = 0;
+				    		}
+				    	}
+				    	ThreadsRequest request = new ThreadsRequest(
+								MainDuoliaoActivity.this);
+				    	try {
+				    		request.likeOrUnLikeAThread(memberID, threadItem.getThreadID(), accountName, isLike);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (TimeoutException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				    	
+				    }
+				});
+				
 
 				convertView.setTag(viewHolder);
 			}
