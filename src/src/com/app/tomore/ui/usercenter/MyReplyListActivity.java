@@ -8,8 +8,6 @@ import java.util.concurrent.TimeoutException;
 
 import com.app.tomore.MyCameraActivity;
 import com.app.tomore.R;
-import com.app.tomore.R.layout;
-import com.app.tomore.beans.BLRestaurantModel;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.ThreadUpdateModel;
@@ -23,10 +21,6 @@ import com.app.tomore.ui.threads.DialogActivity;
 import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.ui.threads.MyThreadActivity;
 import com.app.tomore.ui.threads.ThreadReplyActivity;
-import com.app.tomore.ui.yellowpage.RestaurantBLActivity;
-import com.app.tomore.ui.yellowpage.RestaurantDetailActivity;
-import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewAdapter;
-import com.app.tomore.ui.yellowpage.RestaurantDetailActivity.GridViewCache;
 import com.app.tomore.utils.AppUtil;
 import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
@@ -45,8 +39,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -55,11 +47,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 public class MyReplyListActivity extends Activity {
 	private DialogActivity dialog;
@@ -79,9 +72,6 @@ public class MyReplyListActivity extends Activity {
 	 String threadid;
 	 private String memberid;
 	 UserModel usermodel;
-
-	
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +126,6 @@ private class GetData extends AsyncTask<String, String, String>{
 			UserCenterRequest request = new UserCenterRequest(MyReplyListActivity.this);
 			try {
 
-				String memberID="25";
 				Log.d("doInBackground", "start request");
 				result = request.getUserUpdate(memberid);
 				Log.d("doInBackground", "returned");
@@ -177,6 +166,71 @@ private class GetData extends AsyncTask<String, String, String>{
 		}
 
 	}
+
+
+private class GetCommentList extends AsyncTask<String, String, String>{
+		
+		private int mType;
+		private int threadId;
+		private GetCommentList(Context context, int type,int athreadId) {
+			// this.mContext = context;
+			this.mType = type;
+			threadId = athreadId;
+			dialog = new DialogActivity(context, type);
+		}
+		@Override
+		protected void onPreExecute() {
+			if (mType == 1) {
+				if (null != dialog && !dialog.isShowing()) {
+					dialog.show();
+				}
+			}
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String result = null;
+			ThreadsRequest request = new ThreadsRequest(MyReplyListActivity.this);
+			try {
+				
+				Log.d("doInBackground", "start request");
+				result = request.getThreadInfoBythreadID(threadId);
+				Log.d("doInBackground", "returned");
+			}catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			if (null != dialog) {
+				dialog.dismiss();
+			}
+			Log.d("onPostExecute", "postExec state");
+			if (result == null || result.equals("")) {
+				// show empty alert
+			} else {
+				try {
+					threadmodel = new ArrayList<ThreadModel>();
+					threadmodel = new ThreadsParse().getThreadInfoBythreadIDParse(result);
+				//	threaditem.setThreadCmtList(threadcmtmodel);
+					Intent intent = new Intent(MyReplyListActivity.this,
+							ThreadReplyActivity.class);
+			    	Toast.makeText(getApplicationContext(), threadid,
+							Toast.LENGTH_SHORT).show();
+					intent.putExtra("threadmodel", threadmodel );
+				startActivity(intent);
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
   private void BindDataToListView() {
     	  final List<ImageAndText> imageAndTexts = new ArrayList<ImageAndText>();
  
@@ -212,7 +266,7 @@ private class GetData extends AsyncTask<String, String, String>{
 			listView.setAdapter(new MyReplyAdapter(this, imageAndTexts,
 					listView));
 			listView.setOnItemClickListener(new OnItemClickListener() {
-@Override
+				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id){
 				    
@@ -220,20 +274,9 @@ private class GetData extends AsyncTask<String, String, String>{
 					threadid=threadidlist.get(position) ;
 					
 			
-
-					
-				
-	              //  new GetData1(MyReplyListActivity.this, 1,"0").execute("");	
+	              new GetCommentList(MyReplyListActivity.this, 1,Integer.parseInt(threadid)).execute("");	
 	               
-	             
-		            
-
-					Intent intent = new Intent(MyReplyListActivity.this,
-							ThreadReplyActivity.class);
-			    	Toast.makeText(getApplicationContext(), threadid,
-							Toast.LENGTH_SHORT).show();
-					intent.putExtra("threadModel1", threadid );
-				//	startActivity(intent);
+					
 
 				}
 				
