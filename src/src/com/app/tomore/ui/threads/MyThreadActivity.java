@@ -87,9 +87,10 @@ public class MyThreadActivity extends Activity {
 				finish();
 			}
 		});
-		new GetData(MyThreadActivity.this, 1,"0").execute("");
 		usermodel =SpUtils.getUserInformation(MyThreadActivity.this);
 		memberid =usermodel.getMemberID();
+		new GetData(MyThreadActivity.this, 1,"0").execute("");
+
 
 		
 	}
@@ -139,7 +140,7 @@ public class MyThreadActivity extends Activity {
 				UserCenterRequest request = new UserCenterRequest(MyThreadActivity.this);
 				try {
 					Log.d("doInBackground", "start request");
-					result = request.deleteUserThread("1",ThreadID);
+					result = request.deleteUserThread(memberid,ThreadID);
 					Log.d("doInBackground", "returned");
 				}catch (IOException e) {
 					e.printStackTrace();
@@ -241,7 +242,7 @@ public class MyThreadActivity extends Activity {
 		            case R.id.button1:  
 		            	
 		            	ThreadModel newthreadmodel = (ThreadModel) getItem(position);
-		            	//new GetData(MyThreadActivity.this, 1,newthreadmodel.getThreadID()).execute("");
+		            	new GetData(MyThreadActivity.this, 2,newthreadmodel.getThreadID()).execute("");
 		            	threadmodel.remove(position);    
 	                    notifyDataSetChanged();    
 

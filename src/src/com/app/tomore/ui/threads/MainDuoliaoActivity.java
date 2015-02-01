@@ -423,7 +423,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			UserCenterRequest request = new UserCenterRequest(
 					MainDuoliaoActivity.this);
 				Log.d("doInBackground", "start request");
-				//result = request.updateUserProfile(bitmap,"1"); //for
+				result = request.updateUserProfile(bitmap,usermodel1.getMemberID()); //for
 																//test
 				Log.d("doInBackground", "returned");
 
