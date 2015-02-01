@@ -167,27 +167,16 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		
         if(usermodel ==null){
         	
-        	    if(usermodel1.getMemberID()==null){
-		   
+        	    if(usermodel1==null){
+		         /*
 			     bt2.setVisibility(View.GONE);
 		            bt3.setVisibility(View.GONE);
 		             bt4.setVisibility(View.GONE);
 		            bt5.setVisibility(View.GONE);
 		            bt7.setVisibility(View.GONE);
 		             bt8.setVisibility(View.GONE);
-		             bt9.setVisibility(View.VISIBLE);}
-        	    else if (usermodel1.getMemberID() !=null){
-        	    	   
-   			     bt2.setVisibility(View.VISIBLE);
-   		            bt3.setVisibility(View.VISIBLE);
-   		             bt4.setVisibility(View.VISIBLE);
-   		            bt5.setVisibility(View.VISIBLE);
-   		            bt7.setVisibility(View.VISIBLE);
-   		             bt8.setVisibility(View.VISIBLE);
-   		          bt9.setVisibility(View.GONE);
-        	    	 
-        	    	
-        	    }
+		             bt9.setVisibility(View.VISIBLE);*/}
+        	    
 			
 		      
 		         
@@ -382,8 +371,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	public void onLogoutClick(View view) {
 
 		SpUtils.removeUserInformation(MainDuoliaoActivity.this);//退出登录
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
+
 		
 
 	}
