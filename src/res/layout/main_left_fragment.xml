@@ -36,16 +36,9 @@
                 android:text="sunflower"
                 android:textColor="#000000"
                 android:textSize="15sp" />
+            
 
-            <TextView
-                android:id="@+id/grade_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/name_textview"
-                android:layout_below="@+id/name_textview"
-                android:text="962343949"
-                android:textColor="#000000"
-                android:textSize="12sp" />
+ 
         </RelativeLayout>
 
         <include
@@ -53,6 +46,15 @@
             android:layout_height="2px"
             layout="@layout/line" >
         </include>
+        <TextView
+            android:id="@+id/my_login_bt"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/toolbox_item_login"
+            android:textSize="15sp"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/my_backtomain_bt"

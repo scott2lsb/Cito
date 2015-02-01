@@ -10,6 +10,7 @@ import java.util.concurrent.TimeoutException;
 import com.app.tomore.R;
 import com.app.tomore.beans.ThreadCmtModel;
 import com.app.tomore.beans.ThreadModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.fragment.BackToMainActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
@@ -65,7 +66,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private TextView bt1;
 	private TextView bt2;
 	private TextView bt3;
-	private TextView bt4, bt5, bt6, bt7,bt8;
+	private TextView bt4, bt5, bt6, bt7,bt8,bt9;
 	private Context context;
 	private ImageButton menubtn;
 	private ImageButton rightBtn;
@@ -85,6 +86,9 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	protected ImageLoader imageLoader;
 	private Bitmap head;
 	private static String path="/sdcard/myHead/";//sd路径
+	UserModel usermodel;
+	UserModel usermodel1;
+	TextView accountname;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.main_duoliao_activity);
 		mContext = this;
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-
+		//usermodel=SpUtils.getUserInformation(MainDuoliaoActivity.this);
+		//usermodel1 =SpUtils.getUserInformation(mContext);
 		context = this;
 		menu = new SlidingMenu(this);
 		menu.setMode(SlidingMenu.LEFT);
@@ -112,9 +117,19 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt6 = (TextView) view.findViewById(R.id.my_aboutus_bt);
 		bt7 = (TextView) view.findViewById(R.id.my_logout_bt);
 		bt8= (TextView) view.findViewById(R.id.my_reply_bt);
+		bt9 =(TextView) view.findViewById(R.id.my_login_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
 		headView = (ImageView) findViewById(R.id.head_view);
+		accountname=(TextView) view.findViewById(R.id.name_textview);
+		
+		if(usermodel !=null){
+		
+		 ImageLoader.getInstance().displayImage(usermodel.getImage(),
+				 headView);
+		 Toast.makeText(getApplicationContext(), usermodel.getAccountName(),
+					Toast.LENGTH_SHORT).show();
+		 accountname.setText(usermodel.getAccountName());} 
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -124,6 +139,8 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt7.setOnClickListener(this);
 
 		bt8.setOnClickListener(this);
+		bt9.setOnClickListener(this);
+		
 
 		headView.setOnClickListener(this);
 
@@ -146,15 +163,49 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 		});
+		/*
+        if(usermodel1 ==null||usermodel ==null){
+        	
+		   
+			     bt2.setVisibility(View.GONE);
+		            bt3.setVisibility(View.GONE);
+		             bt4.setVisibility(View.GONE);
+		            bt5.setVisibility(View.GONE);
+		            bt7.setVisibility(View.GONE);
+		             bt8.setVisibility(View.GONE);
+		             bt9.setVisibility(View.VISIBLE);
+			
+		      
+		         
+			 }
+        /*
+        else if (usermodel1.getMemberID().isEmpty()==false)
+	       {
+        	 if(usermodel1 !=null){
+        		 ImageLoader.getInstance().displayImage(usermodel1.getImage(),
+        				 headView);
+        		 Toast.makeText(getApplicationContext(), usermodel1.getAccountName(),
+        					Toast.LENGTH_SHORT).show();
+        		 accountname.setText(usermodel.getAccountName());
+		         bt7.setVisibility(View.VISIBLE);
 		
-	}
+        	 }
+		    }
+		  */ 
+	   }
+
+		
+		
+
+		
+	
 
 	@Override
 	public void onClick(View v) {
 		BackToMainActivity newContent = null;
 		int id = v.getId();
 		if (id == R.id.my_backtomain_bt) {
-			newContent = new BackToMainActivity();
+			BacktoMainClick(v);
 		}else if(id == R.id.my_reply_bt){
 			onMyreply(v);
 		} 
@@ -176,9 +227,14 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 //			Toast.makeText(context, "����1", 1).show();
 		}else if (id == R.id.my_logout_bt) {
 			onLogoutClick(v);
+			menu.toggle();
 		}
 		else if(id == R.id.head_view){
 			OnAvatarClick(v);
+		}
+		else if(id ==R.id.my_login_bt){
+			onLoginClick(v);
+			
 		}
 
 	}
@@ -301,6 +357,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		}
 	}
+	private void BacktoMainClick(View v) {
+		Intent intent = new Intent(this, MainDuoliaoActivity.class);
+		startActivity(intent);
+	}
 	
 	private void onAboutUSClick(View v) {
 		Intent intent = new Intent(this, AboutusActivity.class);
@@ -318,9 +378,9 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 	public void onLogoutClick(View view) {
 
-		SpUtils.clearUserInfo(mContext);//退出登录
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
+		SpUtils.removeUserInformation(MainDuoliaoActivity.this);//退出登录
+		
+
 	}
 
 	public void onMyFansClick(View view) {
@@ -336,6 +396,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	public void onMyBlockedClick(View view) {
 		Intent intent = new Intent(this, MainBlockedActivity.class);
 		startActivity(intent);
+	}
+	public void onLoginClick(View view) {
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		
 	}
 	
 	private class UpdateAvatar extends AsyncTask<String, String, String> {
