@@ -65,7 +65,7 @@ public class ThreadsRequest {
 	/*
 	 * like or unlike a thread
 	 */
-	public String likeOrUnLikeAThread(String memberID, String threadID, String accountName,int isLike)
+	public  String likeOrUnLikeAThread(String memberID, String threadID, String accountName,int isLike)
 			 throws IOException, TimeoutException {
 		baseRequest = new BasicHttpClient(url);
 		baseRequest.setConnectionTimeout(2000);
@@ -76,8 +76,9 @@ public class ThreadsRequest {
 				.add("like", Integer.toString(isLike));
 		;
 		HttpResponse httpResponse = baseRequest.post(
-				"/APIV2/likeOrUnlike.php", params);
+				"/APIV2/LikeOrUnlike.php", params);
 		return httpResponse.getBodyAsString();
+		
 	}
 
 	/*
