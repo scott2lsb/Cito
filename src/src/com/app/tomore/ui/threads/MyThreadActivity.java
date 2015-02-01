@@ -57,8 +57,8 @@ public class MyThreadActivity extends Activity {
 	private Activity mContext;
 	private ArrayList<ThreadModel> threadmodel;
 	private ArrayList<ThreadImageModel> threadImageList;
-	ThreadModel ThreadItem;
-	ThreadImageModel ThreadImageitem;
+	ThreadModel threadItem;
+	ThreadImageModel threadImageItem;
 	private ListView listView;
 	private DisplayMetrics dm = new DisplayMetrics();  
 	private View layout;
@@ -126,7 +126,7 @@ public class MyThreadActivity extends Activity {
 					int limit=25;
 					int memberID =Integer.parseInt(memberid);
 					Log.d("doInBackground", "start request");
-					result = request.getThreadListByMemberID(limit, page, 25);
+					result = request.getThreadListByMemberID(limit, page, memberID);
 					Log.d("doInBackground", "returned");
 				}catch (IOException e) {
 					e.printStackTrace();
@@ -183,10 +183,9 @@ public class MyThreadActivity extends Activity {
 		MyThreadAdapter newsListAdapter = new MyThreadAdapter(mContext, dm.widthPixels);
 		listView.setAdapter(newsListAdapter);
 		listView.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		    	Object obj = (Object) threadmodel.get(position);
-		    	
-		    	
 		    	
 				Intent intent = new Intent(MyThreadActivity.this,
 						ThreadReplyActivity.class);
@@ -278,11 +277,24 @@ public class MyThreadActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			final ViewHolder viewHolder;
 				viewHolder = new ViewHolder();  
-				ThreadItem =(ThreadModel) getItem(position);
+				threadItem =(ThreadModel) getItem(position);
 				convertView = LayoutInflater.from(mContext).inflate(
 						R.layout.thread_myactivity, parent, false);
 				viewHolder.itemHorizontalScrollView = (HorizontalScrollView) convertView.findViewById(R.id.hsv);  
 				viewHolder.ThreadImage=(ImageView) convertView.findViewById(R.id.Mythreadimage);
+				
+				final int pos = position;
+				viewHolder.ThreadImage.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Object obj = (Object) threadmodel.get(pos);
+						Intent intent = new Intent(MyThreadActivity.this,
+								ThreadReplyActivity.class);
+						intent.putExtra("threadModel", (Serializable) obj);
+						startActivity(intent);
+					}
+				});
+				
 				viewHolder.ThreadContent = (TextView) convertView.findViewById(R.id.Mythreadcontent);
 				viewHolder.TimeDiff=(TextView) convertView.findViewById(R.id.MythreadTimeDiff);
 
@@ -349,14 +361,14 @@ public class MyThreadActivity extends Activity {
 	  
 			// TODO Auto-generated method stub
 
-			ImageLoader.getInstance().displayImage(ThreadItem.getThreadImageList().get(0).getImageUrl(),
+			ImageLoader.getInstance().displayImage(threadItem.getThreadImageList().get(0).getImageUrl(),
 					viewHolder.ThreadImage,otp);
-			String Content = ThreadItem.getThreadContent();
+			String Content = threadItem.getThreadContent();
 			if(Content.length() > 25){
 				Content = Content.substring(0, 23) + "..."; 
 			}
 			viewHolder.ThreadContent.setText(Content);
-			viewHolder.TimeDiff.setText(ThreadItem.getTimeDiff());
+			viewHolder.TimeDiff.setText(threadItem.getTimeDiff());
 			return convertView;
 		}
 	}
