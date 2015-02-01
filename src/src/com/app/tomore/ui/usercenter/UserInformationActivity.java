@@ -78,6 +78,7 @@ public class UserInformationActivity extends Activity {
 	private String viewerID;
 	private String followed;
 	private AlertDialog alertDialog;
+	UserModel usermodel;
 	
 	private String[] allOptionsMenuTexts = {"加入黑名单","举报该用户"};  
 	   private int[] allOptionsMenuOrders = {2,6};  
@@ -93,10 +94,14 @@ public class UserInformationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_infomation);
-		logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
-		viewerID = SpUtils.getUserId(UserInformationActivity.this);
+		usermodel =SpUtils.getUserInformation(UserInformationActivity.this);
+		logindInUserId=usermodel.getMemberID();
+		//logindInUserId = SpUtils.getUserId(UserInformationActivity.this);
+		viewerID =usermodel.getMemberID();
+		//viewerID = SpUtils.getUserId(UserInformationActivity.this);
 		memberID = getIntent().getStringExtra("memberID");
-		followed = getIntent().getStringExtra("followed");
+		//followed= usermodel.getFollowedNum();
+		//followed = getIntent().getStringExtra("followed");
 		thisUserId = getIntent().getStringExtra("memberID");
 		userName = (TextView) findViewById(R.id.tvUserName);
 		userSchool = (TextView) findViewById(R.id.tvSchool);
@@ -382,11 +387,11 @@ public class UserInformationActivity extends Activity {
 
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
-						if(followed.equalsIgnoreCase("0")){
+						/*if(followed.equalsIgnoreCase("0")){
 							btnFollowOrUnfollow.setText("+关注");
 						} else if(followed.equalsIgnoreCase("1")){
 							btnFollowOrUnfollow.setText("取消关注");
-						}
+						}*/
 						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
 						btnFollowing.setText("关注\n" + userInformation.getFollowingNum());
 						btnFollowed.setText("粉丝\n" + userInformation.getFollowedNum());

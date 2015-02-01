@@ -11,6 +11,8 @@ import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.usercenter.MyReplyListActivity;
+import com.app.tomore.ui.usercenter.UserInformationActivity;
 import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.google.gson.JsonSyntaxException;
@@ -31,8 +33,10 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 
 import com.app.tomore.beans.EventMemberModel;
@@ -316,6 +320,10 @@ public class EventDetailsActivity extends Activity {
 	
 	class ViewHolder {
 		private ImageView ImageView;
+		private TextView membername;
+		private TextView memberlike;
+		private ImageView ImageView1;
+
 	}
 
 	private class UserInformationAdapter extends BaseAdapter {
@@ -352,6 +360,25 @@ public class EventDetailsActivity extends Activity {
 
 				viewHolder.ImageView = (ImageView) convertView
 						.findViewById(R.id.ItemImage);
+				viewHolder.ImageView1 =(ImageView)convertView
+						.findViewById(R.id.memberinfoicon);
+				viewHolder.ImageView1.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+				    	
+				    	Intent intent = new Intent(EventDetailsActivity.this,
+								UserInformationActivity.class);
+				    	Toast.makeText(getApplicationContext(), item.getMemberID(),
+								Toast.LENGTH_SHORT).show();
+						intent.putExtra("memberID", item.getMemberID() );
+						startActivity(intent);
+				    }
+				});
+				viewHolder.membername=(TextView)convertView.findViewById(R.id.membername);
+				viewHolder.membername.setText(item.getAccountName());
+				viewHolder.memberlike=(TextView)convertView.findViewById(R.id.itemlike);
+				viewHolder.memberlike.setText(item.getLike());
+				
 
 				convertView.setTag(viewHolder);
 			}

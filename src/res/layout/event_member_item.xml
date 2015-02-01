@@ -12,4 +12,44 @@
         android:scaleType="centerCrop">
     </ImageView>
 
+      <ImageView
+          android:id="@+id/TopIcon"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_alignBottom="@+id/ItemImage"
+          android:layout_alignLeft="@+id/ItemImage"
+          android:layout_marginLeft="30dp"
+          android:src="@drawable/topicon" />
+
+        <TextView
+            android:id="@+id/membername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TopIcon"
+            android:layout_alignLeft="@+id/ItemImage"
+            android:layout_alignRight="@+id/ItemImage"
+                  android:layout_gravity="center_horizontal|bottom" 
+             android:gravity="center_horizontal"
+            android:text="androidText1"
+            android:textColor="#F8F8FF" />
+
+        <ImageView
+            android:id="@+id/memberinfoicon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/ItemImage"
+            android:src="@drawable/info" />
+
+        <TextView
+            android:id="@+id/itemlike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ItemImage"
+            android:layout_alignTop="@+id/TopIcon"
+            android:layout_toRightOf="@+id/TopIcon"
+            android:text="54"
+            android:textColor="#F8F8FF" 
+             />
+
 </RelativeLayout>
