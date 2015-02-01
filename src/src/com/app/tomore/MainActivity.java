@@ -95,7 +95,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 					tabHost.setCurrentTabByTag("杂志");
 				} else if (checkedId == R.id.main_camero) {
 					tabHost.setCurrentTabByTag("相机");
-					MainActivity.hideTabs();
+					//MainActivity.hideTabs();
 				} else if (checkedId == R.id.main_bianli) {
 					tabHost.setCurrentTabByTag("便利");
 				} else if (checkedId == R.id.main_member) {

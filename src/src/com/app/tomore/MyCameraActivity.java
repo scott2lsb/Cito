@@ -4,16 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
-import com.app.tomore.beans.GeneralBLModel;
 import com.app.tomore.net.ThreadsRequest;
-import com.app.tomore.net.YellowPageParse;
-import com.app.tomore.net.YellowPageRequest;
+import com.app.tomore.net.ToMoreParse;
 import com.app.tomore.ui.threads.DialogActivity;
-import com.app.tomore.ui.yellowpage.GeneralBLActivity;
-import com.google.gson.JsonSyntaxException;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -45,6 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MyCameraActivity extends Activity implements OnClickListener {
@@ -56,6 +52,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	private boolean qqOnclick = false;
 	private Context mcontext;
 	private boolean send = false;
+	private String finalResult = null;
 	final UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.share");
 	private DialogActivity dialog;
@@ -108,7 +105,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		String FromAlbum = getString(R.string.FromAlbum);
     	CharSequence [] options = {TakePhoto,FromAlbum,Cancel};
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.ChangeAvatar));
+		builder.setTitle(getString(R.string.GetPhoto));
 		builder.setItems(options, new DialogInterface.OnClickListener() {
 		    @Override
 		    public void onClick(DialogInterface Optiondialog, int which) {
@@ -218,10 +215,6 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		final ImageView removeIcon = (ImageView) getWindow().getDecorView().findViewById(R.id.RemoveIcon);
 		final EditText messageText = (EditText) getWindow().getDecorView().findViewById(R.id.messageText);
 		TextView sendButton = (TextView) getWindow().getDecorView().findViewById(R.id.submit_button);
-		/*if(image != null){
-			posting_image.setImageBitmap(image);
-		}*/
-		//shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
 		removeIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 		    public void onClick(View v) {
@@ -260,6 +253,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 				@Override
 			    public void onClick(View v) {
 					if(send == true && (webchatOnclick == true || qqOnclick == true)){
+						image = ((BitmapDrawable)posting_image.getDrawable()).getBitmap();
 						InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); 
 						inputMethodManager.hideSoftInputFromWindow(((Activity) mcontext).getCurrentFocus().getWindowToken(), 
 						InputMethodManager.HIDE_NOT_ALWAYS);
@@ -271,6 +265,9 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 						String appSecret = "9c253edcab52fdb8458c99ec798c3c91";
 						
 						shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
+						
+						new Post(mcontext,1,messageText.getText().toString(),25,image.getWidth(),image.getHeight()).execute("");;
+						
 						UMWXHandler wxHandler = new UMWXHandler(mcontext,appID,appSecret);
 						wxHandler.addToSocialSDK();
 						WeiXinShareContent weixinContent = new WeiXinShareContent();
@@ -289,6 +286,13 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 						wxCircleHandler.addToSocialSDK();
 						mController.getConfig().removePlatform( SHARE_MEDIA.QQ,SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.TENCENT);
 						mController.openShare((Activity) mcontext, false);
+					}
+					else if(send == true){
+						image = ((BitmapDrawable)posting_image.getDrawable()).getBitmap();
+						new Post(mcontext,1,messageText.getText().toString(),25,image.getWidth(),image.getHeight()).execute("");;
+					}
+					else{
+						Toast.makeText(mcontext, getString(R.string.imageCannotBeEmpty), Toast.LENGTH_SHORT).show();
 					}
 			}
 		});
@@ -324,17 +328,18 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			ThreadsRequest request = new ThreadsRequest(MyCameraActivity.this); // BLRequest
+			ThreadsRequest request = new ThreadsRequest(MyCameraActivity.this);
 			try {
-				Log.d("doInBackground", "start request");
-				result = request.PostThread("title", Content, memberID, ImageWidth, ImageHeight);
-				Log.d("doInBackground", "returned");
+				result = request.PostThread(image,"",Content,memberID,ImageWidth,ImageHeight);
+				ToMoreParse toMoreParse = new ToMoreParse();
+				result = toMoreParse.CommonPares(result).getResult();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			return result;
 		}
 
@@ -344,11 +349,17 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 				dialog.dismiss();
 			}
 			Log.d("onPostExecute", "postExec state");
-			if (result == null || result.equals("")) {
-				// show empty alert
-			} else {
-				
+        	if(result.equals("succ"))
+        	{
+        		Toast.makeText(mcontext, getString(R.string.successMessage), Toast.LENGTH_SHORT).show();
+
+        	}
+        	else if(result.equals("upload image fail"))
+        	{
+        		Toast.makeText(mcontext, getString(R.string.failtosend), Toast.LENGTH_SHORT).show();
+        	}
+        	
 			}
 		}
 	}
-}
+

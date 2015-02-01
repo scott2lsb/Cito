@@ -1,13 +1,28 @@
 package com.app.tomore.net;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.app.tomore.httpclient.BasicHttpClient;
 import com.app.tomore.httpclient.HttpResponse;
 import com.app.tomore.httpclient.ParameterMap;
+import com.app.tomore.utils.AndroidMultiPartEntity;
+import com.app.tomore.utils.AndroidMultiPartEntity.ProgressListener;
 
 public class ThreadsRequest {
 
@@ -199,21 +214,72 @@ public class ThreadsRequest {
 				"/APIV2/LikeOrUnlikeForEvent.php", params);
 		return httpResponse.getBodyAsString();
 	}
+	
 	//http://54.213.167.5/postThread.php?threadTitle=title&threadContent=content&threadType=1&memberID=25&imageWidth=50&imageHeight=50
-	public String PostThread(String title, String Content, int memberID, int imagewidth, int imageHeight)
+	public String PostThread(Bitmap image,String title, String Content, int memberID, int imagewidth, int imageHeight)
 			 throws IOException, TimeoutException {
-		baseRequest = new BasicHttpClient(url);
-		baseRequest.setConnectionTimeout(2000);
-		ParameterMap params = baseRequest.newParams()
-				.add("title", title)
-				.add("threadContent", Content)
-				.add("threadType", "1")
-				.add("memberID", Integer.toString(memberID))
-				.add("imageWidth", Integer.toString(imagewidth))
-				.add("imageHeight", Integer.toString(imageHeight));
-		HttpResponse httpResponse = baseRequest.post(
-				"/postThread.php?", params);
-		return httpResponse.getBodyAsString();
+		String responseString = null;
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost("http://54.213.167.5/postThread.php");
+				AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
+						new ProgressListener() {
+							@Override
+							public void transferred(long num) {
+							}
+						});
+				// create temp file for upload
+				String fileName = "temp.jpg";
+
+				String path = android.os.Environment.getExternalStorageDirectory()
+						.toString();
+				File f = new File(path, fileName);
+				f.createNewFile();
+
+				// Convert bitmap to byte array
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				byte[] bitmapdata = stream.toByteArray();
+
+				// write the bytes in file
+				FileOutputStream fos = new FileOutputStream(f);
+				fos.write(bitmapdata);
+				fos.flush();
+				fos.close();
+				//http://54.213.167.5/postThread.php?threadTitle=title&threadContent=content&threadType=1&memberID=25&imageWidth=50&imageHeight=50
+
+				entity.addPart("uploaded1", new FileBody(f));
+				entity.addPart("uploaded2", new StringBody(""));
+				entity.addPart("threadTitle", new StringBody(""));
+				entity.addPart("threadContent", new StringBody(Content));
+				entity.addPart("threadType", new StringBody("1"));
+				entity.addPart("memberID", new StringBody(Integer.toString(memberID)));
+				entity.addPart("imageWidth", new StringBody(Integer.toString(imagewidth)));
+				entity.addPart("imageHeight", new StringBody(Integer.toString(imageHeight)));
+
+				httppost.setEntity(entity);
+
+				// Making server call
+				org.apache.http.HttpResponse response = httpclient
+						.execute(httppost);
+				HttpEntity r_entity = response.getEntity();
+				// delete temp file after upload
+				f.delete();
+
+				int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode == 200) {
+					// Server response
+					responseString = EntityUtils.toString(r_entity);
+				} else {
+					responseString = "Error occurred! Http Status Code: "
+							+ statusCode;
+				}
+			} catch (ClientProtocolException e) {
+				responseString = e.toString();
+			} catch (IOException e) {
+				responseString = e.toString();
+			}
+		return responseString;
 	}
 	
 

@@ -144,9 +144,6 @@ public class LeagueActivity extends Activity{
 	    	        });
 	    			pw.showAtLocation(layout, Gravity.TOP, 0, 200);
 	    	        handler.postDelayed(r, 2000);
-
-
-			        
 			        new Handler().postDelayed(new Runnable() {
 			            public void run() {
 				        	Intent Main_BL_intent;
@@ -156,7 +153,6 @@ public class LeagueActivity extends Activity{
 							finish();
 			            }
 			        }, 2200);
-			        
 	    		}
 			}
 		}
