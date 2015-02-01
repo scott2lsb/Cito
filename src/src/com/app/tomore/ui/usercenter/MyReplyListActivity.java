@@ -212,7 +212,7 @@ private class GetData extends AsyncTask<String, String, String>{
 			listView.setAdapter(new MyReplyAdapter(this, imageAndTexts,
 					listView));
 			listView.setOnItemClickListener(new OnItemClickListener() {
-
+@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id){
 				    

@@ -3,7 +3,9 @@ package com.app.tomore.ui.threads;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
+
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.usercenter.UserInformationActivity;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.ToMoreParse;
@@ -19,14 +21,18 @@ import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.PullToRefreshBase;
 import com.app.tomore.utils.PullToRefreshBase.OnLastItemVisibleListener;
 import com.app.tomore.utils.PullToRefreshBase.OnRefreshListener;
+import android.view.ViewGroup.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +46,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.app.tomore.beans.CommonModel;
 import com.app.tomore.beans.ThreadModel;
+
 import android.widget.AdapterView.OnItemClickListener;
+
 import com.app.tomore.beans.ThreadCmtModel;
 
 public class ThreadReplyActivity extends Activity {
@@ -288,13 +297,83 @@ public class ThreadReplyActivity extends Activity {
 		TextView TimeDiff;
 		ImageView imageView;
 	}
+	
+	class ViewHolderMain {
+		TextView account_name;
+		TextView content;
+		TextView time;
+		ImageView avatar;
+		ImageView content_img;
+		
+	}
 
 	private class ThreadDetailsActivity extends BaseAdapter {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			////////////////
+			if(position == 0)
+			{
+			ViewHolderMain mainViewHolder = null;
+			if (convertView != null) {
+				mainViewHolder = (ViewHolderMain) convertView.getTag();
+			} else {
+				mainViewHolder = new ViewHolderMain();
+				convertView = LayoutInflater.from(mContext).inflate(
+						R.layout.thread_details_item, null);
+				
+				mainViewHolder.avatar = (ImageView) convertView
+						.findViewById(R.id.avatar);
+				mainViewHolder.content_img = (ImageView) convertView
+						.findViewById(R.id.content_img);
+				mainViewHolder.account_name = (TextView) convertView
+						.findViewById(R.id.account_name);
+				mainViewHolder.content = (TextView) convertView
+						.findViewById(R.id.content);
+				mainViewHolder.time = (TextView) convertView
+						.findViewById(R.id.time);
+				mainViewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+				    @Override
+				    public void onClick(View v) {
+
+//				    	Intent intent = new Intent(MainDuoliaoActivity.this,
+//				    			UserInformationActivity.class);
+//						intent.putExtra("memberId", threadItem.getMemberID());
+//						startActivity(intent);
+				    }
+				});
+
+				convertView.setTag(mainViewHolder);
+			}
+			
+			ImageLoader.getInstance().displayImage(threadModel.getMemberImage(),
+					mainViewHolder.avatar, otp);
+			//get screen width
+			Display display = getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			int screenWidth = size.x;
+			// change size of content image
+			LayoutParams params = (LayoutParams) mainViewHolder.content_img
+					.getLayoutParams();
+			params.width = screenWidth;
+			params.height = (screenWidth/Integer.parseInt(threadModel.getThreadImageList().get(0).getImageWidth()))
+					*Integer.parseInt(threadModel.getThreadImageList().get(0).getImageHeight());
+			mainViewHolder.content_img.setLayoutParams(params);
+			ImageLoader.getInstance().displayImage(threadModel.getThreadImageList().get(0)
+					.getImageUrl(), mainViewHolder.content_img, otp);
+			mainViewHolder.account_name.setText(threadModel.getAccountName());
+			mainViewHolder.content.setText(threadModel.getThreadContent());
+		//	mainViewHolder.time.setText(threadModel.getTimeDiff());
+			
+			/////////////////
+			return convertView;
+			}
+			else
+			{
 			ViewHolder viewHolder = new ViewHolder();
-			commentItem = (ThreadCmtModel) getItem(position);
+			commentItem = (ThreadCmtModel) getItem(position-1);
 			final String speakerName = commentItem.getAccountName();
 			final String content = commentItem.getCommentContent();
 			final String time = commentItem.getCommentPostDate();
@@ -319,12 +398,13 @@ public class ThreadReplyActivity extends Activity {
 			ImageLoader.getInstance().displayImage(imageUrl,
 					viewHolder.imageView, otp);
 			return convertView;
+			}
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return commentList.size();
+			return commentList.size()+1;
 		}
 
 		@Override
