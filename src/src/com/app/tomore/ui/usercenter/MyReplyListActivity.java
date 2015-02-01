@@ -196,7 +196,7 @@ private class GetCommentList extends AsyncTask<String, String, String>{
 			try {
 				
 				Log.d("doInBackground", "start request");
-				result = request.getCommentsByThreadID(20,1,threadId);
+				result = request.getThreadInfoBythreadID(threadId);
 				Log.d("doInBackground", "returned");
 			}catch (IOException e) {
 				e.printStackTrace();
@@ -215,16 +215,14 @@ private class GetCommentList extends AsyncTask<String, String, String>{
 				// show empty alert
 			} else {
 				try {
-					
-					threadcmtmodel = new ThreadsParse().getCommentsByThreadIDParse( result);
-					threaditem = new ThreadModel();
-					threaditem.setThreadCmtList(threadcmtmodel);
-					
+					threadmodel = new ArrayList<ThreadModel>();
+					threadmodel = new ThreadsParse().getThreadInfoBythreadIDParse(result);
+				//	threaditem.setThreadCmtList(threadcmtmodel);
 					Intent intent = new Intent(MyReplyListActivity.this,
 							ThreadReplyActivity.class);
 			    	Toast.makeText(getApplicationContext(), threadid,
 							Toast.LENGTH_SHORT).show();
-					intent.putExtra("threadModel1", threadid );
+					intent.putExtra("threadmodel", threadmodel );
 				startActivity(intent);
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();

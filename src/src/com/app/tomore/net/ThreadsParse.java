@@ -230,16 +230,46 @@ public class ThreadsParse {
 	//http://54.213.167.5/getThreadInfo.php?threadID=724
 	public  ArrayList<ThreadModel> getThreadInfoBythreadIDParse(String result)
 	{
+		ArrayList<ThreadModel> retList = new ArrayList<ThreadModel>();
 		Gson gson = new Gson();
 		JsonElement jelement = new JsonParser().parse(result);
-		JsonObject jobject = jelement.getAsJsonObject();
-		JsonArray jarray = jobject.getAsJsonArray("data");
-		ArrayList<ThreadModel> lcs = new ArrayList<ThreadModel>();
-		for (JsonElement obj : jarray) {
-			ThreadModel cse = gson.fromJson(obj, ThreadModel.class);
-			lcs.add(cse);
-		}
-		return lcs;
+	    JsonObject  jobject = jelement.getAsJsonObject();
+	    JsonArray jarray = jobject.getAsJsonArray("data");
+	    for (JsonElement obj : jarray)
+	    {
+	    	ThreadModel aThread = gson.fromJson(obj, ThreadModel.class);
+	    	
+	    	JsonObject  jobject2 = obj.getAsJsonObject();
+	    	JsonArray threadImageArray = jobject2.getAsJsonArray("ThreadImages");
+	    	JsonArray threadCommentArray = jobject2.getAsJsonArray("Comments");
+	    	if(threadImageArray != null)
+	    	{
+	    		ArrayList<ThreadImageModel> imageModelList = new ArrayList<ThreadImageModel>();
+	    		for (JsonElement objThreadImage : threadImageArray)
+				{
+	    			ThreadImageModel imageModel = gson.fromJson(objThreadImage, ThreadImageModel.class);
+	    			imageModelList.add(imageModel);
+				}
+	    		aThread.setThreadImageList(imageModelList);
+	    	}
+	    	
+	    	
+	    	if(threadCommentArray != null)
+	    	{
+	    		ArrayList<ThreadCmtModel> listComment = new ArrayList<ThreadCmtModel>();
+	    		for (JsonElement objComment : threadCommentArray)
+	    		{
+	    			ThreadCmtModel commentModel = gson.fromJson(objComment, ThreadCmtModel.class);
+	    			listComment.add(commentModel);
+	    		}
+	    		
+	    		aThread.setThreadCmtList(listComment);
+	    	}
+
+			retList.add(aThread);
+	    }
+	    
+		return retList;
 	}
 	public  ArrayList<ThreadModel> getThreadByThreadIDParse(String result) 
 			throws JsonSyntaxException
