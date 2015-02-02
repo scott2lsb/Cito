@@ -143,6 +143,8 @@ public class MainFansActivity extends Activity {
 			//memberID, viewerID, limit, page
 			String sLimite = Integer.toString(limit);
 			String sPageNumber = Integer.toString(pageNumber);
+			System.out.println("memberID" + memberID);
+			System.out.println("viewerID" + viewerID);
 			try {
 				result = request.getFansRequest(memberID, viewerID, sLimite, sPageNumber);
 			} catch (IOException e) {

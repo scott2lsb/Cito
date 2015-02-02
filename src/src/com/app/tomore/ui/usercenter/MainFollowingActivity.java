@@ -263,14 +263,20 @@ public class MainFollowingActivity extends Activity {
 					startActivity(intent);					
 				}
 			});
-			btnFollow.setText("取消关注");
+			String follow = "";
+			if(followingText.getFollowed().equals("0")){
+				follow = "+关注";
+			} else if(followingText.getFollowed().equals("1")){
+				follow = "取消关注";
+			}	
+			btnFollow.setText(follow);
 			btnFollow.setTag(followingText.getMemberID());
 			btnFollow.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					String followOrUnfollowMemberID = (String)v.getTag();
-					new MyFollowOrUnfollow(MainFollowingActivity.this, 1).execute(followOrUnfollowMemberID);					
+					new MyFollowOrUnfollow(MainFollowingActivity.this, 1).execute(followingText.getFollowed(), followOrUnfollowMemberID);					
 				}
 			});
 			return convertView;
@@ -279,7 +285,8 @@ public class MainFollowingActivity extends Activity {
 	
 	private class MyFollowOrUnfollow extends AsyncTask<String, String, String> {
 		private int mType;
-
+		private String followOrUnfollow = "1";
+		
 		private MyFollowOrUnfollow(Context context, int type) {
 			// this.mContext = context;
 			this.mType = type;
@@ -299,11 +306,15 @@ public class MainFollowingActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			String result = null;
-			String followOrUnfollowMemberID = params[0];
+			String followOrUnfollowMemberID = params[1];
 			UserCenterRequest request = new UserCenterRequest(MainFollowingActivity.this);
 			try {
-//				System.out.println("followRequest: " + followOrUnfollow);
-				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, "0");
+				if(params[0].equals("0")){
+					followOrUnfollow = "1";
+				}else if(params[0].equals("1")){
+					followOrUnfollow = "0";
+				}
+				result = request.getFollowOrUnfollowRequest(viewerID, followOrUnfollowMemberID, followOrUnfollow);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
@@ -329,11 +340,11 @@ public class MainFollowingActivity extends Activity {
 					followOrUnfollowModelItem = new String();
 				try {
 					followOrUnfollowModelItem = new UserCenterParse().parseFollowOrUnfollowResponse(result);
-//						if(followOrUnfollowModelItem.toString().equals("0 row(s) exist before command")){
-//							Toast.makeText(getApplicationContext(), "关注成功", 1).show();
-//						}else if(followOrUnfollowModelItem.toString().equals("1 row(s) exist before command")){
-							Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
-//						}
+					if(followOrUnfollow.equals("1")){
+						Toast.makeText(getApplicationContext(), "关注成功", 1).show();
+					}else if(followOrUnfollow.equals("0")){
+						Toast.makeText(getApplicationContext(), "取消关注成功", 1).show();
+					}
 						mListView.setOnRefreshListener(onRefreshListener);
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
