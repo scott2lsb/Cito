@@ -131,6 +131,7 @@ public class UserModel implements Serializable {
 	private String followedNum;
 	private String image;
 	private String followed;
+	private String blocked;
 	public String getImage() {
 		return image;
 	}
@@ -142,6 +143,12 @@ public class UserModel implements Serializable {
 	}
 	public void setFollowed(String followed) {
 		this.followed = followed;
+	}
+	public String getBlocked() {
+		return blocked;
+	}
+	public void setBlocked(String blocked) {
+		this.blocked = blocked;
 	}
 	
     	 
