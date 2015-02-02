@@ -148,17 +148,6 @@ public class UserInformationActivity extends Activity {
 		});
 		new GetUserInformaitonById(UserInformationActivity.this, 1).execute("");
 		
-		btnPosts.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),
-						MainFansActivity.class); // should start activity: user posts
-				intent.putExtra("memberID", memberID);
-				startActivity(intent);				
-			}
-		});
-		
 		btnFollowing.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
