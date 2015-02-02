@@ -383,15 +383,18 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 	public void onLogoutClick(View view) {
 
-		SpUtils.removeUserInformation(MainDuoliaoActivity.this);
-		
-		Intent intent = new Intent(this, MainActivity.class);
+	SpUtils.removeUserInformation(MainDuoliaoActivity.this);
+	  usermodel =SpUtils.getUserInformation(MainDuoliaoActivity.this);
+	  if (usermodel !=null)
+	  {  
+	  }
+	  else{
+		  Toast.makeText(getApplicationContext(), "登出",
+			Toast.LENGTH_SHORT).show();
+	  }
+	  Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
-		//退出登录
-
-		
-
 	}
 
 	public void onMyFansClick(View view) {

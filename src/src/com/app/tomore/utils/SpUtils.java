@@ -70,7 +70,7 @@ public class SpUtils {
 	{
 		mPrefs = activity.getSharedPreferences(USERMODELPREF, Activity.MODE_PRIVATE);
 		String json = mPrefs.getString("UserModel", "");
-		mPrefs.edit().remove(json).commit();
+		mPrefs.edit().clear().remove(json).commit();
 	}
 	
 	/**
