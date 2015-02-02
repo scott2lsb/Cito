@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsRequest;
 import com.app.tomore.net.ToMoreParse;
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
+import com.app.tomore.utils.SpUtils;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -56,10 +59,15 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 	final UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.share");
 	private DialogActivity dialog;
-	File shareimage;;
+	private File shareimage;;
+	private UserModel usermodel;
+	private String memberid;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		usermodel=SpUtils.getUserInformation(MyCameraActivity.this);
+		memberid = usermodel.getMemberID();
 		Intent intent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent1.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
 						"postimage.jpg")));
@@ -266,7 +274,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 						
 						shareimage = new File(Environment.getExternalStorageDirectory(),"postimage.jpg");
 						
-						new Post(mcontext,1,messageText.getText().toString(),25,image.getWidth(),image.getHeight()).execute("");;
+						new Post(mcontext,1,messageText.getText().toString(),Integer.parseInt(memberid),image.getWidth(),image.getHeight()).execute("");;
 						
 						UMWXHandler wxHandler = new UMWXHandler(mcontext,appID,appSecret);
 						wxHandler.addToSocialSDK();
@@ -289,7 +297,7 @@ public class MyCameraActivity extends Activity implements OnClickListener {
 					}
 					else if(send == true){
 						image = ((BitmapDrawable)posting_image.getDrawable()).getBitmap();
-						new Post(mcontext,1,messageText.getText().toString(),25,image.getWidth(),image.getHeight()).execute("");;
+						new Post(mcontext,1,messageText.getText().toString(),Integer.parseInt(memberid),image.getWidth(),image.getHeight()).execute("");;
 					}
 					else{
 						Toast.makeText(mcontext, getString(R.string.imageCannotBeEmpty), Toast.LENGTH_SHORT).show();
