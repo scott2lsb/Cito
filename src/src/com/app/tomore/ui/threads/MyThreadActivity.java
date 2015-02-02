@@ -18,6 +18,7 @@ import com.app.tomore.beans.ThreadModel;
 import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.ThreadsParse;
 import com.app.tomore.net.ThreadsRequest;
+import com.app.tomore.net.ToMoreParse;
 import com.app.tomore.net.UserCenterRequest;
 import com.app.tomore.ui.usercenter.MyReplyListActivity;
 import com.app.tomore.ui.yellowpage.GeneralBLActivity;
@@ -47,6 +48,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.ViewGroup.LayoutParams;  
 
@@ -161,9 +163,24 @@ public class MyThreadActivity extends Activity {
 			} else {
 				
 				try {
-					threadmodel =new ThreadsParse().getThreadListByMemberIDParse(result);
-					//threadImageList=new ThreadsParse().getThreadimageByMemberIDParse(result);
-					BindDataToListView();
+					if (mType == 1){
+						threadmodel =new ThreadsParse().getThreadListByMemberIDParse(result);
+						//threadImageList=new ThreadsParse().getThreadimageByMemberIDParse(result);
+						BindDataToListView();
+					}
+					else{
+						ToMoreParse toMoreParse = new ToMoreParse();
+						result = toMoreParse.CommonPares(result).getResult();
+			        	if(result.equals("succ"))
+			        	{
+			        		Toast.makeText(mContext, getString(R.string.Deletedsuccessfully), Toast.LENGTH_SHORT).show();
+
+			        	}
+			        	else
+			        	{
+			        		Toast.makeText(mContext, getString(R.string.FailToDelete), Toast.LENGTH_SHORT).show();
+			        	}
+					}
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}

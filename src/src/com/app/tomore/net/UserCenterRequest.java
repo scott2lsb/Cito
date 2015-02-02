@@ -164,7 +164,7 @@ public class UserCenterRequest {
 		ParameterMap params = baseRequest.newParams().add("memberID", memberId)
 				.add("threadID", threadId);
 		HttpResponse httpResponse = baseRequest.post(
-				"/deleteThreadByThreadIDAndMemberID", params);
+				"/deleteThreadByThreadIDAndMemberID.php", params);
 		return httpResponse.getBodyAsString();
 	}
 
