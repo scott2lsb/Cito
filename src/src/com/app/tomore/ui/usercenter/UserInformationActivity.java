@@ -77,10 +77,12 @@ public class UserInformationActivity extends Activity {
 	private String memberID; 
 	private String viewerID;
 	private String followed;
+	private String blocked;
 	private AlertDialog alertDialog;
 	UserModel usermodel;
 	
-	private String[] allOptionsMenuTexts = {"加入黑名单","举报该用户"};  
+	private String[] allOptionsMenuTexts =  new String[2];  
+	// = {"加入黑名单","举报该用户"}
 	   private int[] allOptionsMenuOrders = {2,6};  
 	   private int[] allOptionsMenuIds = {Menu.FIRST+2,Menu.FIRST+6};  
 	   private int[] allOptionsMenuIcons = {   
@@ -379,12 +381,21 @@ public class UserInformationActivity extends Activity {
 							userGender.setImageResource(R.drawable.female_icon);						
 						}
 						followed = userInformation.getFollowed();
+						blocked = userInformation.getBlocked();
+						System.out.println("blocked " + blocked);
 						userName.setText(userInformation.getAccountName());
 						userSchool.setText(userInformation.getSchool());
-						if(followed.equalsIgnoreCase("0")){
+						if(followed.equals("0")){
 							btnFollowOrUnfollow.setText("+关注");
-						} else if(followed.equalsIgnoreCase("1")){
+						} else if(followed.equals("1")){
 							btnFollowOrUnfollow.setText("取消关注");
+						}
+						if(blocked.equals("0")){
+							allOptionsMenuTexts[0] = "加入黑名单";	
+							allOptionsMenuTexts[1] = "举报该用户";						
+						}else if(blocked.equals("1")){
+							allOptionsMenuTexts[0] = "移除黑名单";	
+							allOptionsMenuTexts[1] = "举报该用户";						
 						}
 						btnPosts.setText("发帖\n" + userInformation.getTotalThread());
 						btnFollowing.setText("关注\n" + userInformation.getFollowingNum());
@@ -572,6 +583,11 @@ public class UserInformationActivity extends Activity {
 			String blockMemberID = params[1];
 			try {
 				String block = "1";
+				if(blocked.equals("0")){
+					block = "1";
+				}else if(blocked.equals("1")){
+					block = "0";
+				}				
 				result = request.getBlockOrUnblockRequest(viewerID, blockMemberID, block);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -599,7 +615,13 @@ public class UserInformationActivity extends Activity {
 					blockList = new String();
 				try {
 					blockList = new UserCenterParse().parseBlockOrUnblockwResponse(result);
-							Toast.makeText(getApplicationContext(), "加入黑名单", 1).show();
+					if(blocked.equalsIgnoreCase("0")){
+						Toast.makeText(getApplicationContext(), "加入黑名单成功", 1).show();		
+						allOptionsMenuTexts[0] = "移除黑名单";		
+					}else if(blocked.equalsIgnoreCase("1")){
+						Toast.makeText(getApplicationContext(), "移除黑名单成功", 1).show();	
+						allOptionsMenuTexts[0] = "加入黑名单";							
+					}
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}

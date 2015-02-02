@@ -275,7 +275,7 @@ public class UserCenterRequest {
 				.add("memberID", Integer.toString(memberID))
 				.add("viewerID", Integer.toString(viewerID));
 		HttpResponse httpResponse = baseRequest.post(
-				"/getMemberInfoByMemberID.php", params);
+				"/APIV2/getMemberInfoByMemberID.php", params);
 		return httpResponse.getBodyAsString();
 	}
 

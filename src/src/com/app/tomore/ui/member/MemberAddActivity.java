@@ -48,7 +48,7 @@ import android.widget.TextView;
 public class MemberAddActivity extends Activity {
 
 	private DialogActivity dialog;
-	private String memberID;
+	private String memberid;
 	private ImageView frontImageView;
 	private ImageView backImageView;
 	private ImageView barcodeImageView;
@@ -75,7 +75,7 @@ public class MemberAddActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
-		memberID = intent.getStringExtra("memberID");
+		memberid = intent.getStringExtra("memberID");
 		setContentView(R.layout.member_detail);
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 
@@ -121,7 +121,7 @@ public class MemberAddActivity extends Activity {
 		btnSubmit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (memberID == null) {
+				if (memberid == null) {
 					return;
 				}
 				Log.d("doInBackground", "start request");
@@ -226,7 +226,7 @@ public class MemberAddActivity extends Activity {
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
-				if (memberID != null) {
+				if (memberid != null) {
 					// Intent intent = new Intent(MemberDetailActivity.this,
 					// MyCameraActivity.class); // fake redirect..
 					// intent.putExtra("cardList", (Serializable) cardList);
@@ -539,7 +539,7 @@ public class MemberAddActivity extends Activity {
 			cardDes = editDes.getText().toString();
 			cardBarcode = editBarcode.getText().toString();
 			cardType = "1";
-			memberID="34";
+			memberID = memberid;
 
 
 			BitmapDrawable drawable = (BitmapDrawable) frontImageView.getDrawable();	

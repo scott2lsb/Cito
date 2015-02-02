@@ -9,6 +9,7 @@ import com.app.tomore.R.drawable;
 import com.app.tomore.R.id;
 import com.app.tomore.R.layout;
 import com.app.tomore.beans.CardModel;
+import com.app.tomore.beans.UserModel;
 import com.app.tomore.net.CardsParse;
 import com.app.tomore.net.CardsRequest;
 import com.google.gson.JsonSyntaxException;
@@ -16,7 +17,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.app.tomore.R;
 import com.app.tomore.ui.threads.DialogActivity;
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.utils.AppUtil;
+import com.app.tomore.utils.SpUtils;
 import com.app.tomore.utils.ToastUtils;
 import com.app.tomore.utils.PullToRefreshListView;
 import com.app.tomore.utils.PullToRefreshBase;
@@ -43,6 +46,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class MainMemActivity extends Activity {
@@ -55,12 +59,24 @@ public class MainMemActivity extends Activity {
 	private View no_net_lay;
 	MemberAdapter memberListAdapter;
 	private boolean onRefresh = false;
+	private int memberid;
+	UserModel usermodel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_member_activity);
 		mContext = this;
+		usermodel=SpUtils.getUserInformation(MainMemActivity.this);
+		if(usermodel==null){
+			memberid=0;
+			}
+			else{
+				memberid = Integer.parseInt(usermodel.getMemberID());
+		    	Toast.makeText(getApplicationContext(), usermodel.getMemberID(),
+						Toast.LENGTH_SHORT).show();
+				 
+			}
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		new GetData(MainMemActivity.this, 1).execute("");
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
@@ -83,7 +99,7 @@ public class MainMemActivity extends Activity {
 			public void onClick(View view) {
 				Intent intent = new Intent(MainMemActivity.this,
 						MemberAddActivity.class);
-				intent.putExtra("memberID", "34");
+				intent.putExtra("memberID", memberid);
 				startActivity(intent);
 			}
 		});
@@ -149,8 +165,8 @@ public class MainMemActivity extends Activity {
 			String result = null;
 			CardsRequest request = new CardsRequest(MainMemActivity.this);
 			try {
-				String memberID = "34";
-				String limit = "5";
+				String memberID = String.valueOf(memberid);
+				String limit = "50";
 				String page = "1";
 				Log.d("doInBackground", "start request");
 				result = request.getCardByMemberID(memberID, limit, page);
