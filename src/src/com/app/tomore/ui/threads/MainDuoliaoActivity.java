@@ -355,13 +355,16 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		}
 	}
 	private void BacktoMainClick(View v) {
+		
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 	
 	private void onAboutUSClick(View v) {
 		Intent intent = new Intent(this, AboutusActivity.class);
 		startActivity(intent);
+		finish();
 	}
 	public void onMyreply(View view){
 		Intent intent= new Intent(this,MyReplyListActivity.class);
@@ -375,7 +378,12 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 	public void onLogoutClick(View view) {
 
-		SpUtils.removeUserInformation(MainDuoliaoActivity.this);//退出登录
+		SpUtils.removeUserInformation(MainDuoliaoActivity.this);
+		
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+		//退出登录
 
 		
 
