@@ -145,7 +145,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
 		headView = (ImageView) view.findViewById(R.id.head_view);
-
+		accountname =(TextView) view.findViewById(R.id.name_textview);
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -164,9 +164,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
             bt7.setVisibility(View.VISIBLE);
              bt8.setVisibility(View.VISIBLE);
              bt9.setVisibility(View.GONE);
-            // ImageLoader.getInstance().displayImage(usermodel1.getImage(),
-            	//	 headView);
-             
+            ImageLoader.getInstance().displayImage(usermodel1.getProfileImage(),
+            	 headView,otp);
+            accountname.setText(usermodel1.getAccountName());
+     
 		}
 		
 
