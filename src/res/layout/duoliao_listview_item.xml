@@ -97,7 +97,6 @@
             android:scaleType="fitXY"
             android:src="@drawable/likenew" />
     </RelativeLayout>
-    
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -112,11 +111,68 @@
             android:layout_marginLeft="5dip"
             android:scaleType="fitXY"
             android:src="@drawable/likenew" />
-         <com.devsmart.android.ui.HorizontalListView
+
+        <ImageView
+            android:id="@+id/like_avatar1"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_img2"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/like_avatar2"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_avatar1"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/like_avatar3"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_avatar2"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/like_avatar4"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_avatar3"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/like_avatar5"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_avatar4"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/like_avatar6"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@id/like_avatar5"
+            android:scaleType="fitXY" />
+
+        <!--
+              <com.devsmart.android.ui.HorizontalListView
             android:id="@+id/like_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-       
+        -->
+
     </RelativeLayout>
 
     <ImageView
