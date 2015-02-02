@@ -98,6 +98,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	UserModel usermodel;
 	UserModel usermodel1;
 	TextView accountname;
+	int memberid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,15 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		mContext = this;
 		getWindow().getDecorView().setBackgroundColor(Color.WHITE);
 		usermodel1=SpUtils.getUserInformation(MainDuoliaoActivity.this);
-	
+		if(usermodel1==null){
+          memberid=0;
+		}
+		else{
+			memberid = Integer.parseInt(usermodel1.getMemberID());
+	    	Toast.makeText(getApplicationContext(), usermodel1.getMemberID(),
+					Toast.LENGTH_SHORT).show();
+			 
+		}
 		context = this;
 		menu = new SlidingMenu(this);
 		menu.setMode(SlidingMenu.LEFT);
@@ -141,6 +150,15 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		bt8.setOnClickListener(this);
 		bt9.setOnClickListener(this);
+		if(memberid!=0){
+			bt2.setVisibility(View.VISIBLE);
+            bt3.setVisibility(View.VISIBLE);
+             bt4.setVisibility(View.VISIBLE);
+            bt5.setVisibility(View.VISIBLE);
+            bt7.setVisibility(View.VISIBLE);
+             bt8.setVisibility(View.VISIBLE);
+             bt9.setVisibility(View.GONE);
+		}
 		
 
 		headView.setOnClickListener(this);
@@ -148,6 +166,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
+		
 		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
 				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
 				.build();
@@ -165,20 +184,16 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			}
 		});
 		
-        if(usermodel ==null){
-        	
-        	    if(usermodel1==null){
-		         /*
+        if(memberid ==0){
+
 			     bt2.setVisibility(View.GONE);
 		            bt3.setVisibility(View.GONE);
 		             bt4.setVisibility(View.GONE);
 		            bt5.setVisibility(View.GONE);
 		            bt7.setVisibility(View.GONE);
 		             bt8.setVisibility(View.GONE);
-		             bt9.setVisibility(View.VISIBLE);*/}
-        
-		         
-			 } 
+		             bt9.setVisibility(View.VISIBLE);}     
+			 
 	   }
 
 
@@ -381,6 +396,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		startActivity(intent);
 	}
 	public void onLoginClick(View view) {
+		finish();
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 		
@@ -460,7 +476,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 					MainDuoliaoActivity.this);
 			try {
 				Log.d("doInBackground", "start request");
-				result = request.getThreadList(pageNumber, limit, 25, 0);// for
+				result = request.getThreadList(pageNumber, limit, memberid, 0);// for
 																			// test
 				Log.d("doInBackground", "returned");
 			} catch (IOException e) {
