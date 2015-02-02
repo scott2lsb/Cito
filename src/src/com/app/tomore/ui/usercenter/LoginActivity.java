@@ -114,7 +114,7 @@ public class LoginActivity extends Activity{
 							Toast.LENGTH_SHORT).show();
 			    	Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 					startActivity(intent); 
-//			    	finish();
+   	    	        finish();
 			    	} 
 			    	else if(usermodel.getStatus().equals("0")){
 			    		Toast.makeText(getApplicationContext(), "请查看邮箱并激活账号",

@@ -116,6 +116,12 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_SHORT).show();
 			 
 		}
+
+		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
+				.build();
+		imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 		context = this;
 		menu = new SlidingMenu(this);
 		menu.setMode(SlidingMenu.LEFT);
@@ -138,7 +144,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt9 =(TextView) view.findViewById(R.id.my_login_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
-		headView = (ImageView) findViewById(R.id.head_view);
+		headView = (ImageView) view.findViewById(R.id.head_view);
 
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
@@ -158,6 +164,9 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
             bt7.setVisibility(View.VISIBLE);
              bt8.setVisibility(View.VISIBLE);
              bt9.setVisibility(View.GONE);
+            // ImageLoader.getInstance().displayImage(usermodel1.getImage(),
+            	//	 headView);
+             
 		}
 		
 
@@ -167,11 +176,6 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
 		
-		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
-				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
-				.build();
-		imageLoader = ImageLoader.getInstance();
-		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 		
 		
 		rightBtn.setOnClickListener(new View.OnClickListener() {
@@ -364,7 +368,7 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 	private void onAboutUSClick(View v) {
 		Intent intent = new Intent(this, AboutusActivity.class);
 		startActivity(intent);
-		finish();
+	
 	}
 	public void onMyreply(View view){
 		Intent intent= new Intent(this,MyReplyListActivity.class);
@@ -404,10 +408,10 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		startActivity(intent);
 	}
 	public void onLoginClick(View view) {
-		finish();
+		
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
-		
+		finish();
 	}
 	
 	private class UpdateAvatar extends AsyncTask<String, String, String> {
