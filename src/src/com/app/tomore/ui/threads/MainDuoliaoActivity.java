@@ -141,14 +141,19 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		bt9 = (TextView) view.findViewById(R.id.my_login_bt);
 		menubtn = (ImageButton) findViewById(R.id.ivTitleBtnLeft);
 		rightBtn = (ImageButton) findViewById(R.id.ivTitleBtnRigh);
-		headView = (ImageView) findViewById(R.id.head_view);
+		headView = (ImageView) view.findViewById(R.id.head_view);
+		accountname =(TextView) view.findViewById(R.id.name_textview);
 	//	recommend_name1 = (TextView) view.findViewById(R.id.recommend_name1);
 	//	recommend_avatar1 = (ImageView) view
 	//			.findViewById(R.id.recommend_avatar1);
 	//	new GetRecommend(MainDuoliaoActivity.this, 1)
 	//	.execute("");
 		
-
+		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
+				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
+				.build();
+		imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 		bt1.setOnClickListener(this);
 		bt2.setOnClickListener(this);
 		bt3.setOnClickListener(this);
@@ -167,6 +172,9 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			bt7.setVisibility(View.VISIBLE);
 			bt8.setVisibility(View.VISIBLE);
 			bt9.setVisibility(View.GONE);
+			 ImageLoader.getInstance().displayImage(usermodel1.getProfileImage(),
+	            	 headView,otp);
+	            accountname.setText(usermodel1.getAccountName());
 		}
 
 		headView.setOnClickListener(this);
@@ -174,13 +182,6 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
 		new GetData(MainDuoliaoActivity.this, 1).execute("");
-
-		otp = new DisplayImageOptions.Builder().cacheInMemory(true)
-				.cacheOnDisk(true).showImageForEmptyUri(R.drawable.ic_launcher)
-				.build();
-		imageLoader = ImageLoader.getInstance();
-		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
-
 		rightBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
