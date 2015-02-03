@@ -11,9 +11,6 @@
         android:layout_height="fill_parent"
         android:background="@drawable/background_gradient" />
     
-    
-    
-
     <TextView
         android:id="@+id/btMeg"
         android:layout_width="wrap_content"
@@ -27,7 +24,7 @@
         android:text="@string/bar_title_bianli" />
     
         
-             <TextView
+    <TextView
         android:id="@+id/join_league"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -36,6 +33,7 @@
 		android:textAlignment="gravity"
 		android:paddingTop="12.0dip"
 		android:paddingRight="4.0dip"
+		android:paddingLeft="0dip"
 		android:textSize="13sp"
 		android:layout_alignParentRight="true"
 		android:visibility="invisible"/>

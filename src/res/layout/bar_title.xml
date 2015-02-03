@@ -12,6 +12,18 @@
         android:background="@drawable/background_gradient" />
 
 
+    <TextView
+        android:id="@+id/btMember"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingLeft="96.0dip"
+        android:paddingRight="96.0dip"
+        android:singleLine="true"
+        android:text="@string/bar_title_duoliao" />
+    
     <ImageButton
         android:id="@+id/ivTitleBtnLeft"
         android:layout_width="wrap_content"

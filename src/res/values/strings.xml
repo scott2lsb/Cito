@@ -18,6 +18,8 @@
     <string name="toolbox_item_aboutus">关于</string>
     <string name="toolbox_item_logout">退出</string>
        <string name="toolbox_item_login">登陆</string>
+       
+           <string name="bar_title_duoliao">多聊</string>
     
     <string name="bar_title_bt_duoliao">多聊</string>
     <string name="bar_title_bt_duoyao">多摇</string>
