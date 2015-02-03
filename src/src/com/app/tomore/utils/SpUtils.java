@@ -1,5 +1,6 @@
 package com.app.tomore.utils;
 
+import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.utils.PushModel;
 import com.app.tomore.beans.UserModel;
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 public class SpUtils {
 
@@ -159,8 +161,12 @@ public class SpUtils {
 	 * @return
 	 */
 	public static String getUserId(Activity activity){
-		SharedPreferences sp = activity.getSharedPreferences(USERINFO, Activity.MODE_PRIVATE);
-		return sp.getString(USERID, null);
+		UserModel usermodel = SpUtils.getUserInformation(activity);
+		if (usermodel == null) {
+			return "";
+		} else {
+			return usermodel.getMemberID();
+		}
 	}
 	
 	/**
