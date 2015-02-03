@@ -1,17 +1,13 @@
 package com.app.tomore.utils;
 
-import com.app.tomore.ui.threads.MainDuoliaoActivity;
 import com.app.tomore.utils.PushModel;
 import com.app.tomore.beans.UserModel;
 import com.google.gson.Gson;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 public class SpUtils {
 
