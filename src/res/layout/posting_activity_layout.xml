@@ -36,14 +36,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_marginBottom="10dp"
 			        android:layout_marginLeft="10dp"
-			        android:text="@string/leagueWelcomeMessage"
 			        android:textSize="14sp"
 			        android:textColor="#000000"   />
 			            <TextView
 			        android:id="@+id/posting_sub_title"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:text="@string/leagueWelcomeMessage"
 			        android:layout_marginLeft="10dp"
 			        android:textSize="12sp"
 			        android:textColor="#000000"/>

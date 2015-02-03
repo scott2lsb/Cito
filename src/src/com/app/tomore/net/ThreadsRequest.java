@@ -25,7 +25,7 @@ import com.app.tomore.utils.AndroidMultiPartEntity;
 import com.app.tomore.utils.AndroidMultiPartEntity.ProgressListener;
 
 public class ThreadsRequest {
-
+	
 	private final String url = "http://54.213.167.5/";
 	protected Context mContext;
 	private BasicHttpClient baseRequest;
@@ -238,7 +238,7 @@ public class ThreadsRequest {
 
 				// Convert bitmap to byte array
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 				byte[] bitmapdata = stream.toByteArray();
 
 				// write the bytes in file

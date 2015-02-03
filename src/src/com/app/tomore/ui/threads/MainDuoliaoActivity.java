@@ -301,15 +301,11 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 			break;
 		case 3:
 			if (data != null) {
-				Bundle extras = data.getExtras();
-				head = extras.getParcelable("data");
-				if (head != null) {
-					/**
-					 * 上传服务器代码
-					 */
-					setPicToView(head);// 保存在SD卡中
-					headView.setImageBitmap(head);// 用ImageView显示出来
-				}
+				String filePath = Environment.getExternalStorageDirectory()
+	                    + "/head.jpg";
+				Bitmap image = BitmapFactory.decodeFile(filePath);
+				headView.setImageBitmap(image);
+				new UpdateAvatar(MainDuoliaoActivity.this, 1, image).execute("");
 			}
 			break;
 		default:
@@ -335,35 +331,12 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 		intent.putExtra("outputX", 150);
 		intent.putExtra("outputY", 150);
 		intent.putExtra("return-data", true);
+		File f = new File(Environment.getExternalStorageDirectory(),
+		        "/temporary_holder.jpg");
+
+		uri = Uri.fromFile(f);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		startActivityForResult(intent, 3);
-	}
-
-	private void setPicToView(Bitmap mBitmap) {
-		new UpdateAvatar(MainDuoliaoActivity.this, 1, mBitmap).execute("");
-		String sdStatus = Environment.getExternalStorageState();
-		if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
-			return;
-		}
-		FileOutputStream b = null;
-		File file = new File(path);
-		file.mkdirs();// 创建文件夹
-		String fileName = path + "head.jpg";// 图片名字
-		try {
-			b = new FileOutputStream(fileName);
-			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				// 关闭流
-				b.flush();
-				b.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
 	}
 
 	private void BacktoMainClick(View v) {

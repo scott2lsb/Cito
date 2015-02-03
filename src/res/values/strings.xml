@@ -144,6 +144,7 @@
     <string name="failtosend">发送失败</string>
     <string name="Deletedsuccessfully">成功删除</string>
     <string name="FailToDelete">删除失败</string>
+    <string name="MustLogin">您必须先登录才能发送帖子</string>
     <string translatable="false" name="pull_to_refresh_pull_label">向下拉动可以刷新</string>
 	
 	<string translatable="false" name="pull_to_refresh_release_label">松开可以刷新</string>

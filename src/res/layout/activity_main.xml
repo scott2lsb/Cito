@@ -52,8 +52,7 @@
                     android:id="@+id/main_camero"
                     style="@style/main_tab_bottom"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/tab_3"
-                     />
+                    android:drawableTop="@drawable/bar_bottom_hot" />
 
                 <RadioButton
                     android:id="@+id/main_bianli"
