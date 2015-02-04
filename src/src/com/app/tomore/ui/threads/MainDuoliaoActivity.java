@@ -181,7 +181,12 @@ public class MainDuoliaoActivity extends Activity implements OnClickListener {
 
 		menubtn.setOnClickListener(this);
 		mListView = (PullToRefreshListView) findViewById(R.id.threadlist);
-		new GetData(MainDuoliaoActivity.this, 1).execute("");
+		if (AppUtil.networkAvailable(mContext)) {
+			new GetData(MainDuoliaoActivity.this, 1).execute("");
+		} else {
+			ToastUtils.showToast(mContext, "请检查网络");
+		}
+		
 		rightBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

@@ -143,11 +143,7 @@ public class ThreadReplyActivity extends Activity {
 		} else {
 			threadAdapter.notifyDataSetChanged();
 		}
-		if (commentList != null && commentList.size() > 0) {
-			showDataUi();
-		} else {
-			showNoDataUi();
-		}
+		showDataUi();
 	}
 
 	void showDataUi() {
