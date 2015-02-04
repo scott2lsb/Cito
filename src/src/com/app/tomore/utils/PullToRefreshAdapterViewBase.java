@@ -125,12 +125,13 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		}
 		if(mOnLastItemVisibleListener != null && scrollState == OnScrollListener.SCROLL_STATE_IDLE){
 			int postion = view.getLastVisiblePosition();
-			if(postion >= view.getCount() - 2 && this.isReadyForPullUp()){
+			Log.d(LOG_TAG,  "postion: " + postion + "lastCount: " + lastCount + ". view.getCount() " + view.getCount());
+
+			if(postion >= view.getCount()-1 && this.isReadyForPullUp()){
 				if(lastCount != view.getCount()){
 					//int bottom1 = mRefreshableView.getBottom();
 					//int bottom2 = mRefreshableView.getChildAt(postion).getBottom();
 					mOnLastItemVisibleListener.onLastItemVisible();
-					//System.out.println("到底了");					
 				}
 				lastCount = view.getCount();
 			}
